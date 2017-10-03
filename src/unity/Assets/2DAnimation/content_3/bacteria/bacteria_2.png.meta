@@ -1,0 +1,1502 @@
+fileFormatVersion: 2
+guid: 56e195303e7da764da406084a4680e9a
+timeCreated: 1490553748
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: bacteria_2_0
+    21300002: bacteria_2_1
+    21300004: bacteria_2_2
+    21300006: bacteria_2_3
+    21300008: bacteria_2_4
+    21300010: bacteria_2_5
+    21300012: bacteria_2_6
+    21300014: bacteria_2_7
+    21300016: bacteria_2_8
+    21300018: bacteria_2_9
+    21300020: bacteria_2_10
+    21300022: bacteria_2_11
+    21300024: bacteria_2_12
+    21300026: bacteria_2_13
+    21300028: bacteria_2_14
+    21300030: bacteria_2_15
+    21300032: bacteria_2_16
+    21300034: bacteria_2_17
+    21300036: bacteria_2_18
+    21300038: bacteria_2_19
+    21300040: bacteria_2_20
+    21300042: bacteria_2_21
+    21300044: bacteria_2_22
+    21300046: bacteria_2_23
+    21300048: bacteria_2_24
+    21300050: bacteria_2_25
+    21300052: bacteria_2_26
+    21300054: bacteria_2_27
+    21300056: bacteria_2_28
+    21300058: bacteria_2_29
+    21300060: bacteria_2_30
+    21300062: bacteria_2_31
+    21300064: bacteria_2_32
+    21300066: bacteria_2_33
+    21300068: bacteria_2_34
+    21300070: bacteria_2_35
+    21300072: bacteria_2_36
+    21300074: bacteria_2_37
+    21300076: bacteria_2_38
+    21300078: bacteria_2_39
+    21300080: bacteria_2_40
+    21300082: bacteria_2_41
+    21300084: bacteria_2_42
+    21300086: bacteria_2_43
+    21300088: bacteria_2_44
+    21300090: bacteria_2_45
+    21300092: bacteria_2_46
+    21300094: bacteria_2_47
+    21300096: bacteria_2_48
+    21300098: bacteria_2_49
+    21300100: bacteria_2_50
+    21300102: bacteria_2_51
+    21300104: bacteria_2_52
+    21300106: bacteria_2_53
+    21300108: bacteria_2_54
+    21300110: bacteria_2_55
+    21300112: bacteria_2_56
+    21300114: bacteria_2_57
+    21300116: bacteria_2_58
+    21300118: bacteria_2_59
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: bacteria_2_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 910
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 43, y: 77}
+        - {x: -9, y: 77}
+        - {x: -68, y: 55}
+        - {x: -84, y: 47}
+        - {x: -84, y: -57}
+        - {x: -79, y: -77}
+        - {x: 61, y: -77}
+        - {x: 83, y: -48}
+        - {x: 83, y: -6}
+        - {x: 66, y: 40}
+    - name: bacteria_2_1
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 910
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28, y: 76}
+        - {x: -85, y: 26}
+        - {x: -85, y: -26}
+        - {x: -81, y: -33}
+        - {x: -63, y: -54}
+        - {x: -32, y: -76}
+        - {x: -7, y: -78}
+        - {x: 58, y: -78}
+        - {x: 83, y: -62}
+        - {x: 83, y: 25}
+        - {x: 54, y: 76}
+    - name: bacteria_2_2
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 910
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -87, y: 75}
+        - {x: -87, y: -58}
+        - {x: -63, y: -72}
+        - {x: -35, y: -80}
+        - {x: 74, y: -80}
+        - {x: 83, y: -58}
+        - {x: 83, y: 30}
+        - {x: 57, y: 75}
+    - name: bacteria_2_3
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 910
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 2, y: 75}
+        - {x: -72, y: 52}
+        - {x: -88, y: 19}
+        - {x: -88, y: -52}
+        - {x: -26, y: -81}
+        - {x: 73, y: -81}
+        - {x: 83, y: -54}
+        - {x: 83, y: 11}
+        - {x: 44, y: 75}
+    - name: bacteria_2_4
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 910
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 57, y: 74}
+        - {x: -24, y: 74}
+        - {x: -90, y: 41}
+        - {x: -90, y: -46}
+        - {x: -22, y: -82}
+        - {x: 59, y: -82}
+        - {x: 84, y: -62}
+        - {x: 84, y: 7}
+        - {x: 81, y: 31}
+    - name: bacteria_2_5
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 910
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -35, y: 74}
+        - {x: -90, y: 29}
+        - {x: -90, y: -41}
+        - {x: -40, y: -83}
+        - {x: 73, y: -83}
+        - {x: 84, y: -69}
+        - {x: 84, y: 2}
+        - {x: 53, y: 74}
+    - name: bacteria_2_6
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 910
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29, y: 74}
+        - {x: -90, y: 32}
+        - {x: -91, y: 27}
+        - {x: -91, y: -52}
+        - {x: -56, y: -77}
+        - {x: -6, y: -85}
+        - {x: 70, y: -85}
+        - {x: 85, y: -71}
+        - {x: 85, y: 0}
+        - {x: 58, y: 74}
+    - name: bacteria_2_7
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 910
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 74}
+        - {x: -14, y: 67}
+        - {x: -13, y: 64}
+        - {x: -65, y: 51}
+        - {x: -91, y: 16}
+        - {x: -91, y: -56}
+        - {x: -26, y: -86}
+        - {x: 74, y: -86}
+        - {x: 85, y: -74}
+        - {x: 85, y: -3}
+        - {x: 50, y: 74}
+    - name: bacteria_2_8
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 910
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 52, y: 74}
+        - {x: -60, y: 74}
+        - {x: -79, y: 72}
+        - {x: -92, y: 17}
+        - {x: -92, y: -52}
+        - {x: -69, y: -63}
+        - {x: -10, y: -87}
+        - {x: 62, y: -87}
+        - {x: 86, y: -71}
+        - {x: 86, y: -19}
+        - {x: 84, y: -1}
+      - - {x: -6, y: 73}
+        - {x: -15, y: 65}
+        - {x: -15, y: 63}
+        - {x: -13, y: 61}
+        - {x: -9, y: 62}
+        - {x: 0, y: 70}
+        - {x: -1, y: 73}
+    - name: bacteria_2_9
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 910
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -93, y: 16}
+        - {x: -93, y: -62}
+        - {x: -34, y: -88}
+        - {x: 86, y: -88}
+        - {x: 86, y: 7}
+        - {x: 79, y: 58}
+        - {x: 54, y: 74}
+        - {x: -23, y: 74}
+        - {x: -74, y: 64}
+      - - {x: -6, y: 73}
+        - {x: -16, y: 65}
+        - {x: -16, y: 61}
+        - {x: -15, y: 59}
+        - {x: -12, y: 59}
+        - {x: -8, y: 61}
+        - {x: 0, y: 69}
+        - {x: 0, y: 71}
+        - {x: -1, y: 73}
+    - name: bacteria_2_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 728
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -93, y: -48}
+        - {x: -25, y: -89}
+        - {x: 87, y: -89}
+        - {x: 87, y: -15}
+        - {x: 64, y: 73}
+        - {x: -31, y: 73}
+        - {x: -93, y: 31}
+      - - {x: 77, y: -2}
+        - {x: 80, y: 0}
+        - {x: 78, y: 5}
+        - {x: 75, y: 5}
+        - {x: 74, y: 2}
+      - - {x: -12, y: 73}
+        - {x: -17, y: 64}
+        - {x: -17, y: 59}
+        - {x: -11, y: 59}
+        - {x: 0, y: 69}
+        - {x: 0, y: 73}
+    - name: bacteria_2_11
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 728
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -93, y: 21}
+        - {x: -93, y: -53}
+        - {x: -40, y: -90}
+        - {x: 79, y: -90}
+        - {x: 87, y: -88}
+        - {x: 87, y: -10}
+        - {x: 61, y: 69}
+        - {x: 55, y: 73}
+        - {x: -71, y: 73}
+        - {x: -78, y: 72}
+      - - {x: 74, y: 1}
+        - {x: 77, y: -2}
+        - {x: 80, y: -1}
+        - {x: 80, y: 2}
+        - {x: 77, y: 5}
+        - {x: 74, y: 4}
+      - - {x: -13, y: 73}
+        - {x: -17, y: 64}
+        - {x: -17, y: 58}
+        - {x: -12, y: 58}
+        - {x: 0, y: 70}
+        - {x: -1, y: 73}
+    - name: bacteria_2_12
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 728
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -14, y: 73}
+        - {x: -70, y: 66}
+        - {x: -93, y: 48}
+        - {x: -93, y: -47}
+        - {x: -68, y: -91}
+        - {x: 67, y: -91}
+        - {x: 88, y: -71}
+        - {x: 88, y: 18}
+        - {x: 68, y: 73}
+      - - {x: 73, y: 5}
+        - {x: 74, y: 1}
+        - {x: 77, y: -2}
+        - {x: 80, y: -1}
+        - {x: 80, y: 2}
+        - {x: 76, y: 8}
+        - {x: 74, y: 8}
+      - - {x: -7, y: 73}
+        - {x: -17, y: 65}
+        - {x: -17, y: 60}
+        - {x: -15, y: 58}
+        - {x: -14, y: 58}
+        - {x: -5, y: 65}
+        - {x: 0, y: 70}
+        - {x: -1, y: 73}
+    - name: bacteria_2_13
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 728
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 38, y: 73}
+        - {x: 27, y: 73}
+        - {x: 26, y: 71}
+        - {x: 25, y: 68}
+        - {x: 26, y: 69}
+        - {x: 17, y: 68}
+        - {x: 11, y: 68}
+        - {x: -1, y: 64}
+        - {x: -64, y: 47}
+        - {x: -93, y: 25}
+        - {x: -93, y: -39}
+        - {x: -54, y: -91}
+        - {x: 88, y: -91}
+        - {x: 88, y: 54}
+        - {x: 47, y: 72}
+      - - {x: 73, y: 0}
+        - {x: 77, y: -2}
+        - {x: 80, y: 0}
+        - {x: 79, y: 5}
+        - {x: 76, y: 9}
+        - {x: 73, y: 8}
+      - - {x: -8, y: 73}
+        - {x: -12, y: 72}
+        - {x: -18, y: 61}
+        - {x: -18, y: 59}
+        - {x: -16, y: 58}
+        - {x: -14, y: 58}
+        - {x: -5, y: 65}
+        - {x: 0, y: 70}
+        - {x: 0, y: 73}
+    - name: bacteria_2_14
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 728
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 27, y: 67}
+        - {x: 29, y: 67}
+        - {x: 19, y: 68}
+        - {x: 13, y: 73}
+        - {x: -8, y: 73}
+        - {x: -93, y: 34}
+        - {x: -93, y: -51}
+        - {x: -32, y: -91}
+        - {x: 65, y: -91}
+        - {x: 89, y: -79}
+        - {x: 89, y: 5}
+        - {x: 54, y: 73}
+        - {x: 27, y: 73}
+        - {x: 25, y: 68}
+      - - {x: 73, y: 0}
+        - {x: 78, y: -9}
+        - {x: 82, y: -9}
+        - {x: 82, y: 3}
+        - {x: 76, y: 9}
+        - {x: 73, y: 8}
+      - - {x: -1, y: 74}
+        - {x: -5, y: 74}
+        - {x: -18, y: 66}
+        - {x: -18, y: 60}
+        - {x: -17, y: 58}
+        - {x: -13, y: 58}
+        - {x: 0, y: 69}
+        - {x: 0, y: 72}
+    - name: bacteria_2_15
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 728
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -19, y: 73}
+        - {x: -92, y: 33}
+        - {x: -92, y: -34}
+        - {x: -33, y: -91}
+        - {x: 67, y: -91}
+        - {x: 89, y: -63}
+        - {x: 89, y: -20}
+        - {x: 58, y: 73}
+      - - {x: 73, y: 3}
+        - {x: 75, y: -6}
+        - {x: 79, y: -9}
+        - {x: 82, y: -8}
+        - {x: 82, y: -2}
+        - {x: 81, y: 4}
+        - {x: 76, y: 9}
+        - {x: 73, y: 9}
+      - - {x: -1, y: 74}
+        - {x: -5, y: 74}
+        - {x: -18, y: 65}
+        - {x: -18, y: 58}
+        - {x: -16, y: 57}
+        - {x: -13, y: 57}
+        - {x: 0, y: 69}
+        - {x: 0, y: 72}
+    - name: bacteria_2_16
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 728
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -23, y: 73}
+        - {x: -92, y: 41}
+        - {x: -92, y: -40}
+        - {x: -34, y: -91}
+        - {x: 67, y: -91}
+        - {x: 75, y: -89}
+        - {x: 89, y: -60}
+        - {x: 89, y: -19}
+        - {x: 60, y: 73}
+      - - {x: 75, y: 9}
+        - {x: 73, y: 8}
+        - {x: 73, y: 0}
+        - {x: 78, y: -9}
+        - {x: 79, y: -9}
+        - {x: 82, y: -8}
+        - {x: 82, y: -2}
+        - {x: 77, y: 9}
+      - - {x: -2, y: 74}
+        - {x: -11, y: 72}
+        - {x: -18, y: 62}
+        - {x: -18, y: 59}
+        - {x: -16, y: 58}
+        - {x: -12, y: 58}
+        - {x: 0, y: 69}
+        - {x: 0, y: 72}
+    - name: bacteria_2_17
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 728
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 39, y: 73}
+        - {x: 16, y: 73}
+        - {x: -64, y: 50}
+        - {x: -84, y: 29}
+        - {x: -92, y: 19}
+        - {x: -92, y: -35}
+        - {x: -28, y: -90}
+        - {x: 61, y: -90}
+        - {x: 65, y: -89}
+        - {x: 89, y: -46}
+        - {x: 89, y: -27}
+        - {x: 59, y: 60}
+      - - {x: 73, y: 0}
+        - {x: 78, y: -9}
+        - {x: 80, y: -9}
+        - {x: 82, y: -8}
+        - {x: 82, y: -1}
+        - {x: 81, y: 3}
+        - {x: 76, y: 9}
+        - {x: 73, y: 8}
+      - - {x: -8, y: 73}
+        - {x: -12, y: 72}
+        - {x: -18, y: 61}
+        - {x: -18, y: 59}
+        - {x: -16, y: 58}
+        - {x: -14, y: 58}
+        - {x: -5, y: 65}
+        - {x: 0, y: 70}
+        - {x: 0, y: 73}
+    - name: bacteria_2_18
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 728
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 64, y: 73}
+        - {x: -35, y: 73}
+        - {x: -91, y: 47}
+        - {x: -91, y: -33}
+        - {x: -32, y: -87}
+        - {x: -22, y: -89}
+        - {x: 56, y: -89}
+        - {x: 88, y: -76}
+        - {x: 88, y: 0}
+        - {x: 75, y: 65}
+      - - {x: 73, y: 5}
+        - {x: 74, y: 1}
+        - {x: 77, y: -2}
+        - {x: 80, y: -1}
+        - {x: 80, y: 2}
+        - {x: 76, y: 8}
+        - {x: 74, y: 8}
+    - name: bacteria_2_19
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 728
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 61}
+        - {x: -5, y: 65}
+        - {x: 0, y: 70}
+        - {x: -1, y: 73}
+        - {x: -5, y: 73}
+        - {x: -12, y: 72}
+        - {x: -62, y: 54}
+        - {x: -91, y: 31}
+        - {x: -91, y: -38}
+        - {x: -29, y: -89}
+        - {x: 88, y: -89}
+        - {x: 88, y: 2}
+        - {x: 78, y: 70}
+        - {x: 56, y: 73}
+        - {x: 21, y: 73}
+        - {x: 1, y: 67}
+      - - {x: 73, y: 2}
+        - {x: 76, y: -2}
+        - {x: 80, y: -2}
+        - {x: 80, y: 4}
+        - {x: 79, y: 7}
+        - {x: 76, y: 8}
+        - {x: 74, y: 8}
+        - {x: 73, y: 7}
+    - name: bacteria_2_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 546
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 35, y: 73}
+        - {x: 14, y: 73}
+        - {x: 6, y: 71}
+        - {x: -1, y: 67}
+        - {x: -7, y: 64}
+        - {x: -5, y: 65}
+        - {x: 0, y: 70}
+        - {x: -1, y: 73}
+        - {x: -5, y: 73}
+        - {x: -12, y: 72}
+        - {x: -62, y: 54}
+        - {x: -90, y: 36}
+        - {x: -90, y: -32}
+        - {x: -39, y: -83}
+        - {x: -25, y: -88}
+        - {x: 61, y: -88}
+        - {x: 87, y: -60}
+        - {x: 87, y: 10}
+        - {x: 62, y: 61}
+      - - {x: 74, y: 1}
+        - {x: 77, y: -2}
+        - {x: 80, y: -1}
+        - {x: 80, y: 2}
+        - {x: 77, y: 5}
+        - {x: 74, y: 4}
+    - name: bacteria_2_21
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 546
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -90, y: 39}
+        - {x: -90, y: -24}
+        - {x: -54, y: -87}
+        - {x: 54, y: -87}
+        - {x: 86, y: -70}
+        - {x: 86, y: 15}
+        - {x: 69, y: 70}
+        - {x: 51, y: 74}
+        - {x: -12, y: 74}
+        - {x: -66, y: 56}
+    - name: bacteria_2_22
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 546
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 46, y: 74}
+        - {x: -76, y: 74}
+        - {x: -90, y: 26}
+        - {x: -90, y: -52}
+        - {x: -35, y: -86}
+        - {x: 69, y: -86}
+        - {x: 85, y: -50}
+        - {x: 85, y: 8}
+        - {x: 60, y: 62}
+    - name: bacteria_2_23
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 546
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 50, y: 75}
+        - {x: -78, y: 75}
+        - {x: -89, y: 40}
+        - {x: -89, y: -50}
+        - {x: -36, y: -85}
+        - {x: 48, y: -85}
+        - {x: 84, y: -65}
+        - {x: 84, y: 19}
+        - {x: 81, y: 57}
+    - name: bacteria_2_24
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 546
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -75, y: 75}
+        - {x: -80, y: 74}
+        - {x: -89, y: 42}
+        - {x: -89, y: -22}
+        - {x: -43, y: -74}
+        - {x: -26, y: -80}
+        - {x: -2, y: -84}
+        - {x: 51, y: -84}
+        - {x: 84, y: -73}
+        - {x: 84, y: 8}
+        - {x: 71, y: 75}
+    - name: bacteria_2_25
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 546
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 75}
+        - {x: -77, y: 53}
+        - {x: -89, y: 35}
+        - {x: -89, y: -21}
+        - {x: -45, y: -82}
+        - {x: 65, y: -82}
+        - {x: 84, y: -58}
+        - {x: 84, y: 27}
+        - {x: 45, y: 75}
+    - name: bacteria_2_26
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 546
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: 75}
+        - {x: -67, y: 62}
+        - {x: -89, y: 27}
+        - {x: -89, y: -52}
+        - {x: -28, y: -81}
+        - {x: 86, y: -81}
+        - {x: 86, y: 67}
+        - {x: 85, y: 75}
+    - name: bacteria_2_27
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 546
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 38, y: 75}
+        - {x: -40, y: 75}
+        - {x: -84, y: 62}
+        - {x: -88, y: 45}
+        - {x: -88, y: -41}
+        - {x: -32, y: -81}
+        - {x: 70, y: -81}
+        - {x: 87, y: -50}
+        - {x: 87, y: 15}
+        - {x: 54, y: 72}
+    - name: bacteria_2_28
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 546
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -54, y: 74}
+        - {x: -88, y: 55}
+        - {x: -88, y: -36}
+        - {x: -39, y: -75}
+        - {x: -24, y: -81}
+        - {x: 64, y: -81}
+        - {x: 88, y: -58}
+        - {x: 88, y: 30}
+        - {x: 42, y: 74}
+    - name: bacteria_2_29
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 546
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: 73}
+        - {x: -65, y: 60}
+        - {x: -88, y: 48}
+        - {x: -88, y: -68}
+        - {x: -35, y: -80}
+        - {x: 89, y: -80}
+        - {x: 90, y: -76}
+        - {x: 90, y: -3}
+        - {x: 36, y: 73}
+    - name: bacteria_2_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 364
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7, y: 72}
+        - {x: -62, y: 54}
+        - {x: -89, y: 34}
+        - {x: -89, y: -50}
+        - {x: -26, y: -80}
+        - {x: 51, y: -80}
+        - {x: 90, y: -64}
+        - {x: 90, y: -8}
+        - {x: 37, y: 72}
+    - name: bacteria_2_31
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 364
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -25, y: 71}
+        - {x: -87, y: 62}
+        - {x: -89, y: 49}
+        - {x: -89, y: -53}
+        - {x: -37, y: -80}
+        - {x: 90, y: -80}
+        - {x: 90, y: 65}
+        - {x: 43, y: 71}
+    - name: bacteria_2_32
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 364
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -42, y: 70}
+        - {x: -90, y: 50}
+        - {x: -90, y: -56}
+        - {x: -87, y: -69}
+        - {x: -50, y: -80}
+        - {x: 65, y: -80}
+        - {x: 90, y: -53}
+        - {x: 90, y: 5}
+        - {x: 51, y: 70}
+    - name: bacteria_2_33
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 364
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -91, y: -51}
+        - {x: -56, y: -80}
+        - {x: 75, y: -80}
+        - {x: 89, y: -76}
+        - {x: 89, y: 10}
+        - {x: 79, y: 49}
+        - {x: 53, y: 69}
+        - {x: -33, y: 69}
+        - {x: -91, y: 38}
+    - name: bacteria_2_34
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 364
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -92, y: 69}
+        - {x: -92, y: -64}
+        - {x: -32, y: -81}
+        - {x: 61, y: -81}
+        - {x: 63, y: -80}
+        - {x: 88, y: -44}
+        - {x: 88, y: 69}
+    - name: bacteria_2_35
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 364
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20, y: 68}
+        - {x: -94, y: 36}
+        - {x: -94, y: -57}
+        - {x: -82, y: -82}
+        - {x: 78, y: -82}
+        - {x: 86, y: -58}
+        - {x: 86, y: 21}
+        - {x: 34, y: 68}
+    - name: bacteria_2_36
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 364
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7, y: 67}
+        - {x: -65, y: 51}
+        - {x: -85, y: 28}
+        - {x: -94, y: 6}
+        - {x: -94, y: -23}
+        - {x: -93, y: -31}
+        - {x: -94, y: -33}
+        - {x: -94, y: -57}
+        - {x: -9, y: -84}
+        - {x: 82, y: -84}
+        - {x: 85, y: -82}
+        - {x: 85, y: 6}
+        - {x: 64, y: 67}
+    - name: bacteria_2_37
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 364
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 67}
+        - {x: -64, y: 59}
+        - {x: -94, y: 48}
+        - {x: -94, y: -50}
+        - {x: -71, y: -85}
+        - {x: 58, y: -85}
+        - {x: 84, y: -58}
+        - {x: 84, y: 10}
+        - {x: 45, y: 67}
+    - name: bacteria_2_38
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 364
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -37, y: 66}
+        - {x: -68, y: 60}
+        - {x: -92, y: 41}
+        - {x: -92, y: -42}
+        - {x: -65, y: -86}
+        - {x: 66, y: -86}
+        - {x: 84, y: -70}
+        - {x: 84, y: 1}
+        - {x: 62, y: 66}
+    - name: bacteria_2_39
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 364
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -88, y: 66}
+        - {x: -91, y: 47}
+        - {x: -91, y: -42}
+        - {x: -90, y: -48}
+        - {x: -14, y: -87}
+        - {x: 83, y: -87}
+        - {x: 83, y: 66}
+    - name: bacteria_2_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 182
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -31, y: 65}
+        - {x: -71, y: 55}
+        - {x: -89, y: 22}
+        - {x: -90, y: 18}
+        - {x: -90, y: -35}
+        - {x: -34, y: -87}
+        - {x: 57, y: -87}
+        - {x: 83, y: -55}
+        - {x: 83, y: 8}
+        - {x: 52, y: 65}
+    - name: bacteria_2_41
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 182
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -4, y: 65}
+        - {x: -73, y: 46}
+        - {x: -90, y: 35}
+        - {x: -90, y: -39}
+        - {x: -62, y: -88}
+        - {x: 56, y: -88}
+        - {x: 82, y: -70}
+        - {x: 82, y: 0}
+        - {x: 63, y: 65}
+    - name: bacteria_2_42
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 182
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -47, y: 65}
+        - {x: -89, y: 45}
+        - {x: -89, y: -34}
+        - {x: -44, y: -87}
+        - {x: 55, y: -87}
+        - {x: 82, y: -69}
+        - {x: 82, y: 30}
+        - {x: 51, y: 65}
+    - name: bacteria_2_43
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 182
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -77, y: 65}
+        - {x: -88, y: 53}
+        - {x: -88, y: -37}
+        - {x: -55, y: -86}
+        - {x: 62, y: -86}
+        - {x: 81, y: -62}
+        - {x: 81, y: 17}
+        - {x: 70, y: 65}
+    - name: bacteria_2_44
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 182
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 49, y: 65}
+        - {x: -28, y: 65}
+        - {x: -72, y: 58}
+        - {x: -87, y: 31}
+        - {x: -87, y: -59}
+        - {x: -30, y: -85}
+        - {x: 75, y: -85}
+        - {x: 81, y: -73}
+        - {x: 81, y: -7}
+        - {x: 78, y: 23}
+    - name: bacteria_2_45
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 182
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 66}
+        - {x: -86, y: 48}
+        - {x: -86, y: -32}
+        - {x: -29, y: -84}
+        - {x: 60, y: -84}
+        - {x: 80, y: -63}
+        - {x: 80, y: 21}
+        - {x: 65, y: 66}
+    - name: bacteria_2_46
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 182
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 34, y: 66}
+        - {x: -38, y: 66}
+        - {x: -85, y: 34}
+        - {x: -85, y: -29}
+        - {x: -80, y: -41}
+        - {x: -31, y: -83}
+        - {x: 59, y: -83}
+        - {x: 80, y: -77}
+        - {x: 80, y: 3}
+        - {x: 73, y: 43}
+    - name: bacteria_2_47
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 182
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 50, y: 67}
+        - {x: -32, y: 67}
+        - {x: -84, y: 36}
+        - {x: -84, y: -64}
+        - {x: -42, y: -82}
+        - {x: 77, y: -82}
+        - {x: 81, y: -74}
+        - {x: 81, y: 0}
+        - {x: 70, y: 46}
+    - name: bacteria_2_48
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 182
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -80, y: 68}
+        - {x: -84, y: 66}
+        - {x: -84, y: -48}
+        - {x: -34, y: -81}
+        - {x: 57, y: -81}
+        - {x: 81, y: -53}
+        - {x: 81, y: 43}
+        - {x: 41, y: 68}
+    - name: bacteria_2_49
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 182
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -38, y: 69}
+        - {x: -84, y: 30}
+        - {x: -84, y: -24}
+        - {x: -77, y: -39}
+        - {x: -46, y: -81}
+        - {x: 61, y: -81}
+        - {x: 81, y: -73}
+        - {x: 81, y: 30}
+        - {x: 44, y: 69}
+    - name: bacteria_2_50
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -80, y: 69}
+        - {x: -84, y: 56}
+        - {x: -84, y: -46}
+        - {x: -30, y: -81}
+        - {x: 52, y: -81}
+        - {x: 81, y: -62}
+        - {x: 81, y: 25}
+        - {x: 58, y: 69}
+    - name: bacteria_2_51
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -27, y: 70}
+        - {x: -65, y: 58}
+        - {x: -84, y: 41}
+        - {x: -84, y: -29}
+        - {x: -50, y: -80}
+        - {x: 67, y: -80}
+        - {x: 81, y: -60}
+        - {x: 81, y: 27}
+        - {x: 50, y: 70}
+    - name: bacteria_2_52
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -69, y: 71}
+        - {x: -79, y: 68}
+        - {x: -84, y: 43}
+        - {x: -84, y: -58}
+        - {x: -46, y: -80}
+        - {x: 60, y: -80}
+        - {x: 81, y: -73}
+        - {x: 81, y: 29}
+        - {x: 57, y: 71}
+    - name: bacteria_2_53
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 0
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 46, y: 71}
+        - {x: -81, y: 71}
+        - {x: -84, y: 61}
+        - {x: -84, y: -53}
+        - {x: -16, y: -80}
+        - {x: 65, y: -80}
+        - {x: 82, y: -64}
+        - {x: 82, y: 7}
+        - {x: 81, y: 18}
+    - name: bacteria_2_54
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 57, y: 72}
+        - {x: -84, y: 72}
+        - {x: -84, y: -43}
+        - {x: -64, y: -56}
+        - {x: -8, y: -79}
+        - {x: 55, y: -79}
+        - {x: 82, y: -54}
+        - {x: 82, y: 5}
+        - {x: 77, y: 22}
+    - name: bacteria_2_55
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 0
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17, y: 73}
+        - {x: -69, y: 58}
+        - {x: -84, y: 25}
+        - {x: -84, y: -67}
+        - {x: -43, y: -79}
+        - {x: 82, y: -79}
+        - {x: 82, y: 8}
+        - {x: 50, y: 73}
+    - name: bacteria_2_56
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -41, y: 74}
+        - {x: -84, y: 30}
+        - {x: -84, y: -41}
+        - {x: -33, y: -78}
+        - {x: 60, y: -78}
+        - {x: 82, y: -67}
+        - {x: 82, y: 41}
+        - {x: 37, y: 74}
+    - name: bacteria_2_57
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 0
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -16, y: 74}
+        - {x: -84, y: 48}
+        - {x: -84, y: -50}
+        - {x: -79, y: -74}
+        - {x: -67, y: -78}
+        - {x: 62, y: -78}
+        - {x: 82, y: -69}
+        - {x: 82, y: 13}
+        - {x: 45, y: 74}
+    - name: bacteria_2_58
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 0
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1, y: 75}
+        - {x: -69, y: 66}
+        - {x: -84, y: 38}
+        - {x: -84, y: -57}
+        - {x: -29, y: -78}
+        - {x: 69, y: -78}
+        - {x: 83, y: -52}
+        - {x: 83, y: 20}
+        - {x: 48, y: 75}
+    - name: bacteria_2_59
+      rect:
+        serializedVersion: 2
+        x: 1800
+        y: 0
+        width: 200
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -26, y: 76}
+        - {x: -84, y: 31}
+        - {x: -84, y: -47}
+        - {x: -35, y: -78}
+        - {x: 66, y: -78}
+        - {x: 83, y: -70}
+        - {x: 83, y: 14}
+        - {x: 40, y: 76}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,912 @@
+fileFormatVersion: 2
+guid: c56b6717249a32f448cf8d9c0785f444
+timeCreated: 1488833823
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: diaphragm_v1b_anim_0
+    21300002: diaphragm_v1b_anim_1
+    21300004: diaphragm_v1b_anim_2
+    21300006: diaphragm_v1b_anim_3
+    21300008: diaphragm_v1b_anim_4
+    21300010: diaphragm_v1b_anim_5
+    21300012: diaphragm_v1b_anim_6
+    21300014: diaphragm_v1b_anim_7
+    21300016: diaphragm_v1b_anim_8
+    21300018: diaphragm_v1b_anim_9
+    21300020: diaphragm_v1b_anim_10
+    21300022: diaphragm_v1b_anim_11
+    21300024: diaphragm_v1b_anim_12
+    21300026: diaphragm_v1b_anim_13
+    21300028: diaphragm_v1b_anim_14
+    21300030: diaphragm_v1b_anim_15
+    21300032: diaphragm_v1b_anim_16
+    21300034: diaphragm_v1b_anim_17
+    21300036: diaphragm_v1b_anim_18
+    21300038: diaphragm_v1b_anim_19
+    21300040: diaphragm_v1b_anim_20
+    21300042: diaphragm_v1b_anim_21
+    21300044: diaphragm_v1b_anim_22
+    21300046: diaphragm_v1b_anim_23
+    21300048: diaphragm_v1b_anim_24
+    21300050: diaphragm_v1b_anim_25
+    21300052: diaphragm_v1b_anim_26
+    21300054: diaphragm_v1b_anim_27
+    21300056: diaphragm_v1b_anim_28
+    21300058: diaphragm_v1b_anim_29
+    21300060: diaphragm_v1b_anim_30
+    21300062: diaphragm_v1b_anim_31
+    21300064: diaphragm_v1b_anim_32
+    21300066: diaphragm_v1b_anim_33
+    21300068: diaphragm_v1b_anim_34
+    21300070: diaphragm_v1b_anim_35
+    21300072: diaphragm_v1b_anim_36
+    21300074: diaphragm_v1b_anim_37
+    21300076: diaphragm_v1b_anim_38
+    21300078: diaphragm_v1b_anim_39
+    21300080: diaphragm_v1b_anim_40
+    21300082: diaphragm_v1b_anim_41
+    21300084: diaphragm_v1b_anim_42
+    21300086: diaphragm_v1b_anim_43
+    21300088: diaphragm_v1b_anim_44
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: diaphragm_v1b_anim_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1156
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 83, y: 36.30002}
+        - {x: -59, y: 36.30002}
+        - {x: -106, y: 26.300018}
+        - {x: -106, y: -31.699982}
+        - {x: 103, y: -31.699982}
+        - {x: 103, y: 23.300018}
+        - {x: 99, y: 32.30002}
+    - name: diaphragm_v1b_anim_1
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 1156
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 75.04326, y: 36.30002}
+        - {x: -92.95674, y: 36.30002}
+        - {x: -99.95674, y: 33.30002}
+        - {x: -104.95674, y: 17.300018}
+        - {x: -104.95674, y: -31.699982}
+        - {x: 104.04326, y: -31.699982}
+        - {x: 104.04326, y: 19.300018}
+        - {x: 99.04326, y: 33.30002}
+    - name: diaphragm_v1b_anim_2
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 1156
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -56.913483, y: 36.30002}
+        - {x: -105.91348, y: 23.300018}
+        - {x: -105.91348, y: -31.699982}
+        - {x: 104.08652, y: -31.699982}
+        - {x: 104.08652, y: 20.300018}
+        - {x: 57.086517, y: 36.30002}
+    - name: diaphragm_v1b_anim_3
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 1156
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 97.12976, y: 36.30002}
+        - {x: -89.87024, y: 36.30002}
+        - {x: -104.87024, y: 25.300018}
+        - {x: -104.87024, y: -31.699982}
+        - {x: 100.12976, y: -31.699982}
+        - {x: 105.12976, y: -28.699982}
+        - {x: 105.12976, y: 19.300018}
+    - name: diaphragm_v1b_anim_4
+      rect:
+        serializedVersion: 2
+        x: 3200
+        y: 1156
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -79.826965, y: 35.30002}
+        - {x: -105.826965, y: 21.300018}
+        - {x: -105.826965, y: -31.699982}
+        - {x: 100.173035, y: -31.699982}
+        - {x: 105.173035, y: -25.699982}
+        - {x: 105.173035, y: 26.300018}
+        - {x: 78.173035, y: 35.30002}
+    - name: diaphragm_v1b_anim_5
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 1156
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 104.21631, y: 13.300018}
+        - {x: 94.21631, y: 27.300018}
+        - {x: 40.21631, y: 35.30002}
+        - {x: -75.78369, y: 35.30002}
+        - {x: -104.78369, y: 18.300018}
+        - {x: -104.78369, y: -26.699982}
+        - {x: -95.78369, y: -31.699982}
+        - {x: 102.21631, y: -31.699982}
+        - {x: 105.21631, y: -17.699982}
+        - {x: 105.21631, y: 11.300018}
+    - name: diaphragm_v1b_anim_6
+      rect:
+        serializedVersion: 2
+        x: 4800
+        y: 1156
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -98.74048, y: 34.30002}
+        - {x: -105.74048, y: 18.300018}
+        - {x: -105.74048, y: -15.699982}
+        - {x: -103.74048, y: -26.699982}
+        - {x: -101.74048, y: -31.699982}
+        - {x: 100.25952, y: -31.699982}
+        - {x: 105.25952, y: -27.699982}
+        - {x: 105.25952, y: 34.30002}
+    - name: diaphragm_v1b_anim_7
+      rect:
+        serializedVersion: 2
+        x: 5600
+        y: 1156
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -69.69714, y: 34.30002}
+        - {x: -105.69714, y: 23.300018}
+        - {x: -105.69714, y: -14.699982}
+        - {x: -96.69714, y: -31.699982}
+        - {x: 106.30286, y: -31.699982}
+        - {x: 106.30286, y: 28.300018}
+        - {x: 69.30286, y: 34.30002}
+    - name: diaphragm_v1b_anim_8
+      rect:
+        serializedVersion: 2
+        x: 6400
+        y: 1156
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -103.65393, y: 34.30002}
+        - {x: -105.65393, y: 28.300018}
+        - {x: -105.65393, y: -28.699982}
+        - {x: -103.65393, y: -31.699982}
+        - {x: 106.34607, y: -31.699982}
+        - {x: 106.34607, y: 34.30002}
+    - name: diaphragm_v1b_anim_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 867
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -88, y: 33.100006}
+        - {x: -107, y: 22.100006}
+        - {x: -107, y: -32.899994}
+        - {x: 105, y: -32.899994}
+        - {x: 105, y: 30.100006}
+        - {x: 63, y: 33.100006}
+    - name: diaphragm_v1b_anim_10
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 867
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -65.95674, y: 32.100006}
+        - {x: -94.95674, y: 27.100006}
+        - {x: -105.95674, y: 15.100006}
+        - {x: -105.95674, y: -20.899994}
+        - {x: -100.95674, y: -26.899994}
+        - {x: -93.95674, y: -32.899994}
+        - {x: 96.04326, y: -32.899994}
+        - {x: 106.04326, y: -20.899994}
+        - {x: 106.04326, y: 20.100006}
+        - {x: 67.04326, y: 32.100006}
+    - name: diaphragm_v1b_anim_11
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 867
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -80.91348, y: 32.100006}
+        - {x: -106.91348, y: 29.100006}
+        - {x: -106.91348, y: -32.899994}
+        - {x: 106.08652, y: -32.899994}
+        - {x: 106.08652, y: 18.100006}
+        - {x: 81.08652, y: 32.100006}
+    - name: diaphragm_v1b_anim_12
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 867
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -101.87024, y: 31.100006}
+        - {x: -105.87024, y: 16.100006}
+        - {x: -105.87024, y: -32.899994}
+        - {x: 106.12976, y: -32.899994}
+        - {x: 106.12976, y: 24.100006}
+        - {x: 58.12976, y: 31.100006}
+    - name: diaphragm_v1b_anim_13
+      rect:
+        serializedVersion: 2
+        x: 3200
+        y: 867
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 106.173035, y: -32.899994}
+        - {x: 106.173035, y: 31.100006}
+        - {x: -106.826965, y: 31.100006}
+        - {x: -106.826965, y: -32.899994}
+    - name: diaphragm_v1b_anim_14
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 867
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -91.78369, y: 30.100006}
+        - {x: -100.78369, y: 29.100006}
+        - {x: -105.78369, y: 13.100006}
+        - {x: -105.78369, y: -32.899994}
+        - {x: 99.21631, y: -32.899994}
+        - {x: 107.21631, y: -25.899994}
+        - {x: 107.21631, y: 21.100006}
+        - {x: 70.21631, y: 30.100006}
+    - name: diaphragm_v1b_anim_15
+      rect:
+        serializedVersion: 2
+        x: 4800
+        y: 867
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 82.25952, y: 29.100006}
+        - {x: -96.74048, y: 29.100006}
+        - {x: -106.74048, y: 12.100006}
+        - {x: -106.74048, y: -15.899994}
+        - {x: -101.74048, y: -32.899994}
+        - {x: 97.25952, y: -32.899994}
+        - {x: 106.25952, y: -24.899994}
+        - {x: 106.25952, y: 5.100006}
+        - {x: 102.25952, y: 21.100006}
+    - name: diaphragm_v1b_anim_16
+      rect:
+        serializedVersion: 2
+        x: 5600
+        y: 867
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -101.69714, y: 29.100006}
+        - {x: -105.69714, y: 22.100006}
+        - {x: -105.69714, y: -32.899994}
+        - {x: 107.30286, y: -32.899994}
+        - {x: 107.30286, y: 29.100006}
+    - name: diaphragm_v1b_anim_17
+      rect:
+        serializedVersion: 2
+        x: 6400
+        y: 867
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 89.34607, y: 28.100006}
+        - {x: -100.65393, y: 28.100006}
+        - {x: -106.65393, y: 8.100006}
+        - {x: -106.65393, y: -10.899994}
+        - {x: -100.65393, y: -26.899994}
+        - {x: -95.65393, y: -32.899994}
+        - {x: -85.65393, y: -32.899994}
+        - {x: -79.65393, y: -29.899994}
+        - {x: 7.3460693, y: -32.899994}
+        - {x: 96.34607, y: -32.899994}
+        - {x: 107.34607, y: -28.899994}
+        - {x: 107.34607, y: 16.100006}
+    - name: diaphragm_v1b_anim_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 578
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 107, y: 10.900009}
+        - {x: 98, y: 27.90001}
+        - {x: -36, y: 27.90001}
+        - {x: -88, y: 24.90001}
+        - {x: -107, y: 13.900009}
+        - {x: -107, y: -33.09999}
+        - {x: 107, y: -33.09999}
+    - name: diaphragm_v1b_anim_19
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 578
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -90.95674, y: 26.90001}
+        - {x: -106.95674, y: 16.90001}
+        - {x: -106.95674, y: -33.09999}
+        - {x: 102.04326, y: -33.09999}
+        - {x: 107.04326, y: -28.09999}
+        - {x: 107.04326, y: 19.90001}
+        - {x: 96.04326, y: 26.90001}
+    - name: diaphragm_v1b_anim_20
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 578
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -106.91348, y: -29.09999}
+        - {x: -103.91348, y: -33.09999}
+        - {x: 107.08652, y: -33.09999}
+        - {x: 107.08652, y: 18.90001}
+        - {x: 105.08652, y: 25.90001}
+        - {x: -103.91348, y: 25.90001}
+        - {x: -106.91348, y: 19.90001}
+    - name: diaphragm_v1b_anim_21
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 578
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -106.87024, y: 25.90001}
+        - {x: -106.87024, y: -33.09999}
+        - {x: 108.12976, y: -33.09999}
+        - {x: 108.12976, y: 24.90001}
+        - {x: 83.12976, y: 25.90001}
+    - name: diaphragm_v1b_anim_22
+      rect:
+        serializedVersion: 2
+        x: 3200
+        y: 578
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -101.826965, y: 24.90001}
+        - {x: -106.826965, y: 13.900009}
+        - {x: -106.826965, y: -33.09999}
+        - {x: 107.173035, y: -33.09999}
+        - {x: 107.173035, y: 24.90001}
+    - name: diaphragm_v1b_anim_23
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 578
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -81.78369, y: 24.90001}
+        - {x: -105.78369, y: 18.90001}
+        - {x: -106.78369, y: 16.90001}
+        - {x: -106.78369, y: -19.09999}
+        - {x: -98.78369, y: -33.09999}
+        - {x: 108.21631, y: -33.09999}
+        - {x: 108.21631, y: 24.90001}
+    - name: diaphragm_v1b_anim_24
+      rect:
+        serializedVersion: 2
+        x: 4800
+        y: 578
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 86.25952, y: 23.90001}
+        - {x: -86.74048, y: 23.90001}
+        - {x: -95.74048, y: 22.90001}
+        - {x: -106.74048, y: 11.900009}
+        - {x: -106.74048, y: -20.09999}
+        - {x: -101.74048, y: -33.09999}
+        - {x: 108.25952, y: -33.09999}
+        - {x: 108.25952, y: 6.900009}
+        - {x: 103.25952, y: 22.90001}
+    - name: diaphragm_v1b_anim_25
+      rect:
+        serializedVersion: 2
+        x: 5600
+        y: 578
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 108.30286, y: 19.90001}
+        - {x: 99.30286, y: 23.90001}
+        - {x: -86.69714, y: 23.90001}
+        - {x: -106.69714, y: 17.90001}
+        - {x: -106.69714, y: -33.09999}
+        - {x: 108.30286, y: -33.09999}
+    - name: diaphragm_v1b_anim_26
+      rect:
+        serializedVersion: 2
+        x: 6400
+        y: 578
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -100.65393, y: 22.90001}
+        - {x: -106.65393, y: 10.900009}
+        - {x: -106.65393, y: -22.09999}
+        - {x: -100.65393, y: -33.09999}
+        - {x: 108.34607, y: -33.09999}
+        - {x: 108.34607, y: 17.90001}
+        - {x: 103.34607, y: 22.90001}
+    - name: diaphragm_v1b_anim_27
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 289
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -105, y: 21.700005}
+        - {x: -108, y: 11.700005}
+        - {x: -108, y: -32.299995}
+        - {x: -107, y: -33.299995}
+        - {x: 103, y: -33.299995}
+        - {x: 108, y: -25.299995}
+        - {x: 108, y: 8.700005}
+        - {x: 99, y: 21.700005}
+    - name: diaphragm_v1b_anim_28
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 289
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -106.95674, y: 21.700005}
+        - {x: -106.95674, y: -33.299995}
+        - {x: 108.04326, y: -33.299995}
+        - {x: 108.04326, y: 21.700005}
+    - name: diaphragm_v1b_anim_29
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 289
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -95.91348, y: 21.700005}
+        - {x: -105.91348, y: 9.700005}
+        - {x: -107.91348, y: 4.7000046}
+        - {x: -107.91348, y: -17.299995}
+        - {x: -104.91348, y: -33.299995}
+        - {x: 108.08652, y: -33.299995}
+        - {x: 108.08652, y: 13.700005}
+        - {x: 95.08652, y: 21.700005}
+    - name: diaphragm_v1b_anim_30
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 289
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 109.12976, y: 16.700005}
+        - {x: 106.12976, y: 20.700005}
+        - {x: -83.87024, y: 20.700005}
+        - {x: -104.87024, y: 18.700005}
+        - {x: -106.87024, y: 15.700005}
+        - {x: -106.87024, y: -29.299995}
+        - {x: -100.87024, y: -33.299995}
+        - {x: 109.12976, y: -33.299995}
+    - name: diaphragm_v1b_anim_31
+      rect:
+        serializedVersion: 2
+        x: 3200
+        y: 289
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 97.173035, y: 20.700005}
+        - {x: -100.826965, y: 20.700005}
+        - {x: -107.826965, y: 19.700005}
+        - {x: -107.826965, y: -30.299995}
+        - {x: -106.826965, y: -33.299995}
+        - {x: 103.173035, y: -33.299995}
+        - {x: 109.173035, y: -23.299995}
+        - {x: 109.173035, y: 5.7000046}
+        - {x: 104.173035, y: 19.700005}
+    - name: diaphragm_v1b_anim_32
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 289
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -102.78369, y: 19.700005}
+        - {x: -106.78369, y: 11.700005}
+        - {x: -106.78369, y: -23.299995}
+        - {x: -99.78369, y: -31.299995}
+        - {x: -95.78369, y: -33.299995}
+        - {x: 109.21631, y: -33.299995}
+        - {x: 109.21631, y: 13.700005}
+        - {x: 92.21631, y: 19.700005}
+    - name: diaphragm_v1b_anim_33
+      rect:
+        serializedVersion: 2
+        x: 4800
+        y: 289
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -100.74048, y: 19.700005}
+        - {x: -107.74048, y: 7.7000046}
+        - {x: -107.74048, y: -34.299995}
+        - {x: 109.25952, y: -34.299995}
+        - {x: 109.25952, y: 5.7000046}
+        - {x: 105.25952, y: 19.700005}
+    - name: diaphragm_v1b_anim_34
+      rect:
+        serializedVersion: 2
+        x: 5600
+        y: 289
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 107.30286, y: 10.700005}
+        - {x: 93.30286, y: 19.700005}
+        - {x: -97.69714, y: 19.700005}
+        - {x: -106.69714, y: 7.7000046}
+        - {x: -106.69714, y: -34.299995}
+        - {x: 106.30286, y: -34.299995}
+        - {x: 109.30286, y: -25.299995}
+        - {x: 109.30286, y: 7.7000046}
+    - name: diaphragm_v1b_anim_35
+      rect:
+        serializedVersion: 2
+        x: 6400
+        y: 289
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -107.65393, y: 19.700005}
+        - {x: -107.65393, y: -34.299995}
+        - {x: 107.34607, y: -34.299995}
+        - {x: 109.34607, y: -25.299995}
+        - {x: 109.34607, y: 19.700005}
+    - name: diaphragm_v1b_anim_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 92, y: 19.5}
+        - {x: -100, y: 19.5}
+        - {x: -108, y: 7.5}
+        - {x: -108, y: -12.5}
+        - {x: -105, y: -26.5}
+        - {x: -99, y: -34.5}
+        - {x: 109, y: -34.5}
+        - {x: 109, y: -0.5}
+        - {x: 101, y: 17.5}
+    - name: diaphragm_v1b_anim_37
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -107.95674, y: 19.5}
+        - {x: -107.95674, y: -34.5}
+        - {x: 109.04326, y: -34.5}
+        - {x: 109.04326, y: 19.5}
+    - name: diaphragm_v1b_anim_38
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 0
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 100.08652, y: 19.5}
+        - {x: -99.91348, y: 19.5}
+        - {x: -107.91348, y: 12.5}
+        - {x: -107.91348, y: -27.5}
+        - {x: -104.91348, y: -34.5}
+        - {x: 108.08652, y: -34.5}
+        - {x: 109.08652, y: -33.5}
+        - {x: 109.08652, y: 13.5}
+    - name: diaphragm_v1b_anim_39
+      rect:
+        serializedVersion: 2
+        x: 2400
+        y: 0
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -107.87024, y: -35.5}
+        - {x: 109.12976, y: -35.5}
+        - {x: 109.12976, y: 12.5}
+        - {x: 106.12976, y: 18.5}
+        - {x: -98.87024, y: 18.5}
+        - {x: -107.87024, y: 16.5}
+    - name: diaphragm_v1b_anim_40
+      rect:
+        serializedVersion: 2
+        x: 3200
+        y: 0
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -107.826965, y: 18.5}
+        - {x: -107.826965, y: -21.5}
+        - {x: -103.826965, y: -35.5}
+        - {x: 109.173035, y: -35.5}
+        - {x: 109.173035, y: 18.5}
+    - name: diaphragm_v1b_anim_41
+      rect:
+        serializedVersion: 2
+        x: 4000
+        y: 0
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -106.78369, y: 18.5}
+        - {x: -106.78369, y: -23.5}
+        - {x: -100.78369, y: -31.5}
+        - {x: -95.78369, y: -35.5}
+        - {x: -89.78369, y: -35.5}
+        - {x: -79.78369, y: -33.5}
+        - {x: -4.7836914, y: -28.5}
+        - {x: 13.216309, y: -35.5}
+        - {x: 109.21631, y: -35.5}
+        - {x: 109.21631, y: 18.5}
+    - name: diaphragm_v1b_anim_42
+      rect:
+        serializedVersion: 2
+        x: 4800
+        y: 0
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -107.74048, y: 18.5}
+        - {x: -107.74048, y: -35.5}
+        - {x: 109.25952, y: -35.5}
+        - {x: 109.25952, y: 18.5}
+    - name: diaphragm_v1b_anim_43
+      rect:
+        serializedVersion: 2
+        x: 5600
+        y: 0
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -100.69714, y: 18.5}
+        - {x: -106.69714, y: 12.5}
+        - {x: -106.69714, y: -35.5}
+        - {x: 108.30286, y: -35.5}
+        - {x: 109.30286, y: -34.5}
+        - {x: 109.30286, y: 4.5}
+        - {x: 106.30286, y: 18.5}
+    - name: diaphragm_v1b_anim_44
+      rect:
+        serializedVersion: 2
+        x: 6400
+        y: 0
+        width: 800
+        height: 289
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -106.65393, y: 18.5}
+        - {x: -106.65393, y: -35.5}
+        - {x: 105.34607, y: -35.5}
+        - {x: 109.34607, y: -31.5}
+        - {x: 109.34607, y: 2.5}
+        - {x: 101.34607, y: 18.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

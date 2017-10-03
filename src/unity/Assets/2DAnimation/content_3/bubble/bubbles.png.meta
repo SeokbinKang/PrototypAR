@@ -1,0 +1,529 @@
+fileFormatVersion: 2
+guid: 5621b85f2572d5d43a161f9d9e760515
+timeCreated: 1490603578
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: bubbles_0
+    21300002: bubbles_1
+    21300004: bubbles_2
+    21300006: bubbles_3
+    21300008: bubbles_4
+    21300010: bubbles_5
+    21300012: bubbles_6
+    21300014: bubbles_7
+    21300016: bubbles_8
+    21300018: bubbles_9
+    21300020: bubbles_10
+    21300022: bubbles_11
+    21300024: bubbles_12
+    21300026: bubbles_13
+    21300028: bubbles_14
+    21300030: bubbles_15
+    21300032: bubbles_16
+    21300034: bubbles_17
+    21300036: bubbles_18
+    21300038: bubbles_19
+    21300040: bubbles_20
+    21300042: bubbles_21
+    21300044: bubbles_22
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 1
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 0
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 0
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: bubbles_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1386
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 31.5}
+        - {x: -43, y: 17.5}
+        - {x: -43, y: -31.5}
+        - {x: 43, y: -31.5}
+        - {x: 43, y: -0.5}
+        - {x: 23, y: 31.5}
+    - name: bubbles_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1323
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 10.5}
+        - {x: -10, y: 6.5}
+        - {x: -10, y: -4.5}
+        - {x: -8, y: -10.5}
+        - {x: 5, y: -10.5}
+        - {x: 10, y: -7.5}
+        - {x: 10, y: 9.5}
+        - {x: 7, y: 10.5}
+    - name: bubbles_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1260
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -5, y: 10.5}
+        - {x: -11, y: 5.5}
+        - {x: -11, y: -4.5}
+        - {x: -7, y: -10.5}
+        - {x: 9, y: -10.5}
+        - {x: 11, y: -8.5}
+        - {x: 11, y: 6.5}
+        - {x: 9, y: 10.5}
+    - name: bubbles_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1197
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: -6.5}
+        - {x: -8, y: -11.5}
+        - {x: 6, y: -11.5}
+        - {x: 12, y: -8.5}
+        - {x: 12, y: 10.5}
+        - {x: 11, y: 11.5}
+        - {x: -10, y: 11.5}
+        - {x: -12, y: 5.5}
+    - name: bubbles_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1134
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -6, y: 11.5}
+        - {x: -12, y: 6.5}
+        - {x: -12, y: -9.5}
+        - {x: -10, y: -11.5}
+        - {x: 6, y: -11.5}
+        - {x: 12, y: -9.5}
+        - {x: 12, y: 5.5}
+        - {x: 7, y: 11.5}
+    - name: bubbles_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1071
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7, y: 11.5}
+        - {x: -12, y: 9.5}
+        - {x: -12, y: -3.5}
+        - {x: -8, y: -10.5}
+        - {x: -6, y: -11.5}
+        - {x: 10, y: -11.5}
+        - {x: 12, y: -5.5}
+        - {x: 12, y: 11.5}
+    - name: bubbles_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1008
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -1, y: 12.5}
+        - {x: -7, y: 11.5}
+        - {x: -12, y: 7.5}
+        - {x: -12, y: -4.5}
+        - {x: -11, y: -10.5}
+        - {x: -5, y: -12.5}
+        - {x: 10, y: -12.5}
+        - {x: 12, y: -6.5}
+        - {x: 12, y: 8.5}
+        - {x: 8, y: 12.5}
+    - name: bubbles_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 945
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 11, y: 13.5}
+        - {x: -8, y: 13.5}
+        - {x: -13, y: 10.5}
+        - {x: -13, y: -11.5}
+        - {x: -7, y: -13.5}
+        - {x: 8, y: -13.5}
+        - {x: 12, y: -10.5}
+        - {x: 13, y: -7.5}
+        - {x: 13, y: 11.5}
+    - name: bubbles_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 882
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -7, y: 14.5}
+        - {x: -14, y: 9.5}
+        - {x: -14, y: -9.5}
+        - {x: -13, y: -10.5}
+        - {x: -6, y: -14.5}
+        - {x: 11, y: -14.5}
+        - {x: 14, y: -7.5}
+        - {x: 14, y: 14.5}
+    - name: bubbles_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 819
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 11, y: 13.5}
+        - {x: -8, y: 13.5}
+        - {x: -15, y: 5.5}
+        - {x: -15, y: -12.5}
+        - {x: -11, y: -13.5}
+        - {x: 12, y: -13.5}
+        - {x: 15, y: -4.5}
+        - {x: 15, y: 12.5}
+    - name: bubbles_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 756
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: 14.5}
+        - {x: -9, y: 11.5}
+        - {x: -12, y: 8.5}
+        - {x: -14, y: 5.5}
+        - {x: -14, y: -4.5}
+        - {x: -13, y: -10.5}
+        - {x: -8, y: -14.5}
+        - {x: 6, y: -14.5}
+        - {x: 14, y: -8.5}
+        - {x: 14, y: 9.5}
+        - {x: 12, y: 14.5}
+    - name: bubbles_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 693
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -5, y: 15.5}
+        - {x: -14, y: 5.5}
+        - {x: -14, y: -8.5}
+        - {x: -7, y: -15.5}
+        - {x: 6, y: -15.5}
+        - {x: 16, y: -8.5}
+        - {x: 16, y: 10.5}
+        - {x: 14, y: 15.5}
+    - name: bubbles_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 630
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10, y: 15.5}
+        - {x: -17, y: 6.5}
+        - {x: -17, y: -14.5}
+        - {x: -14, y: -15.5}
+        - {x: 15, y: -15.5}
+        - {x: 17, y: -10.5}
+        - {x: 17, y: 11.5}
+        - {x: 9, y: 15.5}
+    - name: bubbles_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 567
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 10, y: 14.5}
+        - {x: -5, y: 14.5}
+        - {x: -8, y: 13.5}
+        - {x: -17, y: 2.5}
+        - {x: -17, y: -11.5}
+        - {x: -8, y: -14.5}
+        - {x: 10, y: -14.5}
+        - {x: 17, y: -8.5}
+        - {x: 17, y: 8.5}
+    - name: bubbles_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 504
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -11, y: 18.5}
+        - {x: -20, y: 8.5}
+        - {x: -20, y: -15.5}
+        - {x: -9, y: -18.5}
+        - {x: 13, y: -18.5}
+        - {x: 20, y: -13.5}
+        - {x: 20, y: 14.5}
+        - {x: 11, y: 18.5}
+    - name: bubbles_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 441
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 6, y: 18.5}
+        - {x: -19, y: 18.5}
+        - {x: -20, y: 16.5}
+        - {x: -20, y: -15.5}
+        - {x: -13, y: -18.5}
+        - {x: 19, y: -18.5}
+        - {x: 20, y: -15.5}
+        - {x: 20, y: 9.5}
+    - name: bubbles_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 378
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 17, y: 19.5}
+        - {x: -8, y: 19.5}
+        - {x: -20, y: 15.5}
+        - {x: -20, y: -15.5}
+        - {x: -14, y: -19.5}
+        - {x: 15, y: -19.5}
+        - {x: 20, y: -15.5}
+        - {x: 20, y: 17.5}
+    - name: bubbles_17
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 315
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -20, y: 18.5}
+        - {x: -20, y: -11.5}
+        - {x: -14, y: -18.5}
+        - {x: 17, y: -18.5}
+        - {x: 20, y: -10.5}
+        - {x: 20, y: 7.5}
+        - {x: 9, y: 18.5}
+    - name: bubbles_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 252
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -26, y: -8.5}
+        - {x: -18, y: -24.5}
+        - {x: -12, y: -27.5}
+        - {x: 19, y: -27.5}
+        - {x: 26, y: -22.5}
+        - {x: 26, y: 15.5}
+        - {x: 23, y: 22.5}
+        - {x: 11, y: 27.5}
+        - {x: -20, y: 27.5}
+        - {x: -26, y: 21.5}
+    - name: bubbles_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 189
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 26.5}
+        - {x: -21, y: 23.5}
+        - {x: -30, y: 6.5}
+        - {x: -30, y: -20.5}
+        - {x: -26, y: -26.5}
+        - {x: 18, y: -26.5}
+        - {x: 30, y: -21.5}
+        - {x: 30, y: 16.5}
+        - {x: 21, y: 26.5}
+    - name: bubbles_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 126
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 23, y: 31.5}
+        - {x: -15, y: 31.5}
+        - {x: -32, y: 21.5}
+        - {x: -32, y: -19.5}
+        - {x: -19, y: -31.5}
+        - {x: 17, y: -31.5}
+        - {x: 22, y: -29.5}
+        - {x: 32, y: -11.5}
+        - {x: 32, y: 12.5}
+        - {x: 30, y: 22.5}
+    - name: bubbles_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 63
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29, y: 20.5}
+        - {x: -29, y: -26.5}
+        - {x: -25, y: -29.5}
+        - {x: 20, y: -29.5}
+        - {x: 29, y: -24.5}
+        - {x: 29, y: 20.5}
+        - {x: 25, y: 29.5}
+        - {x: -28, y: 29.5}
+    - name: bubbles_22
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 86
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 10, y: 26.5}
+        - {x: -37, y: 26.5}
+        - {x: -40, y: 23.5}
+        - {x: -40, y: 3.5}
+        - {x: -34, y: -9.5}
+        - {x: -7, y: -26.5}
+        - {x: 28, y: -26.5}
+        - {x: 35, y: -25.5}
+        - {x: 40, y: -8.5}
+        - {x: 40, y: 13.5}
+        - {x: 34, y: 23.5}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BurnThrough
+  m_Shader: {fileID: 4800000, guid: 649296a4189024be6bf25aee3ab8714d, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: ddf0bd166ee0a4a848a9e02accbc16ef, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MainAlpha
+        second:
+          m_Texture: {fileID: 2800000, guid: 3fae4810fe3634c8bad46adae85b3da8, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 1, y: 0}
+      data:
+        first:
+          name: _BurningTex
+        second:
+          m_Texture: {fileID: 2800000, guid: e654f4b2b16df4856a6123a2effa54ad, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 1, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Cut
+        second: 0.19
+      data:
+        first:
+          name: _CutDamper
+        second: 0.045
+      data:
+        first:
+          name: _Burn
+        second: 0.353
+      data:
+        first:
+          name: _BurnDamper
+        second: 0.045
+    m_Colors: {}

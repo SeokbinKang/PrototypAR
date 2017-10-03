@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Floor
+  - Character
+  - Glove
+  - Target
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - AR background
+  - AR background 2
+  - AR foreground
+  - AR foreground2
+  - AR foreground3
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: AR background
+    uniqueID: 2449060943
+    locked: 0
+  - name: AR background 2
+    uniqueID: 137871253
+    locked: 0
+  - name: AR foreground
+    uniqueID: 2099980905
+    locked: 0
+  - name: AR foreground2
+    uniqueID: 186767769
+    locked: 0
+  - name: AR foreground3
+    uniqueID: 1470788229
+    locked: 0

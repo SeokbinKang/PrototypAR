@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1816ecf61ae60e4db4424c1b0630cf6, type: 3}
+  m_Name: ConfigObject
+  m_EditorClassIdentifier: 
+  cmList:
+  - BGRA_Val0: 154
+    BGRA_Val1: 56
+    BGRA_Val2: 13
+    BGRA_Val3: 255
+    HueClass1: -2.839506
+    pThreshold1: 0.04
+    learningAlpha: 0.1
+  - BGRA_Val0: 86
+    BGRA_Val1: 61
+    BGRA_Val2: 205
+    BGRA_Val3: 255
+    HueClass1: 1.2103772
+    pThreshold1: 0.04
+    learningAlpha: 0.1
+  - BGRA_Val0: 66
+    BGRA_Val1: 248
+    BGRA_Val2: 242
+    BGRA_Val3: 255
+    HueClass1: -0.029020634
+    pThreshold1: 0.04
+    learningAlpha: 0.1

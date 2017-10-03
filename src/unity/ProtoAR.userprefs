@@ -1,0 +1,21 @@
+﻿<Properties StartupItem="ProtoAR.CSharp.Plugins.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Simulation.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Simulation.cs" Line="259" Column="32" />
+      <File FileName="Assets\Scripts\Animation2DManager.cs" Line="335" Column="1" />
+      <File FileName="Assets\Scripts\CVProc.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\FBSModel.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\IP_ObjectShape.cs" Line="1" Column="1" />
+      <File FileName="Assets\NewBehaviourScript1.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\WebcamController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Visual2DModelManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\ModelOverlay\JointOverlayer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ColorDetector.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
