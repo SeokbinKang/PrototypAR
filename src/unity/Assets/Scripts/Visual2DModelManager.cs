@@ -258,8 +258,9 @@ public class Visual2DModel
         if (feedback.type == EvaluationResultCategory.Connectivity_missing)
         {
             Visual2DObject vObj = new Visual2DObject();
-            CvPoint msgPoint = vObj.addFeedback_MissingConnection(feedback.connectivity_missingConn);
-            mObjectList.Add(vObj);
+           /*CvPoint msgPoint = vObj.addFeedback_MissingConnection(feedback.connectivity_missingConn);
+              mObjectList.Add(vObj);*/
+            CvPoint msgPoint = feedback.connectivity_missingConn.Key.getShapeBuilder().center;
 
             SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();                        
             if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.STR_CONN_missing_Dialogue, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));

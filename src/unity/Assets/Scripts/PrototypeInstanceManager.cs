@@ -40,7 +40,7 @@ public class PrototypeInstanceManager : MonoBehaviour {
     }
     public void movetoHide()
     {
-        this.transform.position = new Vector3(30, 10, 1);
+        this.transform.position = new Vector3(30, 1700, 1);
     }
     public void AddIncompletePrototypeInstance(Texture2D prototypeImgTxt,  List<FeedbackToken> feedbackList){
         mPrototypes.Add(new prototypeInstance(prototypeImgTxt, null, feedbackList));
