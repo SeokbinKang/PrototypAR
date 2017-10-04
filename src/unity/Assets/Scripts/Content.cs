@@ -203,7 +203,7 @@ public class SimulationParam
 
     public int C2_pedallingRate;
     public int C2_GearRatio;
-    public int C3_Torque;
+    public int C2_Torque;
 }
 public enum DesignContent
 {

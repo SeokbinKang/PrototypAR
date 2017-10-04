@@ -20,9 +20,11 @@ public class ApplicationControl : MonoBehaviour
     public bool ShowDebugImages = false;
     public bool SuppressCVWindows = true;
     public Vector2 RegionboxLefttop=new Vector2(0,0);
-    public Vector2 RegionboxRightbot = new Vector2(0, 0);
-    
+    public Vector2 RegionboxRightbot = new Vector2(0, 0);    
     public int ViewScale=2;
+
+
+    public GameObject ARDetector = null;
     private List<CvPoint> regionPoints;
     private CvMat scaledFrame = null;
     // Use this for initialization
@@ -78,13 +80,25 @@ public class ApplicationControl : MonoBehaviour
     {
 
     }
+    private void Reset()
+    {
+        this.GetComponentInParent<Simulation>().reset();
+        ARDetector.GetComponent<designARManager>().resetScene();
+        GlobalRepo.reset();
+
+    }
     private void KeyInput()
     {
         if (Input.GetButtonUp("Fire1"))
         {
+         
             GlobalRepo.setLearningCount(6);
         }
-        if(Input.GetButtonUp("Fire2"))
+        if (Input.GetButtonUp("Cancel"))
+        {
+            Reset();         
+        }
+        if (Input.GetButtonUp("Fire2"))
         {
             this.GetComponent<CameraControl>().MainCameraFoV = 60;
             SceneObjectManager.getActiveInstance().adjustAlphaSpriteRenderInstant(PreLoadedObjects.Content1_BGFull, 255);

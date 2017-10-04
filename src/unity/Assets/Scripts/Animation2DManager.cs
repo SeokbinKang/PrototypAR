@@ -32,7 +32,11 @@ public class Animation2DClip
 
     private static float expandingRatio = 0.18f;
     private static float updownRatio = 0.5f;
-    
+
+    ~Animation2DClip()
+    {
+        animationSequence2.Clear();
+    }
     public Animation2DClip(Animation2DType aniType, CvMat baseModelImg, int seqLength,Visual2DObject pVisualObj,AnimationParam param)
     {
         
@@ -703,6 +707,10 @@ public class AnimationFrameData
     public CvPoint LocalAnchor;
     public double frameAlpha;
     public int frameLength;
+    ~AnimationFrameData()
+    {
+        if (frameImage != null) frameImage.ReleaseData();
+    }
     public AnimationFrameData(CvMat frameMat, CvPoint GlobalAnchor_, CvPoint LocalAnchor_)
     {
         frameImage = frameMat;

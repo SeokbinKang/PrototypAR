@@ -100,6 +100,15 @@ public class designARManager : MonoBehaviour {
 
 
     }
+    public void resetScene()
+    {
+        GlobalRepo.SetUserPhas(GlobalRepo.UserPhase.design);
+        pConceptModelManager.reset();
+        this.GetComponentInParent<BehaviorDetector>().reset();
+        this.GetComponentInParent<ColorDetector>().reset();
+        this.GetComponentInParent<Visual2DModelManager>().reset();
+
+    }
     private void initDesignContent(DesignContent contentType)
     {
         if(contentType==DesignContent.HumanRespiratorySystem)
@@ -173,7 +182,7 @@ public class designARManager : MonoBehaviour {
             mDesignContentModel.AddBehaviorEntity(be);
             be = new BehaviorEntity(BehaviorCategory.ROTATE, freeWheel, null);
             mDesignContentModel.AddBehaviorEntity(be);
-            be = new BehaviorEntity(BehaviorCategory.ENGAGE, frontChainRing, null);
+            be = new BehaviorEntity(BehaviorCategory.DRIVE, frontChainRing, null);
             mDesignContentModel.AddBehaviorEntity(be);
             be = new BehaviorEntity(BehaviorCategory.TRANSFER, Upperchain, null);
             mDesignContentModel.AddBehaviorEntity(be);

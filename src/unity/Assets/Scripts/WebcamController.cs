@@ -50,6 +50,8 @@ public class WebcamController : MonoBehaviour {
     private WebCamTexture webcamTexture = null;
     private Color32[] webcamdata=null;
     private Texture2D liveStreamTexture = null;
+
+    private Texture2D temporaryTexture= null;
     void Start() {
 
         
@@ -99,7 +101,7 @@ public class WebcamController : MonoBehaviour {
     {
 
         if (counter++ % 60 == 0) Debug.Log("FPS"+1.0f / Time.deltaTime);
-       IplImage m_cvImg=null;
+
         /*
         if (m_cvCap != null && AR2DImageProc.NeedLiveStream()) {
             //Debug.Log("QueryFrame Counter " + (counter++));
@@ -133,20 +135,21 @@ public class WebcamController : MonoBehaviour {
             Debug.Log("Feeding Backup stream.$#%$#%$#%$#%#$%@#$..");
         }
         if (!AR2DImageProc.NeedStream()) return;*/
+        Debug.Log("Cam update0 , user mode: " + GlobalRepo.UserMode);
         if (webcamTexture_ != null && GlobalRepo.NeedLiveStream())
         {
+            Debug.Log("Cam update1");
             webcamTexture_.GetPixels32(webcamdata);
             TextureToMat3ch(webcamdata, colorImageBGR,webcamTexture_.width, webcamTexture_.height);
             GlobalRepo.updateRepoRaw(RepoDataType.dRawBGR, colorImageBGR, webcamTexture_.width, webcamTexture_.height, 3);
             GlobalRepo.updateInternalRepo(true);
-            BackupImage = null;
-            
-      
+            BackupImage = null;  
         }
         
         GlobalRepo.tickLearningCount();
         if (webcamTexture_ != null && GlobalRepo.NeedLiveStream())
         {
+            Debug.Log("Cam update2");
             CvRect regionBox = GlobalRepo.GetRegionBox(false);
 
             if (liveStreamTexture == null || liveStreamTexture.width != regionBox.Width || liveStreamTexture.height != regionBox.Height)
@@ -162,8 +165,28 @@ public class WebcamController : MonoBehaviour {
                 livestreamImage.texture = liveStreamTexture;
             }
         }
+        if( counter % 100 == -1)
+        {
+            CvRect regionBox = GlobalRepo.GetRegionBox(false);
 
+            if (temporaryTexture == null || temporaryTexture.width != regionBox.Width || temporaryTexture.height != regionBox.Height)
+            {
+                temporaryTexture = new Texture2D(regionBox.Width, regionBox.Height, TextureFormat.RGBA32, false);
+            }
+            temporaryTexture.LoadRawTextureData(GlobalRepo.getByteStream(RepoDataType.dRawRegionRGBAByte));
+
+            temporaryTexture.Apply();
+            if (temporaryTexture != null)
+            {
+                GameObject goTestTxt = GameObject.Find("RawImage1");
+                UnityEngine.UI.RawImage tempUIRawImage = goTestTxt.GetComponent<UnityEngine.UI.RawImage>();
+                tempUIRawImage.texture = temporaryTexture;
+                
+            }
+        }
     }
+
+
     void TextureToMat3ch(Color32[] _data, byte[] dest,int width,int height)
     {
         // Color32 array : r, g, b, a

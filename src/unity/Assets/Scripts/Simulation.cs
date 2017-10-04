@@ -44,6 +44,16 @@ public class Simulation : MonoBehaviour {
         if(mDesignContent==DesignContent.HumanRespiratorySystem)   ControlSimulationContent_1();
             else if (mDesignContent == DesignContent.BicycleGearSystem) ControlSimulationContent_2(); 
     }
+    public void reset()
+    {
+        DestroySimulationContent_2();        
+        initGameObjectPool();
+        userPrototypeInstance = null;
+        SimulationControlDone = false;
+        ActiveInstance = this;
+        simState = new SimulationState();
+        mDesignContent = this.GetComponentInParent<ApplicationControl>().ContentType;
+    }
     private void ControlSimulationContent_1()
     {
         if (userPrototypeInstance == null || SimulationActiveObject.Count == 0) return;
@@ -182,22 +192,73 @@ public class Simulation : MonoBehaviour {
             }
             SimulationControlDone = true;
 
+            //add the prototype to prototypeInstanceManager
+            GameObject go_multiview = GameObject.Find("MultiviewUI");
+            PrototypeInstanceManager t = go_multiview.GetComponent<PrototypeInstanceManager>();
 
-        }
-        else
-        {
-            
-
-
-
-        }
+            CvRect regionBox = GlobalRepo.GetRegionBox(false);
+            Texture2D temporaryTexture=null;
+            if (temporaryTexture == null || temporaryTexture.width != regionBox.Width || temporaryTexture.height != regionBox.Height)
+            {
+                temporaryTexture = new Texture2D(regionBox.Width, regionBox.Height, TextureFormat.RGBA32, false);
+            }
+            temporaryTexture.LoadRawTextureData(GlobalRepo.getByteStream(RepoDataType.dRawRegionRGBAByte));
+            temporaryTexture.Apply();
+            if (temporaryTexture != null) {
+                t.AddcompletePrototypeInstance(temporaryTexture, sp);
+            }
+        }     
     }
+    private void DestroySimulationContent_2()
+    {
+        if (userPrototypeInstance == null || SimulationActiveObject.Count == 0) return;
+        //calculate Breathing rate and Amount
+
+                float animationSpeedParam = 0;
+        //1 = 1rotation / 5 sec            
+        simState.timeElapsed = 0;       
+            //init breathing rate
+            for (int i = 0; i < SimulationActiveObject.Count; i++)
+            {
+                Animator animc = SimulationActiveObject[i].GetComponent<Animator>();
+                if (animc != null)
+                {
+                    animc.SetFloat("speedparam", animationSpeedParam);
+                    continue;
+                }
+                Simulation_Artifact_Chain chainController = SimulationActiveObject[i].GetComponent<Simulation_Artifact_Chain>();
+                if (chainController != null)
+                {
+                    chainController.speedparam = animationSpeedParam;
+                  chainController.destoryChain();
+                    //destory chain
+                }
+                //control animation speed
+                //activate animtions
+            }
+
+        InactiveGameObjectDict[ModelCategory.PedalCrank].transform.position = new Vector3(6, 2, 1);
+        InactiveGameObjectDict[ModelCategory.FreeWheel].transform.position = new Vector3(6, 2, 1);
+        SetActiveRecursively(InactiveGameObjectDict[ModelCategory.FreeWheel], true);
+        InactiveGameObjectDict[ModelCategory.FrontChainring].transform.position = new Vector3(6, 2, 1);
+        SetActiveRecursively(InactiveGameObjectDict[ModelCategory.FrontChainring], true);
+
+
+    }
+
     private void RevealSimulationObject()
     {
         for(int i=0;i<SimulationActiveObject.Count;i++)
         {
-       //     SetSpriteAlphaIncrease(SimulationActiveObject[i], 0.008f);
-            
+            SetSpriteAlphaIncrease(SimulationActiveObject[i], 0.008f);            
+        }
+    }
+    private void HideSimulationObjects()
+    {
+        for (int i = 0; i < SimulationActiveObject.Count; i++)
+        {
+          //  SetSpriteAlphato(SimulationActiveObject[i], 0);
+           // SimulationActiveObject[i].SetActive(false);
         }
     }
     public static void GenerateSimulation(prototypeDef userPrototype, Visual2DModel visual2DMgr)
@@ -233,6 +294,8 @@ public class Simulation : MonoBehaviour {
                 }
                 if (SimulationTypeDict.ContainsKey(designItem.Key) && SimulationTypeDict[designItem.Key] == SimulationObjectType.LoadStaticModelMultiChild)
                 {
+                    //front chainring
+                    //free wheel
                     SimulateStaticModelMultiChild(modelInstance, true, false);
                 }
                 if (SimulationTypeDict.ContainsKey(designItem.Key) && SimulationTypeDict[designItem.Key] == SimulationObjectType.LoadCustomArtifact)
@@ -456,10 +519,18 @@ public class Simulation : MonoBehaviour {
         //for various finalvis type
 
     }
+    public static void SetActiveRecursively(GameObject rootObject, bool active)
+    {
+        rootObject.SetActive(active);
 
+        foreach (Transform childTransform in rootObject.transform)
+        {
+            SetActiveRecursively(childTransform.gameObject, active);
+        }
+    }
     //pick a childe of which default size is most close to the user model
     //
-   
+
     private static void SimulateStaticModelMultiChild(ModelDef model, bool fitAspect, bool adjustPivottoConnect)
     {
         if (model == null) return;
@@ -823,7 +894,8 @@ public class Simulation : MonoBehaviour {
     }
     private static void initGameObjectPool()
     {
-        InactiveGameObjectDict = new Dictionary<ModelCategory, GameObject>();
+        if (InactiveGameObjectDict == null) InactiveGameObjectDict = new Dictionary<ModelCategory, GameObject>();
+        else InactiveGameObjectDict.Clear();
         InactiveGameObjectDict[ModelCategory.LungLeft] = GameObject.Find("c1_leftlung");
         InactiveGameObjectDict[ModelCategory.LungRight] = GameObject.Find("c1_rightlung");
         InactiveGameObjectDict[ModelCategory.Diaphragm] = GameObject.Find("c1_diaphragm");

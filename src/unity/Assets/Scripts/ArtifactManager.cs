@@ -21,6 +21,11 @@ public class ConceptModelManager {
       
         debugImageList = new List<CvMat>();
     }
+    public void reset()
+    {
+        mPrototypeList.Clear();
+        debugImageList.Clear();
+    }
     public void setFBSModel(FBSModel t)
     {
         this.pFBSModel = t;

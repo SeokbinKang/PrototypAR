@@ -39,6 +39,7 @@ public class LayerControl : MonoBehaviour {
         if(GlobalRepo.UserMode==GlobalRepo.UserPhase.design) {
             Layer0_LiveStream.SetActive(true);
             Layer1_RealityAR.SetActive(true);
+            adjustAlphaTextureColor(Layer0_LiveStream, 255, 0.15f);
             adjustAlphaTextureColor(Layer1_RealityAR, 0, 0.07f);
         }
         if (GlobalRepo.UserMode == GlobalRepo.UserPhase.feedback)

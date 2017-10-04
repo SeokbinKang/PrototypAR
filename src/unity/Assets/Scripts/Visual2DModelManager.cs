@@ -31,7 +31,14 @@ public class Visual2DModelManager : MonoBehaviour
     {
         tickVisual2DModels();
     }
-
+    public void reset()
+    {
+        foreach(var t in mModelList)
+        {
+            t.reset();
+        }
+        mModelList.Clear();
+    }
     public void createVisual2DModel(prototypeDef proto, List<FeedbackToken> feedbacklist)
     {
         Visual2DModel vmodel = new Visual2DModel(proto, feedbacklist);
@@ -103,12 +110,35 @@ public class Visual2DModel
             GlobalRepo.SetUserPhas(GlobalRepo.UserPhase.simulation);
             return;
         }
-        for (int i = 0; i < feedbacklist.Count; i++)
+        //for (int i = 0; i < feedbacklist.Count; i++)
+        for (int i = 0; i < 1; i++)
         {
             CreateFeedback(conceptModel, feedbacklist[i]);
             if (feedbacklist[i].type == EvaluationResultCategory.Shape_existence_missing) break;
         }
         GlobalRepo.SetUserPhas(GlobalRepo.UserPhase.feedback);
+
+
+        //add the prototype to prototypeInstanceManager
+        GameObject go_multiview = GameObject.Find("MultiviewUI");
+        PrototypeInstanceManager t = go_multiview.GetComponent<PrototypeInstanceManager>();
+        CvRect regionBox = GlobalRepo.GetRegionBox(false);
+        Texture2D temporaryTexture = null;
+        if (temporaryTexture == null || temporaryTexture.width != regionBox.Width || temporaryTexture.height != regionBox.Height)
+        {
+            temporaryTexture = new Texture2D(regionBox.Width, regionBox.Height, TextureFormat.RGBA32, false);
+        }
+        temporaryTexture.LoadRawTextureData(GlobalRepo.getByteStream(RepoDataType.dRawRegionRGBAByte));
+        temporaryTexture.Apply();
+        if (temporaryTexture != null)
+        {
+            t.AddIncompletePrototypeInstance(temporaryTexture,feedbacklist);
+        }
+
+
+
+
+
         /*
         foreach (KeyValuePair<ModelCategory, List<ModelDef>> item in mRefConceptModel.mModels)
         {
@@ -121,6 +151,14 @@ public class Visual2DModel
                 }
             }
         }*/
+    }
+    public void reset()
+    {
+        SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+        if (SOMgr != null) SOMgr.initSceneObject();
+        mRefConceptModel = null;
+        mObjectList.Clear();
+
     }
     private void CreateFeedback(prototypeDef proto, FeedbackToken feedback)
     {
@@ -343,6 +381,13 @@ public class Visual2DObject
     private CvPoint centeroid;
     public Visual2DObject()
     { // for feedback visualization entity that does NOT link to actual model
+        objectImgRGBA = null;
+        pModelDef = null;
+        anim = null;
+    }
+    ~Visual2DObject()
+    {
+        objectImgRGBA.ReleaseData();
         objectImgRGBA = null;
         pModelDef = null;
         anim = null;

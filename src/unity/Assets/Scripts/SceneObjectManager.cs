@@ -14,7 +14,7 @@ using System;
 public class SceneObjectManager : MonoBehaviour {
 
     private static SceneObjectManager activeSOMgr = null;
-    private Dictionary<PreLoadedObjects, GameObject> SceneObjectPool;
+    private Dictionary<PreLoadedObjects, GameObject> SceneObjectPool=null;
     
     // Use this for initialization
     void Start () {
@@ -33,41 +33,50 @@ public class SceneObjectManager : MonoBehaviour {
     }
     public void initSceneObject()
     {
-        SceneObjectPool = new Dictionary<PreLoadedObjects, GameObject>();
-        SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_contract, GameObject.Find("BV_Missing_Contract_0"));
-        SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_pedal, GameObject.Find("BV_missing_Pedal"));
-        SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_reduce, GameObject.Find("BV_missing_Reduce"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_missing_c1_air, GameObject.Find("STR_MS_airways"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_missing_c1_lung, GameObject.Find("STR_MS_lung"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_missing_c1_dia, GameObject.Find("STR_MS_diaphragm"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_left, GameObject.Find("STR_EXTRA_left"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_down, GameObject.Find("STR_EXTRA_down"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_right, GameObject.Find("STR_EXTRA_up"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_up, GameObject.Find("STR_EXTRA_right"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_SHAPE_left, GameObject.Find("STR_SHAPE_left"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_SHAPE_right, GameObject.Find("STR_SHAPE_right"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_POS_dialog, GameObject.Find("STR_POS"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_CONN_missing_Dialogue, GameObject.Find("STR_CONN_missing"));
-        SceneObjectPool.Add(PreLoadedObjects.STR_CONN_incorrect_Dialogue, GameObject.Find("STR_CONN_incorrect"));
-        SceneObjectPool.Add(PreLoadedObjects.BEH_BL_missing, GameObject.Find("BEH_BL_missing"));
-        SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_down, GameObject.Find("BEH_BL_unneces_down"));
-        SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_left, GameObject.Find("BEH_BL_unneces_left"));
-        SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_right, GameObject.Find("BEH_BL_unneces_right"));
-        SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_up, GameObject.Find("BEH_BL_unneces_up"));
-        SceneObjectPool.Add(PreLoadedObjects.BEH_BL_remap, GameObject.Find("BEH_BL_remap"));
+        if (SceneObjectPool == null)
+        {
+            SceneObjectPool = new Dictionary<PreLoadedObjects, GameObject>();
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_contract, GameObject.Find("BV_Missing_Contract_0"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_pedal, GameObject.Find("BV_missing_Pedal"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_reduce, GameObject.Find("BV_missing_Reduce"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_missing_c1_air, GameObject.Find("STR_MS_airways"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_missing_c1_lung, GameObject.Find("STR_MS_lung"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_missing_c1_dia, GameObject.Find("STR_MS_diaphragm"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_missing_c2_frontgear, GameObject.Find("STR_MS_frontgear"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_missing_c2_reargear, GameObject.Find("STR_MS_reargear"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_missing_c2_pedal, GameObject.Find("STR_MS_pedal"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_missing_c2_chain, GameObject.Find("STR_MS_chain"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_left, GameObject.Find("STR_EXTRA_left"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_down, GameObject.Find("STR_EXTRA_down"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_right, GameObject.Find("STR_EXTRA_up"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_up, GameObject.Find("STR_EXTRA_right"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_SHAPE_left, GameObject.Find("STR_SHAPE_left"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_SHAPE_right, GameObject.Find("STR_SHAPE_right"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_POS_dialog, GameObject.Find("STR_POS"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_CONN_missing_Dialogue, GameObject.Find("STR_CONN_missing"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_CONN_incorrect_Dialogue, GameObject.Find("STR_CONN_incorrect"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_missing, GameObject.Find("BEH_BL_missing"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_down, GameObject.Find("BEH_BL_unneces_down"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_left, GameObject.Find("BEH_BL_unneces_left"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_right, GameObject.Find("BEH_BL_unneces_right"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_up, GameObject.Find("BEH_BL_unneces_up"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_remap, GameObject.Find("BEH_BL_remap"));
 
-        SceneObjectPool.Add(PreLoadedObjects.Content1_BGPartial, GameObject.Find("c1_bgpartial"));
-        SceneObjectPool.Add(PreLoadedObjects.Content1_BGFull, GameObject.Find("c1_bgfull"));
-        SceneObjectPool.Add(PreLoadedObjects.Content2_BGPartial, GameObject.Find("c2_bgpartial"));
-        SceneObjectPool.Add(PreLoadedObjects.Content2_BGFull, GameObject.Find("c2_bgfull"));
-
+            SceneObjectPool.Add(PreLoadedObjects.Content1_BGPartial, GameObject.Find("c1_bgpartial"));
+            SceneObjectPool.Add(PreLoadedObjects.Content1_BGFull, GameObject.Find("c1_bgfull"));
+            SceneObjectPool.Add(PreLoadedObjects.Content2_BGPartial, GameObject.Find("c2_bgpartial"));
+            SceneObjectPool.Add(PreLoadedObjects.Content2_BGFull, GameObject.Find("c2_bgfull"));
+        }
 
 
 
         foreach (var item in SceneObjectPool)
         { 
-
-            item.Value.SetActive(false);
+            if(item.Value!=null)  item.Value.SetActive(false);
+                else
+            {
+                Debug.Log("[DEBUG SceneObjectManager object is null: " + item.Key);
+            }
         }
 
 
@@ -290,6 +299,10 @@ public enum PreLoadedObjects
     STR_missing_c1_lung,
     STR_missing_c1_dia,
     STR_missing_c1_air,
+    STR_missing_c2_frontgear,
+    STR_missing_c2_reargear,
+    STR_missing_c2_chain,
+    STR_missing_c2_pedal,
     STR_EXTRA_left,
     STR_EXTRA_down,
     STR_EXTRA_right,

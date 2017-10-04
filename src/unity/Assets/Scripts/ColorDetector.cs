@@ -83,22 +83,13 @@ public class ColorDetector : MonoBehaviour {
         mCP = new colorProfile();
         mCP.setParamThreshold(0.04f);
         //    SignDetector.TestTemplateMatching();
-
-       
-        
         if (this.ShowDebugImage)
         {
-            
-           
         }
         //using (new CvWindow("dst image", dst))
-        {
-            
-        }
+  
         
         //Cv.SetMouseCallback("debug2", mouseCallback2);
-
-
         instance = this;
        
     }
@@ -145,6 +136,10 @@ public class ColorDetector : MonoBehaviour {
         }
 
 
+    }
+    public void reset()
+    {
+        ResetandGo();
     }
     public static void processKeyInput(int key)
     {
@@ -205,9 +200,7 @@ public class ColorDetector : MonoBehaviour {
             {
                 t.Zero();
             }
-        }
-
-        BlobAccumulationN = 40;
+        }        
     }
     private void processColorBlobs()
     {
@@ -247,7 +240,7 @@ public class ColorDetector : MonoBehaviour {
     }
     private void createPrototypeFromColorBlobs()
     {
-        prototypeDef newPrototype = this.cratePrototypeDescription();
+        prototypeDef newPrototype = this.createPrototypeDescription();
         colorblobImage.ForEach(p => p.Zero());
         //behavioral marker
         List<UserDescriptionInfo> markerList=new List<UserDescriptionInfo>();
@@ -343,7 +336,7 @@ public class ColorDetector : MonoBehaviour {
         return ret;
     }
     //construct and return a prototypeDef only with structure models
-    public prototypeDef cratePrototypeDescription()
+    public prototypeDef createPrototypeDescription()
     {
         if (mCP.paramNColors > mCP.mProfileList.Count) return null;
         prototypeDef pProto = new prototypeDef();

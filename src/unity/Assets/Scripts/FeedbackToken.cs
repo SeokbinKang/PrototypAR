@@ -127,6 +127,17 @@ public class FeedbackToken
                 ret = PreLoadedObjects.STR_missing_c1_dia;
             if (this.modelType == ModelCategory.Airways)
                 ret = PreLoadedObjects.STR_missing_c1_air;
+
+            if (this.modelType == ModelCategory.FrontChainring)
+                ret = PreLoadedObjects.STR_missing_c2_frontgear;
+            if (this.modelType == ModelCategory.FreeWheel)
+                ret = PreLoadedObjects.STR_missing_c2_reargear;
+            if (this.modelType == ModelCategory.PedalCrank)
+                ret = PreLoadedObjects.STR_missing_c2_pedal;
+            if (this.modelType == ModelCategory.LowerChain)
+                ret = PreLoadedObjects.STR_missing_c2_chain;
+            if (this.modelType == ModelCategory.UpperChain)
+                ret = PreLoadedObjects.STR_missing_c2_chain;
         }
         return ret;
     }

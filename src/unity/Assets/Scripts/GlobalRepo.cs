@@ -61,7 +61,10 @@ public class GlobalRepo
         UserMode = UserPhase.design;
         beInit = true;
     }
-    
+    public static void reset()
+    {
+        TasksDone = 0;
+    }
     public static bool isInit()
     {
         return beInit;
@@ -457,7 +460,7 @@ public class GlobalRepo
         if (name == "ContentBackgroundAlpha") return 10;
         if (name == "BlackThreshold") return 130;
         if (name == "CanvasSaturationValueMax") return 25;
-        if (name == "minBloxPixelSize") return 30;
+        if (name == "minBloxPixelSize") return 50;
         Debug.Log("[ERROR] GlobalRepo.GetParam");
         return -1;
     }

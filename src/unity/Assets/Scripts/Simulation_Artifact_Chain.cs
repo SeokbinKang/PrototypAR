@@ -46,6 +46,17 @@ public class Simulation_Artifact_Chain : MonoBehaviour {
             c.move(speedparam* speedScaling, mChainPath);
         }
     }
+    public void destoryChain()
+    {
+        mChainElements.Clear();
+        mChainPath.Clear();
+        foreach (Transform child in this.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+
+        }
+
+    }
     public void InitChain(ModelDef m, prototypeDef proto)
     {
         if (m == null || proto == null || proto.mConnections == null || (m.modelType!=ModelCategory.UpperChain && m.modelType != ModelCategory.LowerChain)) return;

@@ -26,9 +26,11 @@ public class ObjectShape2DBuilder
     private bool dominantHSaturated;
     private bool BuildingFinished;
     private bool forceConvex;
+    private float mbaseHueVal;
 
     //param
-    private static int paramHueRange = 3;
+    private static int paramHueRangeLow = 2;
+    private static int paramHueRangeHigh = 10;
     private static int paramHueSaturationSampleCount =100;
     private static int paramWinSize = 3;
     private static int paramPixelsperIteration = 800;
@@ -54,25 +56,29 @@ public class ObjectShape2DBuilder
         BuildingImg = null;        
         debugbuilderID = globalbuilderID++;
         forceConvex = forceConvex_;
+        mbaseHueVal = baseHue;
     }
     private List<CvPoint> refineSeedPoint(CvPoint seed, float baseHue)
     {
         List<CvPoint> ret = new List<CvPoint>();
         CvMat regionImgHSV = GlobalRepo.GetRepo(RepoDataType.dRawRegionHSV);
-        Debug.Log("sampeling basehue:" + baseHue);
+        Debug.Log("[DEBUG-SHAPEBUILDER] Refine Seend Samples Initial Hue:" + baseHue);
         if (regionImgHSV == null) return null;
         System.Random rnd = new System.Random();
+        
         for (int i = 0; i < 15; i++)
         {
-            CvPoint sample = new CvPoint(rnd.Next(-10, 10), rnd.Next(-10, 10)) + seed;
+            CvPoint sample = new CvPoint(rnd.Next(-20, 20), rnd.Next(-20, 20)) + seed;
             if (sample.X < 0 || sample.X > regionImgHSV.Width - 1 || sample.Y < 0 || sample.Y > regionImgHSV.Height - 1) continue;
             
             CvScalar sampleHSV = regionImgHSV.Get2D(sample.Y, sample.X);
-            Debug.Log("sampeling basehue:" + baseHue + "  sample" + sampleHSV.Val0);
-            if (Mathf.Abs((float)sampleHSV.Val0 - baseHue) < paramHueRange) ret.Add(sample);
+            if (Mathf.Abs((float)sampleHSV.Val0 - baseHue) < paramHueRangeLow) ret.Add(sample);
+            else continue;
+            Debug.Log("sampeling basehue: " + baseHue + "  sampled hue: " + sampleHSV.Val0);
+            
 
         }
-
+        if(ret.Count==0) Debug.Log("[DEBUG-SHAPEBUILDER] Failed to find the seed samples. base hue: " + baseHue);
         return ret;
     }
     public bool isFinished()
@@ -146,7 +152,7 @@ public class ObjectShape2DBuilder
                         if (BuildingImg.Get2D(curY, curX).Val0 > 0) continue;
                         CvScalar sample = regionImgHSV.Get2D(BuilderSeedPointPool[i].Y + j, BuilderSeedPointPool[i].X + k);
                         //Debug.Log("Refcolor" + hsvColor.Val0 + "\t nearColor" +sample.Val0);
-                        if (Math.Abs(hsvColor.Val0 - sample.Val0) < paramHueRange)
+                        if (Math.Abs(hsvColor.Val0 - sample.Val0) < paramHueRangeLow)
                         {
                             BuildingImg.Set2D(curY, curX, pRawRegionImgRGBA.Get2D(curY, curX));
                             BuilderSeedPointPool.Add(new CvPoint(curX, curY));
@@ -165,7 +171,8 @@ public class ObjectShape2DBuilder
         dominantH = dominantH / dominantCount;
         dominantHSaturated = true;
         CvConnectedComp cp = new CvConnectedComp();
-        Cv.FloodFill(regionImgHSV, seedPoint, new CvScalar(0, 0, 0), new CvScalar(paramHueRange, 5, 5), new CvScalar(paramHueRange, 5, 5), out cp, FloodFillFlag.MaskOnly, maskImg);
+        //Cv.FloodFill(regionImgHSV, seedPoint, new CvScalar(0, 0, 0), new CvScalar(paramHueRangeLow, 4, 4), new CvScalar(paramHueRangeLow, 4, 4), out cp, FloodFillFlag.MaskOnly, maskImg);
+        Cv.FloodFill(regionImgHSV, seedPoint, new CvScalar(0, 0, 0), new CvScalar(paramHueRangeLow, 4, 4), new CvScalar(paramHueRangeLow, 4, 4), out cp, FloodFillFlag.MaskOnly , maskImg);
         CvMat realMask;
         realMask = maskImg.GetSubArr(out realMask, new CvRect(1, 1, BuildingImg.Width, BuildingImg.Height));
         pRawRegionImgRGBA.Copy(BuildingImg, realMask);
@@ -199,8 +206,8 @@ public class ObjectShape2DBuilder
     }
     public void Build()
     {
-        BuildFloodFill();
-        return;
+       // BuildFloodFill();
+        //return;
         CvPoint probePoint;
         CvMat tempHSVImg;
 
@@ -250,7 +257,7 @@ public class ObjectShape2DBuilder
 
                     if (!dominantHSaturated)
                     {
-                        if (Math.Abs(hsvColor.Val0 - sample.Val0) < paramHueRange)
+                        if (Math.Abs(hsvColor.Val0 - sample.Val0) < paramHueRangeLow)
                         {
                             BuildingImg.Set2D(curY, curX, pRawRegionImgRGBA.Get2D(curY, curX));
                             BuilderSeedPointPool.Add(new CvPoint(curX, curY));
@@ -274,7 +281,7 @@ public class ObjectShape2DBuilder
                     else
                     {
                         // Debug.Log("Refcolor" + dominantH + "\t nearColor" + sample.Val0);
-                        if (sample.Val1 > paramMinSaturation && Math.Abs(dominantH - sample.Val0) < paramHueRange)
+                        if (sample.Val1 > paramMinSaturation && Math.Abs(dominantH - sample.Val0) < paramHueRangeLow)
                         {
                             BuildingImg.Set2D(curY, curX, pRawRegionImgRGBA.Get2D(curY, curX));
                             BuilderSeedPointPool.Add(new CvPoint(curX, curY));

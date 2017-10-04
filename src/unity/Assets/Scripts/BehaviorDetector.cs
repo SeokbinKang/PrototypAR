@@ -32,6 +32,10 @@ public class BehaviorDetector : MonoBehaviour {
         debugBehaviorList();
 
     }
+    public void reset(){
+        mBehaviorList.Clear();
+    }
+
     public List<UserDescriptionInfo> exportBehaviorList()
     {
         
@@ -201,8 +205,7 @@ public class BehaviorDetector : MonoBehaviour {
         if (bvt==BehaviorVariableType.Numeric)
         {
          
-            BVImg.Threshold(BVImg, 80, 255, ThresholdType.Binary);
-            
+            BVImg.Threshold(BVImg, 110, 255, ThresholdType.Binary);            
             ret = (int)CVProc.measureHorizontalLevelLeftAlign(BVImg);
             if (ret < 8) ret = -1;
         }

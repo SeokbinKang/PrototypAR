@@ -26,6 +26,51 @@ public class FBSModel {
     private ShapeEvalType[] ShapeEvaluationMapTable;
     private StrEntityEvalType[] StrEntityEvalMapTalbe;
     public static FBSModel activeFBSInstance = null;
+
+
+    public List<FeedbackToken> EvaluatePrototype(prototypeDef userPrototype)
+    {
+        //This on returns most impending feedback. So the evaluation process halts when an issue is deteced
+        List<FeedbackToken> ret = new List<FeedbackToken>();
+        List<FeedbackToken> feedbacklist;
+        //phase 3 check existence
+         feedbacklist = EvaluateStrExistence(userPrototype);
+
+           ret.AddRange(feedbacklist);  //DEBUG
+
+        //        debugFeedback(feedbacklist);        
+
+        //       feedbacklist = EvaluateStrShape(userPrototype);
+        // ret.AddRange(feedbacklist);
+
+        //     feedbacklist = EvaluateStrPosition(userPrototype);
+        //    ret.AddRange(feedbacklist);
+
+         feedbacklist = EvaluateStrConnectivity(userPrototype);
+            ret.AddRange(feedbacklist);
+
+     //     feedbacklist = EvaluateBehavior(userPrototype);
+     //     ret.AddRange(feedbacklist);
+
+     //   feedbacklist = EvaluateBehaviorVariables(userPrototype);
+     //   ret.AddRange(feedbacklist);
+        //phase 1 check shape
+
+
+        //phase 2 check position
+
+
+
+        //phase 4 check connectivity
+
+        //phase 5 check behavior mapping
+
+        //phase 6 check behavior variable
+        //userPrototype.mModels[ModelCategory.Lung]
+        //if(feedbacklist!=null) ret.AddRange(feedbacklist);
+        //   debugFeedback(feedbacklist);
+        return ret;
+    }
     public FBSModel()
     {
         EntityCounter = 0;
@@ -107,49 +152,6 @@ public class FBSModel {
         return 1;
     }
 
-    public List<FeedbackToken> EvaluatePrototype(prototypeDef userPrototype)
-    {
-        //This on returns most impending feedback. So the evaluation process halts when an issue is deteced
-        List<FeedbackToken> ret = new List<FeedbackToken>();
-        List<FeedbackToken> feedbacklist;
-        //phase 3 check existence
-       // feedbacklist = EvaluateStrExistence(userPrototype);
-       
-     //   ret.AddRange(feedbacklist);  //DEBUG
-        
-        //        debugFeedback(feedbacklist);        
-
-       //       feedbacklist = EvaluateStrShape(userPrototype);
-       // ret.AddRange(feedbacklist);
-
-        //     feedbacklist = EvaluateStrPosition(userPrototype);
-        //    ret.AddRange(feedbacklist);
-
-       // feedbacklist = EvaluateStrConnectivity(userPrototype);
-        //    ret.AddRange(feedbacklist);
-
-     //  feedbacklist = EvaluateBehavior(userPrototype);
-      //  ret.AddRange(feedbacklist);
-
-         feedbacklist = EvaluateBehaviorVariables(userPrototype);
-         ret.AddRange(feedbacklist);
-        //phase 1 check shape
-
-
-        //phase 2 check position
-
-
-
-        //phase 4 check connectivity
-
-        //phase 5 check behavior mapping
-
-        //phase 6 check behavior variable
-        //userPrototype.mModels[ModelCategory.Lung]
-        //if(feedbacklist!=null) ret.AddRange(feedbacklist);
-     //   debugFeedback(feedbacklist);
-        return ret;
-    }
     private void debugFeedback(List<FeedbackToken> feedbacklist)
     {
         Debug.Log("Total of Feedback Generated : " + feedbacklist.Count);
@@ -161,7 +163,7 @@ public class FBSModel {
     public List<FeedbackToken> EvaluateBehaviorVariables(prototypeDef userPrototype)
     {
         List<FeedbackToken> ret = new List<FeedbackToken>();
-        Debug.Log("Evaluating BVs....");
+        Debug.Log("Evaluating BVs....1");
         if (userPrototype.mBehaviors == null) return ret;
         Debug.Log("Evaluating BVs....2");
         foreach(var bdesign in userPrototype.mBehaviors)
@@ -226,6 +228,7 @@ public class FBSModel {
                             if(str.v5_BehaviorEntity.behaviorType!= modelInstance.behaviors[0].behaviorType)
                             {
                                 //incorrect behavior
+                                Debug.Log("[DEBUG] Incorrect Behavior Label: "+Content.getBaviorLabelText(str.v5_BehaviorEntity.behaviorType));
                                 //check if there's another str that has wrong behavior other than this behavior
                                 ModelDef candidateModel = findUnmappedStrModelforBehavior(userPrototype, modelInstance.behaviors[0].behaviorType);
                                 if(candidateModel==null)
