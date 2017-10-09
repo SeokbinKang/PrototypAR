@@ -210,6 +210,7 @@
     <Compile Include="Assets\Scripts\ConfigObject.cs" />
     <Compile Include="Assets\Scripts\Content.cs" />
     <Compile Include="Assets\Scripts\Content2\Content2_AppBikeSim.cs" />
+    <Compile Include="Assets\Scripts\Content2\FinishStats.cs" />
     <Compile Include="Assets\Scripts\Content2\SimulateGameBike.cs" />
     <Compile Include="Assets\Scripts\Content2\testrigidbody.cs" />
     <Compile Include="Assets\Scripts\CustomAnimation\CameraControl.cs" />
