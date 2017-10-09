@@ -98,11 +98,11 @@ public class ApplicationControl : MonoBehaviour
         {
             Reset();         
         }
-        if (Input.GetButtonUp("Fire2"))
+      /*  if (Input.GetButtonUp("Fire2"))
         {
             this.GetComponent<CameraControl>().MainCameraFoV = 60;
             SceneObjectManager.getActiveInstance().adjustAlphaSpriteRenderInstant(PreLoadedObjects.Content1_BGFull, 255);
-        }
+        }*/
         if (Input.GetButtonUp("Fire3"))
         {
             this.GetComponent<CameraControl>().MainCameraFoV = 120;
