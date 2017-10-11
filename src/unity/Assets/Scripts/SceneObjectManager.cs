@@ -184,6 +184,7 @@ public class SceneObjectManager : MonoBehaviour {
         GameObject obj = SceneObjectPool[objType];
         if (obj == null) return;
         obj.SetActive(true);
+        if (Camera.main == null) return;
         Vector3 worldpos = Camera.main.ScreenToWorldPoint(new Vector3(screenPosition.x *Screen.width, screenPosition.y*Screen.height, 1));
         obj.transform.position = worldpos;
        
@@ -210,6 +211,10 @@ public class SceneObjectManager : MonoBehaviour {
         
         return ret;
     }
+    public static Vector3 ScreentoWorld(Vector3 scrrenp)
+    {
+        return RegiontoScreen(ScreentoRegion(scrrenp));
+    }
     public static Vector3 RegiontoScreen(CvPoint p)
     {
         CvRect regionBox = GlobalRepo.GetRegionBox(false);
@@ -224,6 +229,22 @@ public class SceneObjectManager : MonoBehaviour {
         Vector3 ret = new Vector3(p.X * Screen.width / regionBox.Width, Screen.height - p.Y * Screen.height / regionBox.Height, 1);
 
         return Camera.main.ScreenToWorldPoint(ret);
+    }
+    public static void MeasureObjectInfoinWorldCoord(GameObject go, ref Vector3 center, ref Vector3 size)
+    {
+        if (go == null) return;
+        SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
+        if (sr == null) return;
+
+        center = sr.bounds.center;        
+
+        Vector3 minp = sr.bounds.min;
+        Vector3 maxp = sr.bounds.max;        
+        minp.z = sr.bounds.center.z;
+        maxp.z = sr.bounds.center.z;   
+        size = maxp - minp;
+
+        return;
     }
     public static void MeasureObjectInfoinScreenCoord(GameObject go, ref Vector3 center, ref Vector3 size)
     {        

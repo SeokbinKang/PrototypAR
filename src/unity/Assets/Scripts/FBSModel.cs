@@ -43,11 +43,11 @@ public class FBSModel {
         //       feedbacklist = EvaluateStrShape(userPrototype);
         // ret.AddRange(feedbacklist);
 
-        //     feedbacklist = EvaluateStrPosition(userPrototype);
-        //    ret.AddRange(feedbacklist);
+         feedbacklist = EvaluateStrPosition(userPrototype);
+    //     ret.AddRange(feedbacklist);
 
          feedbacklist = EvaluateStrConnectivity(userPrototype);
-            ret.AddRange(feedbacklist);
+         ret.AddRange(feedbacklist);
 
      //     feedbacklist = EvaluateBehavior(userPrototype);
      //     ret.AddRange(feedbacklist);
@@ -98,7 +98,7 @@ public class FBSModel {
 
 
         ShapeEvaluationMapTable[(int)ModelCategory.FrontChainring] = ShapeEvalType.ActualShape;
-        ShapeEvaluationMapTable[(int)ModelCategory.FreeWheel] = ShapeEvalType.ActualShape;
+        ShapeEvaluationMapTable[(int)ModelCategory.RearSprocket] = ShapeEvalType.ActualShape;
         ShapeEvaluationMapTable[(int)ModelCategory.Chain] = ShapeEvalType.DoNot;
         ShapeEvaluationMapTable[(int)ModelCategory.PedalCrank] = ShapeEvalType.DoNot;
 
@@ -117,7 +117,7 @@ public class FBSModel {
 
 
         StrEntityEvalMapTalbe[(int)ModelCategory.FrontChainring] = StrEntityEvalType.OneonOne;
-        StrEntityEvalMapTalbe[(int)ModelCategory.FreeWheel] = StrEntityEvalType.OneonOne;
+        StrEntityEvalMapTalbe[(int)ModelCategory.RearSprocket] = StrEntityEvalType.OneonOne;
         StrEntityEvalMapTalbe[(int)ModelCategory.Chain] = StrEntityEvalType.OneonOne;
         StrEntityEvalMapTalbe[(int)ModelCategory.PedalCrank] = StrEntityEvalType.OneonOne;
 
@@ -289,8 +289,7 @@ public class FBSModel {
 
         }
         return ret;
-    }
-    
+    }    
    
     public List<FeedbackToken> EvaluateStrConnectivity(prototypeDef userPrototype)
     {
@@ -343,7 +342,6 @@ public class FBSModel {
 
         return ret;
     }
-
     public List<FeedbackToken> EvaluateStrPosition(prototypeDef userPrototype)
     {
         List<FeedbackToken> ret = new List<FeedbackToken>(); ;
@@ -409,6 +407,51 @@ public class FBSModel {
       
 
         return ret;
+    }
+
+
+    public VirtualPosType getModelsVirtualPosType(ModelDef model)
+    {
+        VirtualPosType ret = VirtualPosType.none;
+        double minDistance = float.MaxValue;
+        double dist;
+        StructureEntity closestStructure = null;
+        foreach (var modelItem in this.mStructureList)
+        {
+            if (model.modelType != modelItem.v1_ModelType) continue;
+            CvPoint diff = modelItem.v3_position.getRegionPosition() - model.centeroidAbsolute;
+            dist = Math.Sqrt(diff.X * diff.X + diff.Y * diff.Y);
+            if (dist < minDistance)
+            {
+                closestStructure = modelItem;
+                minDistance = dist;
+            }
+        }
+        if (closestStructure == null) return ret;
+        return closestStructure.v6_VirtualPositionType;
+    }
+    public Vector3 getClosestModelsTruthScreenPos(ModelDef model)
+    {
+        Vector3 ret = new Vector3();        
+        double minDistance = float.MaxValue;
+        double dist;
+        StructureEntity closestStructure = null;
+        foreach (var modelItem in this.mStructureList)
+        {
+            if (model.modelType != modelItem.v1_ModelType) continue;            
+            CvPoint diff = modelItem.v3_position.getRegionPosition() - model.centeroidAbsolute;
+            dist = Math.Sqrt(diff.X * diff.X + diff.Y * diff.Y);
+            if (dist < minDistance)
+            {
+                closestStructure = modelItem;
+                minDistance = dist;
+            }
+        }
+        if (closestStructure == null) return ret;
+        ret = closestStructure.v3_position.getScreenPosition();
+
+        return ret;
+
     }
     public StructurePosVariable getClosestTruthModelPos(ModelDef model)
     {
@@ -633,6 +676,7 @@ public class StructureEntity
     public StructurePosVariable v3_position = null;
     public int v4_StrcutureEntityIndex;
     public BehaviorEntity v5_BehaviorEntity = null;
+    public VirtualPosType v6_VirtualPositionType;
     public StructureEntity(ModelCategory mCat, StructurePosVariable pos)
     {
         this.v1_ModelType = mCat;
@@ -721,4 +765,11 @@ public class StructurePosVariable
     }
   
 
+}
+
+public enum VirtualPosType
+{
+    none,
+    SyncwithPhysical,
+    Stableasfixed
 }

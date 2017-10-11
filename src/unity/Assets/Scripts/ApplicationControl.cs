@@ -22,7 +22,9 @@ public class ApplicationControl : MonoBehaviour
     public Vector2 RegionboxLefttop=new Vector2(0,0);
     public Vector2 RegionboxRightbot = new Vector2(0, 0);    
     public int ViewScale=2;
+    public int ConfigLearningFrames=1;
 
+    
 
     public GameObject ARDetector = null;
     private List<CvPoint> regionPoints;
@@ -92,7 +94,7 @@ public class ApplicationControl : MonoBehaviour
         if (Input.GetButtonUp("Fire1"))
         {
          
-            GlobalRepo.setLearningCount(6);
+            GlobalRepo.setLearningCount(ConfigLearningFrames);
         }
         if (Input.GetButtonUp("Cancel"))
         {

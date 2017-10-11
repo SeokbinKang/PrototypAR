@@ -15,12 +15,13 @@ public class ObjectShape2DBuilder
 {
     //object builder
     private List<CvPoint> BuilderSeedPointPool = null;
-    public CvMat BuildingImg = null;
-    public CvMat maskImg = null;
+    public CvMat BuildingImg = null;    
     public Point[] Fullcontour = null;
     public Point[] ReducedContour = null;
     public Point center;
     public CvRect bBox;
+
+    private CvMat maskImg = null;
     private float dominantH;
     private float dominantCount;
     private bool dominantHSaturated;
@@ -29,8 +30,8 @@ public class ObjectShape2DBuilder
     private float mbaseHueVal;
 
     //param
-    private static int paramHueRangeLow = 2;
-    private static int paramHueRangeHigh = 10;
+    private static int paramHueRangeLow = 4;
+    private static int paramHueRangeHigh = 4;
     private static int paramHueSaturationSampleCount =100;
     private static int paramWinSize = 3;
     private static int paramPixelsperIteration = 800;
@@ -57,6 +58,59 @@ public class ObjectShape2DBuilder
         debugbuilderID = globalbuilderID++;
         forceConvex = forceConvex_;
         mbaseHueVal = baseHue;
+        BuildingFinished = false;
+    }
+    //create pre-built builder
+    public ObjectShape2DBuilder(Point[] pfullContour, Point pcenter, CvRect pBox, bool forceConvex_)
+    {
+        CvMat regionImgHSV = GlobalRepo.GetRepo(RepoDataType.dRawRegionHSV);
+        CvMat pRawRegionImgRGBA = GlobalRepo.GetRepo(RepoDataType.dRawRegionRGBA);
+        BuilderSeedPointPool = new List<CvPoint>();
+        
+        if (BuildingImg == null || BuildingImg.GetSize() != regionImgHSV.GetSize())
+        {
+            BuildingImg = new CvMat(regionImgHSV.Rows, regionImgHSV.Cols, MatrixType.U8C4);
+            
+        }
+        BuildingImg.Zero();
+        if (maskImg == null || maskImg.GetSize() != regionImgHSV.GetSize())
+        {
+            maskImg = new CvMat(regionImgHSV.Rows , regionImgHSV.Cols , MatrixType.U8C1);
+            
+        }
+        maskImg.Zero();
+        if(pfullContour==null)
+        {
+            Debug.Log("[ERROR] blob contour is NULL! ");
+            return;
+        }
+        debugbuilderID = globalbuilderID++;
+        CvMemStorage storage = new CvMemStorage();
+        CvPoint[] fullContour_conv = new CvPoint[pfullContour.Length];
+        for (int i = 0; i < pfullContour.Length; i++)
+            fullContour_conv[i] = pfullContour[i];
+        CvSeq<CvPoint> FullContour_seq = CvSeq<CvPoint>.FromArray(fullContour_conv, SeqType.Contour, storage);
+        maskImg.DrawContours(FullContour_seq, new CvScalar(255, 255, 255, 255), new CvScalar(255, 255, 255, 255), 0);
+        this.center = pcenter;
+        this.bBox = pBox;        
+        pRawRegionImgRGBA.Copy(BuildingImg, maskImg);
+        this.Fullcontour = pfullContour;
+        this.ReducedContour = Fullcontour;
+        forceConvex = forceConvex_;
+        if (this.forceConvex)
+        {
+            Point[] ReducedContour_convex;
+            ReducedContour_convex = Cv2.ConvexHull(this.ReducedContour);
+            //    this.ReducedContour = ReducedContour_convex;
+            Moments m;
+            m = Cv2.Moments(this.ReducedContour);
+            this.center.X = (int)(m.M10 / m.M00);
+            this.center.Y = (int)(m.M01 / m.M00);
+        }
+        dominantHSaturated = true;
+        BuildingFinished = true;
+        if (GlobalRepo.Setting_ShowDebugImgs()) debugBuildingimg();
+
     }
     private List<CvPoint> refineSeedPoint(CvPoint seed, float baseHue)
     {
@@ -96,6 +150,62 @@ public class ObjectShape2DBuilder
             Debug.Log("[DEBUG-SHAPEBUILDER] #" + debugbuilderID + "   hue:" + dominantH);
         }
         Cv.WaitKey(1);
+    }
+    public void BuildShapeFastFloodFill()
+    {
+        //use Cv.floodfill 
+        //1. determine the seeding area's Hue
+        //2. floodfill only with mask output
+        CvMat regionImgHSV = GlobalRepo.GetRepo(RepoDataType.dRawRegionHSV);
+        CvMat pRawRegionImgRGBA = GlobalRepo.GetRepo(RepoDataType.dRawRegionRGBA);
+        if (BuildingImg == null || BuildingImg.GetSize() != regionImgHSV.GetSize())
+        {
+            BuildingImg = new CvMat(regionImgHSV.Rows, regionImgHSV.Cols, MatrixType.U8C4);
+            BuildingImg.Zero();
+        }
+        if (maskImg == null || maskImg.GetSize() != regionImgHSV.GetSize())
+        {
+            maskImg = new CvMat(regionImgHSV.Rows + 2, regionImgHSV.Cols + 2, MatrixType.U8C1);
+            maskImg.Zero();
+        }
+        dominantCount = 0;
+        if (BuilderSeedPointPool.Count <= 0) return;
+        CvPoint seedPoint = BuilderSeedPointPool[0];
+       
+        dominantHSaturated = true;
+        CvConnectedComp cp = new CvConnectedComp();
+        //Cv.FloodFill(regionImgHSV, seedPoint, new CvScalar(0, 0, 0), new CvScalar(paramHueRangeLow, 4, 4), new CvScalar(paramHueRangeLow, 4, 4), out cp, FloodFillFlag.MaskOnly, maskImg);
+        Cv.FloodFill(regionImgHSV, seedPoint, new CvScalar(0, 0, 0), new CvScalar(paramHueRangeLow, 10, 10), new CvScalar(paramHueRangeLow, 10, 10), out cp, FloodFillFlag.MaskOnly | FloodFillFlag.FixedRange, maskImg);         
+        CvMat realMask;
+        realMask = maskImg.GetSubArr(out realMask, new CvRect(1, 1, BuildingImg.Width, BuildingImg.Height));
+        pRawRegionImgRGBA.Copy(BuildingImg, realMask);
+
+        if (GlobalRepo.Setting_ShowDebugImgs()) debugBuildingimg();
+
+        this.Fullcontour = BlobAnalysis.ExtractContour(this.BuildingImg, ContourChain.ApproxNone); //full contour for connectivity check
+    
+        if(Fullcontour==null)
+        {
+            Debug.Log("[DEBUG] FastFloodFill failed");
+            this.bBox = new CvRect();
+            this.center = new Point(0, 0);
+            this.ReducedContour = null;
+        }
+        this.bBox = Cv2.BoundingRect(Fullcontour);
+        Moments m = Cv2.Moments(this.Fullcontour);
+        this.center.X = (int)(m.M10 / m.M00);
+        this.center.Y = (int)(m.M01 / m.M00);
+
+        this.ReducedContour = BlobAnalysis.ExtractContour(this.BuildingImg, ContourChain.ApproxSimple);
+        if (this.forceConvex)
+        {
+            Point[] ReducedContour_convex;
+            ReducedContour_convex = Cv2.ConvexHull(this.ReducedContour);
+            //    this.ReducedContour = ReducedContour_convex;
+            m = Cv2.Moments(this.ReducedContour);
+            this.center.X = (int)(m.M10 / m.M00);
+            this.center.Y = (int)(m.M01 / m.M00);
+        }
     }
     public void BuildFloodFill()
     {
@@ -206,8 +316,8 @@ public class ObjectShape2DBuilder
     }
     public void Build()
     {
-       // BuildFloodFill();
-        //return;
+        BuildShapeFastFloodFill();
+        return;
         CvPoint probePoint;
         CvMat tempHSVImg;
 

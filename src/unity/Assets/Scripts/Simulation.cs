@@ -164,7 +164,8 @@ public class Simulation : MonoBehaviour {
             Content.ExtractSimulationParameters(userPrototypeInstance, mDesignContent, ref sp);
             sp.C2_pedallingRate = 30;  //test
                                        //all the animation's priods are set to 6 sec. BR = 10
-                                       
+            sp.C2_rearGearSize =  Mathf.Sqrt((float)userPrototypeInstance.getModelDefbyType(ModelCategory.RearSprocket).AreaSize);
+            sp.C2_frontGearSize =  Mathf.Sqrt((float)userPrototypeInstance.getModelDefbyType(ModelCategory.FrontChainring).AreaSize);
             float animationSpeedParam = sp.C2_pedallingRate / 12.0f;
             //1 = 1rotation / 5 sec            
             simState.timeElapsed = 0;
@@ -238,10 +239,13 @@ public class Simulation : MonoBehaviour {
             }
 
         InactiveGameObjectDict[ModelCategory.PedalCrank].transform.position = new Vector3(6, 2, 1);
-        InactiveGameObjectDict[ModelCategory.FreeWheel].transform.position = new Vector3(6, 2, 1);
-        SetActiveRecursively(InactiveGameObjectDict[ModelCategory.FreeWheel], true);
+        InactiveGameObjectDict[ModelCategory.RearSprocket].transform.position = new Vector3(6, 2, 1);        
         InactiveGameObjectDict[ModelCategory.FrontChainring].transform.position = new Vector3(6, 2, 1);
+        InactiveGameObjectDict[ModelCategory.RearSprocket].transform.localScale= new Vector3(0.1f, 0.1f, 1);
+        InactiveGameObjectDict[ModelCategory.FrontChainring].transform.localScale = new Vector3(0.1f, 0.1f, 1);
+        InactiveGameObjectDict[ModelCategory.PedalCrank].transform.localScale = new Vector3(0.1f, 0.1f, 1);
         SetActiveRecursively(InactiveGameObjectDict[ModelCategory.FrontChainring], true);
+        SetActiveRecursively(InactiveGameObjectDict[ModelCategory.RearSprocket], true);
 
 
     }
@@ -510,8 +514,16 @@ public class Simulation : MonoBehaviour {
             if (chain_go == null) return;
             Simulation_Artifact_Chain chain_sim = chain_go.GetComponent<Simulation_Artifact_Chain>();
             if (chain_sim == null) return;
-            chain_sim.InitChain(model, userproto);
-            SetSpriteAlphato(chain_go, 0f);
+            if(FBSModel.activeFBSInstance.getModelsVirtualPosType(model)==VirtualPosType.SyncwithPhysical)
+                chain_sim.InitChain(model, userproto);
+            else if (FBSModel.activeFBSInstance.getModelsVirtualPosType(model) == VirtualPosType.Stableasfixed)
+            {
+                //connect chain to pre-loaded gears
+                GameObject frontgear = InactiveGameObjectDict[ModelCategory.FrontChainring];
+                GameObject reargear = InactiveGameObjectDict[ModelCategory.RearSprocket];
+                chain_sim.InitChain(model, frontgear,reargear);
+            }
+                SetSpriteAlphato(chain_go, 0f);
             SimulationActiveObject.Add(chain_go);
 
 
@@ -636,16 +648,16 @@ public class Simulation : MonoBehaviour {
             userobjPivotinScreen.x = connScreenPoint.x - pivotChangeScreenCoord.x;
             userobjPivotinScreen.y = connScreenPoint.y - pivotChangeScreenCoord.y;
             userobjPivotinScreen.z = 1;
-
-
         }
         else
         {
-
-
             userobjPivotinScreen.x = userObjBoxLT.x + userobjSize.x * spritePivot.x;
             userobjPivotinScreen.y = userObjBoxRB.y + userobjSize.y * spritePivot.y;
             userobjPivotinScreen.z = 1;
+        }
+        if (FBSModel.activeFBSInstance.getModelsVirtualPosType(model) == VirtualPosType.Stableasfixed)
+        {
+            userobjPivotinScreen = FBSModel.activeFBSInstance.getClosestModelsTruthScreenPos(model);
         }
 
         Vector3 scale = go.transform.localScale;
@@ -753,7 +765,10 @@ public class Simulation : MonoBehaviour {
             userobjPivotinScreen.y = userObjBoxRB.y + userobjSize.y * spritePivot.y;
             userobjPivotinScreen.z = 1;
         }
-       
+        if (FBSModel.activeFBSInstance.getModelsVirtualPosType(model) == VirtualPosType.Stableasfixed)
+        {
+            userobjPivotinScreen = FBSModel.activeFBSInstance.getClosestModelsTruthScreenPos(model);
+        }
         Vector3 scale = go.transform.localScale;
      //   Debug.Log("[DEBUG SIMULATION] BEFORE scale " + sc + "\t" + scaleRatio + "\t" + scale);
         scale.x = scale.x  * scaleRatio.x;
@@ -903,7 +918,7 @@ public class Simulation : MonoBehaviour {
         InactiveGameObjectDict[ModelCategory.AirParticleRight] = GameObject.Find("c1_airPRight");
         
             
-        InactiveGameObjectDict[ModelCategory.FreeWheel] = GameObject.Find("c2_FreeWheel");
+        InactiveGameObjectDict[ModelCategory.RearSprocket] = GameObject.Find("c2_FreeWheel");
         InactiveGameObjectDict[ModelCategory.FrontChainring] = GameObject.Find("c2_FrontChainring");
         InactiveGameObjectDict[ModelCategory.UpperChain] = GameObject.Find("c2_UpperChain");
         InactiveGameObjectDict[ModelCategory.LowerChain] = GameObject.Find("c2_LowerChain");
@@ -924,7 +939,7 @@ public class Simulation : MonoBehaviour {
         SimulationTypeDict[ModelCategory.Diaphragm] = SimulationObjectType.LoadStaticModelAdaptAspectNoConnect;
         SimulationTypeDict[ModelCategory.Airways] = SimulationObjectType.TextureTransfer;
 
-        SimulationTypeDict[ModelCategory.FreeWheel] = SimulationObjectType.LoadStaticModelMultiChild;
+        SimulationTypeDict[ModelCategory.RearSprocket] = SimulationObjectType.LoadStaticModelMultiChild;
         SimulationTypeDict[ModelCategory.FrontChainring] = SimulationObjectType.LoadStaticModelMultiChild;
         SimulationTypeDict[ModelCategory.UpperChain] = SimulationObjectType.LoadCustomArtifact;
         SimulationTypeDict[ModelCategory.LowerChain] = SimulationObjectType.LoadCustomArtifact;

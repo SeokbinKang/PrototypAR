@@ -8,13 +8,13 @@ public class Content2_AppBikeSim : MonoBehaviour {
     public GameObject part_frontGear;
     public GameObject part_rearGear;
     public GameObject part_pedal;
-
+    public Vector3 minitialGearScale;
     public float config_baseXVelocityToAngularSpeed; //1 to rotation rate of the rearwheel and gear    
-    public float referenceGearSize = 200;    
+    public float referenceGearSize = 430;    
 
     public float mFrontGearSize;
     public float mRearGearSize;
-    private Vector3 minitialGearScale;
+    
     // Use this for initialization
     void Start () {
         if (part_frontWheel == null || part_rearGear == null || part_frontGear == null || part_rearGear == null)
@@ -22,7 +22,8 @@ public class Content2_AppBikeSim : MonoBehaviour {
             Debug.Log("[ERROR] the bike object's sub-objects are null");
             return;
         }
-        minitialGearScale = part_frontGear.transform.localScale;
+       
+
     }
 	
 	// Update is called once per frame
@@ -74,13 +75,14 @@ public class Content2_AppBikeSim : MonoBehaviour {
             Debug.Log("[ERROR] the bike object's sub-objects are null");
             return;
         }
+        Debug.Log("Set gear: " + front + " : " + rear);
         mFrontGearSize = front;
         mRearGearSize = rear;
         Vector3 newScale = minitialGearScale;
         newScale.x = newScale.x * (front / referenceGearSize);
         newScale.y = newScale.y * (front / referenceGearSize);
         part_frontGear.transform.localScale = newScale;
-
+        Debug.Log("Set gear: " + newScale.x+" "+newScale.y);
         newScale = minitialGearScale;
         newScale.x = newScale.x * (rear / referenceGearSize);
         newScale.y = newScale.y * (rear / referenceGearSize);

@@ -88,7 +88,7 @@ public class GlobalRepo
     public static CvScalar GetModelLineColor(ModelCategory type)
     {
         if (type == ModelCategory.LungLeft || type == ModelCategory.LungRight) return new CvScalar(114, 143, 17, 255);
-        if (type == ModelCategory.FreeWheel ) return new CvScalar(146, 132, 0, 255);
+        if (type == ModelCategory.RearSprocket ) return new CvScalar(146, 132, 0, 255);
 
         return new Scalar(0, 0, 0, 255);
     }
@@ -120,7 +120,7 @@ public class GlobalRepo
         asset2DDict.Add(ModelCategory.Airways, new Asset2DTexture("Assets/2DAnimation/content_1/trachea/trachea_v1.png"));
 
         //content 2
-        asset2DDict.Add(ModelCategory.FreeWheel, new Asset2DTexture("Assets/2DAnimation/content_2/chainring/charing_shapebase.png"));
+        asset2DDict.Add(ModelCategory.RearSprocket, new Asset2DTexture("Assets/2DAnimation/content_2/chainring/charing_shapebase.png"));
         asset2DDict.Add(ModelCategory.FrontChainring, new Asset2DTexture("Assets/2DAnimation/content_2/chainring/charing_shapebase.png"));
 
 

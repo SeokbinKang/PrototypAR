@@ -88,9 +88,6 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Assets\KinectScripts\SharpZipLib\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
     <Reference Include="OpenCvSharp.Blob">
       <HintPath>Assets\OpenCV\OpenCvSharp.Blob.dll</HintPath>
     </Reference>
@@ -149,7 +146,6 @@
     <None Include="Assets\BLINDED_AM_ME package\Shaders\DiffuseOultine.shader" />
     <None Include="Assets\BLINDED_AM_ME package\Shaders\Portal.shader" />
     <None Include="Assets\BLINDED_AM_ME package\Shaders\burnThrough.shader" />
-    <None Include="Assets\KinectDemos\RecorderDemo\Resources\PlayerGrammar.grxml.txt" />
     <None Include="Assets\OpenCV\OpenCvSharp.Blob.XML" />
     <None Include="Assets\OpenCV\OpenCvSharp.CPlusPlus.XML" />
     <None Include="Assets\OpenCV\OpenCvSharp.XML" />

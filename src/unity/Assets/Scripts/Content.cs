@@ -21,7 +21,7 @@ public class Content {
         if (mc == ModelCategory.LungRight) return "lungRight";
         if (mc == ModelCategory.Stomach) return "stomach";
         if (mc == ModelCategory.FrontChainring) return "FrontChainring";
-        if (mc == ModelCategory.FreeWheel) return "FreeWheel";
+        if (mc == ModelCategory.RearSprocket) return "FreeWheel";
         if (mc == ModelCategory.Chain) return "Chain";
         if (mc == ModelCategory.UpperChain) return "UpperChain";
         if (mc == ModelCategory.LowerChain) return "LowerChain";
@@ -127,7 +127,7 @@ public class Content {
         }
         if (FBSModel.ContentType == DesignContent.BicycleGearSystem)
         {
-            ret[0] = ModelCategory.FreeWheel;
+            ret[0] = ModelCategory.RearSprocket;
             ret[1] = ModelCategory.FrontChainring;
             ret[2] = ModelCategory.Chain;
             ret[3] = ModelCategory.PedalCrank;
@@ -202,8 +202,10 @@ public class SimulationParam
     public int C1_breathingAmountLevel;
 
     public int C2_pedallingRate;
-    public int C2_GearRatio;
+    public float C2_GearRatio;
     public int C2_Torque;
+    public float C2_frontGearSize;
+    public float C2_rearGearSize;
 }
 public enum DesignContent
 {
@@ -272,7 +274,7 @@ public enum ModelCategory
     LungLeft,
     LungRight,    
     FrontChainring,
-    FreeWheel,
+    RearSprocket,
     Chain,
     UpperChain,
     LowerChain,

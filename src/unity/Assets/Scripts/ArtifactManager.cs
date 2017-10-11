@@ -428,6 +428,13 @@ public class ModelDef
         if (this.modelType == ModelCategory.FrontChainring) convex = true;
         mShapeBuilder = new ObjectShape2DBuilder(this.centeroidAbsolute,this.mBaseHueValue,convex);
     }
+    public void initShapeBuilder(Point[] fullcontour, CvRect bBox, Point center)
+    {
+        bool convex = false;
+        if (this.modelType == ModelCategory.FrontChainring) convex = true;
+        mShapeBuilder = new ObjectShape2DBuilder(fullcontour, center, bBox, convex);
+
+    }
     
     public bool ShapeBuildTick()
     {

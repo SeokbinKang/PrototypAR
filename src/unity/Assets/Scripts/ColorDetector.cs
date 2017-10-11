@@ -19,7 +19,7 @@ public class ColorDetector : MonoBehaviour {
     public int scaleFactor = 1;
     public bool ShowDebugImage = true;
     public CvMat rawcolorImage = null;
-    
+    public float hueFilterThreshold = 4.0f;
     private CvMat colorImg=null;
     private CvMat debugImg = null;
     private CvMat regionImgHSV = null;
@@ -253,21 +253,13 @@ public class ColorDetector : MonoBehaviour {
 
             CvMat regionImgClone = GlobalRepo.GetRepo(RepoDataType.dRawRegionGray);
         {
-            SignDetector.ConnectivityandBehaviorRecognition(regionImgClone, ref newPrototype, ref markerList, ref behaviorList, ref BVList,ref ConnList);
-            
+            SignDetector.ConnectivityandBehaviorRecognition(regionImgClone, ref newPrototype, ref markerList, ref behaviorList, ref BVList,ref ConnList);            
             this.GetComponentInParent<BehaviorDetector>().recognizeBehaviorVariables(m.pConceptModelManager.pFBSModel);
             behaviorList = this.GetComponentInParent<BehaviorDetector>().exportBehaviorList();
-           // SignDetector.ConnectivityandBehaviorRecognition(avgRegionImg, ref newPrototype, ref markerList, ref textlabelList, ref BVList, ref ConnList);
-            // SignDetector.SignandLabelAnalysis(avgRegionImg, ref markerList, ref textlabelList);
             //   debugSignMarkers(markerList);
             debugTextLabels(behaviorList);
             //function label
-        }
-        
-     /*   foreach (var t in markerList)
-        {
-            newPrototype.OLDaddGraphicalBehavior(t);
-        }*/
+        }  
         foreach (var t in behaviorList)
         {
             newPrototype.addBehavior(t);
@@ -419,8 +411,9 @@ public class ColorDetector : MonoBehaviour {
             
             for(int j = 0; j < validColorN; j++)
             {
+                //if (in_.Val1 < canvasMaxSaturation ||                    Mathf.Abs((float)in_.Val0 - mCP.mProfileList[j].HueClass1) > mCP.mProfileList[j].classficationThreshold)
                 if (in_.Val1 < canvasMaxSaturation ||
-                    Mathf.Abs((float)in_.Val0 - mCP.mProfileList[j].HueClass1) > mCP.mProfileList[j].classficationThreshold)
+                    Mathf.Abs((float)in_.Val0 - mCP.mProfileList[j].HueClass1) > hueFilterThreshold)
                 {
                     tmpImage[j].Set1D(i, 0);
                 }
@@ -431,8 +424,8 @@ public class ColorDetector : MonoBehaviour {
         for (int j = 0; j < validColorN; j++)
         {
             //    debugImagelist[j].Smooth(debugImagelist[j],SmoothType.Gaussian);
-            Cv.Erode(tmpImage[j], tmpImage[j]);
-            Cv.Dilate(tmpImage[j], tmpImage[j]);
+    //        Cv.Erode(tmpImage[j], tmpImage[j]);
+     //       Cv.Dilate(tmpImage[j], tmpImage[j]);
             colorblobImage[j].Add(tmpImage[j], colorblobImage[j]);
 
         }

@@ -29,9 +29,6 @@ public class PrototypeInstanceManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-
-
-
     }
     public void movetoShow()
     {
@@ -51,6 +48,7 @@ public class PrototypeInstanceManager : MonoBehaviour {
         mPrototypes.Add(new prototypeInstance(prototypeImgTxt, simParam, null));
         UpdateMultiveUI();
         Debug.Log("[DEBUG PrototypeInstanceManager] Adding new prototype instance...");
+        Debug.Log("[DEBUG PrototypeInstanceManager] rearGear: " + simParam.C2_rearGearSize + "  frontGear: " + simParam.C2_frontGearSize);
     }
     private void UpdateMultiveUI()
     {
@@ -65,6 +63,15 @@ public class PrototypeInstanceManager : MonoBehaviour {
             }
         }
         //allocate slot and update UI texture
+    }
+    public void GetPrototypeProperties_Content2(int idx,ref float frontgearsize, ref float reargearsize)
+    {
+        //default;
+        frontgearsize = 300;
+        reargearsize = 300;
+        if (mPrototypes == null || mPrototypes.Count <= idx) return;
+        frontgearsize = mPrototypes[idx].mSimulationParam.C2_frontGearSize;
+        reargearsize = mPrototypes[idx].mSimulationParam.C2_rearGearSize;
     }
 
 }

@@ -57,6 +57,59 @@ public class Simulation_Artifact_Chain : MonoBehaviour {
         }
 
     }
+    public void InitChain(ModelDef m, GameObject frontGearRoot, GameObject rearGearRoot)
+    {
+        if (m == null ||  (m.modelType != ModelCategory.UpperChain && m.modelType != ModelCategory.LowerChain)) return;
+        //check all the connectivity mark from the proto        
+        
+        CvPoint[] startend = new CvPoint[2];
+
+        GameObject activeFrontGear = null;
+        GameObject activeRearGear = null;
+        for (int i=0;i< frontGearRoot.transform.childCount; i++)
+        {
+            if (frontGearRoot.transform.GetChild(i).gameObject.activeSelf) activeFrontGear = frontGearRoot.transform.GetChild(i).gameObject;
+        }
+        for (int i = 0; i < rearGearRoot.transform.childCount; i++)
+        {
+            if (rearGearRoot.transform.GetChild(i).gameObject.activeSelf) activeRearGear = rearGearRoot.transform.GetChild(i).gameObject;
+        }
+        if (activeFrontGear == null || activeRearGear == null) return;
+        Debug.Log(activeFrontGear);
+        Debug.Log(activeRearGear);
+        Vector3 goCenter = new Vector3();
+        Vector3 goSize = new Vector3();
+        Vector3 startWorldPos, endWorldPos;
+
+        if (m.modelType == ModelCategory.LowerChain)
+        {
+            SceneObjectManager.MeasureObjectInfoinWorldCoord(activeFrontGear, ref goCenter, ref goSize);
+            startWorldPos = new Vector3(goCenter.x, goCenter.y - goSize.y *0.45f, goCenter.z);
+            SceneObjectManager.MeasureObjectInfoinWorldCoord(activeRearGear, ref goCenter, ref goSize);
+            endWorldPos = new Vector3(goCenter.x, goCenter.y - goSize.y *0.45f, goCenter.z);
+        }
+        else if (m.modelType == ModelCategory.UpperChain)
+        {
+
+            SceneObjectManager.MeasureObjectInfoinWorldCoord(activeFrontGear, ref goCenter, ref goSize);
+            endWorldPos = new Vector3(goCenter.x, goCenter.y + goSize.y * 0.45f, goCenter.z);
+            SceneObjectManager.MeasureObjectInfoinWorldCoord(activeRearGear, ref goCenter, ref goSize);
+            startWorldPos = new Vector3(goCenter.x, goCenter.y + goSize.y * 0.45f, goCenter.z);
+        }        
+        else
+        {
+            Debug.Log("[ERROR] trying to create chain object out of non-chain entity");
+            return;
+        }
+        //give some extension
+        float extensionLength = 0.0f;
+        Vector3 forwardVector = endWorldPos - startWorldPos;
+        forwardVector.Normalize();
+        forwardVector = forwardVector * extensionLength;
+        endWorldPos += forwardVector;
+        startWorldPos -= forwardVector;
+        this.InitChain(startWorldPos, endWorldPos);
+    }
     public void InitChain(ModelDef m, prototypeDef proto)
     {
         if (m == null || proto == null || proto.mConnections == null || (m.modelType!=ModelCategory.UpperChain && m.modelType != ModelCategory.LowerChain)) return;
@@ -71,7 +124,7 @@ public class Simulation_Artifact_Chain : MonoBehaviour {
             var connectedModel = proto.getModelDefbyID(connectedObjectID);
             if (connectedModel == null) return;
             if (connectedModel.modelType == ModelCategory.FrontChainring) startend[0] = conn.center;
-                else if (connectedModel.modelType == ModelCategory.FreeWheel) startend[1] = conn.center;
+                else if (connectedModel.modelType == ModelCategory.RearSprocket) startend[1] = conn.center;
                 else
             {
                 Debug.Log("[ERROR] chain object is connected to Non-gear object");
@@ -107,9 +160,6 @@ public class Simulation_Artifact_Chain : MonoBehaviour {
         //upper : left-to right
         //lower : right to left
         //default : same a upper
-
-
-
 
     }
     public void InitChain(Vector3 startPointWorldCoord, Vector3 endPointWorldCoord)

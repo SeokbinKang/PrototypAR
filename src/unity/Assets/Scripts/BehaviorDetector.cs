@@ -13,7 +13,7 @@ using System;
 using System.Text.RegularExpressions;
 public class BehaviorDetector : MonoBehaviour {
 
-
+    public bool Enable = true;
     private List<UserDescriptionInfo> mBehaviorList = null;
     // Use this for initialization
     void Start () {
@@ -23,7 +23,7 @@ public class BehaviorDetector : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (GlobalRepo.getLearningCount() <= 0) return;
+        if (GlobalRepo.getLearningCount() <= 0 || !Enable) return;
 
         //initial build
         if (mBehaviorList.Count == 0) initialBuildMarkers();

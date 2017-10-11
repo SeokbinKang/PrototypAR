@@ -7,6 +7,7 @@ public class SimulateGameBike : MonoBehaviour {
     public GameObject[] bike_object;
     public GameObject finishLine;
     public GameObject UIStats;
+    public GameObject MultiviewUIInstance;
     public float baseForce=9;
     private float DragAfterFinish = 10;
     private float defaultDrag;
@@ -15,17 +16,32 @@ public class SimulateGameBike : MonoBehaviour {
     private int RevOnceBufferCnt = 0;
     private int lastFinishRank ;
 	void Start () {
-        
 
+        Debug.Log("Start");
         //this will determine drag
-        bike_object[0].GetComponent<Content2_AppBikeSim>().SetGearSize(150, 300);
-        bike_object[1].GetComponent<Content2_AppBikeSim>().SetGearSize(200, 200);
-        bike_object[2].GetComponent<Content2_AppBikeSim>().SetGearSize(250, 150);
+      /*  bike_object[0].GetComponent<Content2_AppBikeSim>().SetGearSize(150, 300);
+        bike_object[1].GetComponent<Content2_AppBikeSim>().SetGearSize(314, 476);
+        bike_object[2].GetComponent<Content2_AppBikeSim>().SetGearSize(250, 150);*/
         defaultDrag = bike_object[0].GetComponent<Rigidbody2D>().drag;
         SimMode = PedalMode.None;
         lastFinishRank = 0;
     }
-	
+	void OnEnable()
+    {
+        float fSize=200, rSize = 200;
+        this.MultiviewUIInstance.GetComponent<PrototypeInstanceManager>().GetPrototypeProperties_Content2(0, ref fSize, ref rSize);
+        bike_object[0].GetComponent<Content2_AppBikeSim>().SetGearSize(fSize,rSize);
+        Debug.Log("0: " + fSize + "  " + rSize);
+        this.MultiviewUIInstance.GetComponent<PrototypeInstanceManager>().GetPrototypeProperties_Content2(1, ref fSize, ref rSize);
+        bike_object[1].GetComponent<Content2_AppBikeSim>().SetGearSize(fSize, rSize);
+        this.MultiviewUIInstance.GetComponent<PrototypeInstanceManager>().GetPrototypeProperties_Content2(2, ref fSize, ref rSize);
+        bike_object[2].GetComponent<Content2_AppBikeSim>().SetGearSize(fSize, rSize);
+
+        defaultDrag = bike_object[0].GetComponent<Rigidbody2D>().drag;
+        SimMode = PedalMode.None;
+        lastFinishRank = 0;
+        Debug.Log("Awake");
+    }
 	// Update is called once per frame
 	void Update () {
         if(SimMode==PedalMode.Once) {

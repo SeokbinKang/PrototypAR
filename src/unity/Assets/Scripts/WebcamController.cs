@@ -100,7 +100,7 @@ public class WebcamController : MonoBehaviour {
 	void Update()
     {
 
-        if (counter++ % 60 == 0) Debug.Log("FPS"+1.0f / Time.deltaTime);
+        if (counter++ % 1000 == 0) Debug.Log("FPS"+1.0f / Time.deltaTime);
 
         /*
         if (m_cvCap != null && AR2DImageProc.NeedLiveStream()) {

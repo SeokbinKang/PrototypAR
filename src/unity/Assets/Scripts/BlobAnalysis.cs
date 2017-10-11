@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 public class BlobAnalysis {
+
+    private static bool config_byspass_buildgshape = true;
     public static Point[] GetOverlapShapeOutline(ObjectBlobInfo virtualObjInfo, ObjectBlobInfo userObjInfo, double transX, double transY)
     {
                 
@@ -387,6 +389,7 @@ public class BlobAnalysis {
             return null;
             
         }
+        
         var componentCount = 0;
         var contourIndex = 0;
         double wholeAreaSize = GreyImgColorBlobLabeled.Width * GreyImgColorBlobLabeled.Height;
@@ -416,15 +419,17 @@ public class BlobAnalysis {
             }
             
             model.AreaSizeNormalized = model.AreaSize * 100 / wholeAreaSize;
-            Debug.Log("New Model type = " + (int)model.modelType + "Area Size = " + model.AreaSize);
-            if (model.bBox.Width>=minPixelSize || model.bBox.Height>=minPixelSize)
+            
+            if ((model.bBox.Width >= minPixelSize || model.bBox.Height >= minPixelSize) && model.AreaSize >= 600)
             {
+                Debug.Log("New Model type = " + (int)model.modelType + "Area Size = " + model.AreaSize);
                 modelList.Add(model);
                 int validColorN = 0;
                 ModelCategory[] colorTable = Content.loadColorObjectMap(out validColorN);
                 int colorIdx =  System.Array.IndexOf(colorTable, modelType);
                 model.mBaseHueValue = ColorDetector.mCP.mProfileList[colorIdx].HueClass1;
-                model.initShapeBuilder();
+                if (config_byspass_buildgshape) model.initShapeBuilder(contours[contourIndex], model.bBox, model.centeroidAbsolute);
+                    else model.initShapeBuilder();
             }
             componentCount++;
             contourIndex = hierarchyIndexes[contourIndex].Next;

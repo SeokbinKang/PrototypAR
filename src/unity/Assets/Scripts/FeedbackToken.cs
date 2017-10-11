@@ -130,7 +130,7 @@ public class FeedbackToken
 
             if (this.modelType == ModelCategory.FrontChainring)
                 ret = PreLoadedObjects.STR_missing_c2_frontgear;
-            if (this.modelType == ModelCategory.FreeWheel)
+            if (this.modelType == ModelCategory.RearSprocket)
                 ret = PreLoadedObjects.STR_missing_c2_reargear;
             if (this.modelType == ModelCategory.PedalCrank)
                 ret = PreLoadedObjects.STR_missing_c2_pedal;

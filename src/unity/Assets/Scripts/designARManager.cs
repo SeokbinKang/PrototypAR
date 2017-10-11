@@ -152,16 +152,24 @@ public class designARManager : MonoBehaviour {
         {
             mDesignContentModel = new FBSModel(contentType);
             StructurePosVariable pos;            
-            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.215f, 0.348f), 100);
-            StructureEntity freeWheel = new StructureEntity(ModelCategory.FreeWheel, pos);
-            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.412f, 0.3144f), 150);
+            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.265f, 0.4f), 150);
+            StructureEntity freeWheel = new StructureEntity(ModelCategory.RearSprocket, pos);
+            freeWheel.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
+            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.462f, 0.38f), 150);
             StructureEntity frontChainRing = new StructureEntity(ModelCategory.FrontChainring, pos);
-            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.61f, 0.71f), 150);
+            frontChainRing.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
+
+            pos = new StructurePosVariable(PosEvalType.None, PreLoadedObjects.Content2_BGPartial, new Vector2(0.61f, 0.71f), 150);
             StructureEntity Upperchain = new StructureEntity(ModelCategory.UpperChain, pos);
-            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.61f, 0.71f), 150);
+            Upperchain.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
+
+            pos = new StructurePosVariable(PosEvalType.None, PreLoadedObjects.Content2_BGPartial, new Vector2(0.61f, 0.71f), 150);
             StructureEntity Lowerchain = new StructureEntity(ModelCategory.LowerChain, pos);
+            Lowerchain.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
+
             pos = new StructurePosVariable(PosEvalType.ContourProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.412f, 0.3144f), 150);
             StructureEntity PedalCrank = new StructureEntity(ModelCategory.PedalCrank, pos);
+            PedalCrank.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
 
             mDesignContentModel.AddStructureEntity(freeWheel);
             mDesignContentModel.AddStructureEntity(frontChainRing);
