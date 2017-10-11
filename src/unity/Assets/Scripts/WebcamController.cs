@@ -135,10 +135,10 @@ public class WebcamController : MonoBehaviour {
             Debug.Log("Feeding Backup stream.$#%$#%$#%$#%#$%@#$..");
         }
         if (!AR2DImageProc.NeedStream()) return;*/
-        Debug.Log("Cam update0 , user mode: " + GlobalRepo.UserMode);
+   //     Debug.Log("Cam update0 , user mode: " + GlobalRepo.UserMode);
         if (webcamTexture_ != null && GlobalRepo.NeedLiveStream())
         {
-            Debug.Log("Cam update1");
+           
             webcamTexture_.GetPixels32(webcamdata);
             TextureToMat3ch(webcamdata, colorImageBGR,webcamTexture_.width, webcamTexture_.height);
             GlobalRepo.updateRepoRaw(RepoDataType.dRawBGR, colorImageBGR, webcamTexture_.width, webcamTexture_.height, 3);
@@ -149,7 +149,7 @@ public class WebcamController : MonoBehaviour {
         GlobalRepo.tickLearningCount();
         if (webcamTexture_ != null && GlobalRepo.NeedLiveStream())
         {
-            Debug.Log("Cam update2");
+           
             CvRect regionBox = GlobalRepo.GetRegionBox(false);
 
             if (liveStreamTexture == null || liveStreamTexture.width != regionBox.Width || liveStreamTexture.height != regionBox.Height)

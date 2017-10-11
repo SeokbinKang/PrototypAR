@@ -44,10 +44,10 @@ public class FBSModel {
         // ret.AddRange(feedbacklist);
 
          feedbacklist = EvaluateStrPosition(userPrototype);
-    //     ret.AddRange(feedbacklist);
-
-         feedbacklist = EvaluateStrConnectivity(userPrototype);
          ret.AddRange(feedbacklist);
+
+      //   feedbacklist = EvaluateStrConnectivity(userPrototype);
+     //    ret.AddRange(feedbacklist);
 
      //     feedbacklist = EvaluateBehavior(userPrototype);
      //     ret.AddRange(feedbacklist);

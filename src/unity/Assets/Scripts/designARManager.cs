@@ -167,7 +167,7 @@ public class designARManager : MonoBehaviour {
             StructureEntity Lowerchain = new StructureEntity(ModelCategory.LowerChain, pos);
             Lowerchain.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
 
-            pos = new StructurePosVariable(PosEvalType.ContourProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.412f, 0.3144f), 150);
+            pos = new StructurePosVariable(PosEvalType.ContourProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.462f, 0.38f), 100);
             StructureEntity PedalCrank = new StructureEntity(ModelCategory.PedalCrank, pos);
             PedalCrank.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
 
