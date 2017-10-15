@@ -7,6 +7,7 @@ public class SimulateGameBike : MonoBehaviour {
     public GameObject[] bike_object;
     public GameObject finishLine;
     public GameObject UIStats;
+    public GameObject UINames;
     public GameObject MultiviewUIInstance;
     public float baseForce=9;
     private float DragAfterFinish = 10;
@@ -16,8 +17,8 @@ public class SimulateGameBike : MonoBehaviour {
     private int RevOnceBufferCnt = 0;
     private int lastFinishRank ;
 	void Start () {
-
-        Debug.Log("Start");
+        
+        Debug.Log("Bike app Start");
         //this will determine drag
       /*  bike_object[0].GetComponent<Content2_AppBikeSim>().SetGearSize(150, 300);
         bike_object[1].GetComponent<Content2_AppBikeSim>().SetGearSize(314, 476);
@@ -25,18 +26,12 @@ public class SimulateGameBike : MonoBehaviour {
         defaultDrag = bike_object[0].GetComponent<Rigidbody2D>().drag;
         SimMode = PedalMode.None;
         lastFinishRank = 0;
+       
+
     }
 	void OnEnable()
     {
-        float fSize=200, rSize = 200;
-        this.MultiviewUIInstance.GetComponent<PrototypeInstanceManager>().GetPrototypeProperties_Content2(0, ref fSize, ref rSize);
-        bike_object[0].GetComponent<Content2_AppBikeSim>().SetGearSize(fSize,rSize);
-        Debug.Log("0: " + fSize + "  " + rSize);
-        this.MultiviewUIInstance.GetComponent<PrototypeInstanceManager>().GetPrototypeProperties_Content2(1, ref fSize, ref rSize);
-        bike_object[1].GetComponent<Content2_AppBikeSim>().SetGearSize(fSize, rSize);
-        this.MultiviewUIInstance.GetComponent<PrototypeInstanceManager>().GetPrototypeProperties_Content2(2, ref fSize, ref rSize);
-        bike_object[2].GetComponent<Content2_AppBikeSim>().SetGearSize(fSize, rSize);
-
+        LoadBikeInfo();        
         defaultDrag = bike_object[0].GetComponent<Rigidbody2D>().drag;
         SimMode = PedalMode.None;
         lastFinishRank = 0;
@@ -58,17 +53,39 @@ public class SimulateGameBike : MonoBehaviour {
     private void reset()
     {
         this.SimMode = PedalMode.None;
-        ResetBikesDrag();
+        foreach(var t in bike_object)
+        {
+            t.GetComponent<Content2_AppBikeSim>().reset();
+        }
+        //ResetBikesDrag();
         lastFinishRank = 0;
         UIStats.GetComponent<FinishStats>().resetLabels();
-    }
-    private void KeyInput()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
 
-    //        PedalAllBikesOnce();
-        }
+
+        LoadBikeInfo();
+    }
+    private void initGame()
+    {
+        //load bike info
+
+        //reset 
+    }
+    private void LoadBikeInfo()
+    {
+        Debug.Log("[DEBUG] loaindg bikes..");
+        float fSize = 200, rSize = 200;
+        string name = "default";
+        UINames.GetComponent<DesignNames>().resetLabels();
+        this.MultiviewUIInstance.GetComponent<PrototypeInstanceManager>().GetPrototypeProperties_Content2(0, ref fSize, ref rSize, ref name);
+        bike_object[0].GetComponent<Content2_AppBikeSim>().SetGearSize(fSize, rSize);
+        Debug.Log("[DEBUG] loaindg bike name: "+name);
+        UINames.GetComponent<DesignNames>().SetName(0, name);
+        this.MultiviewUIInstance.GetComponent<PrototypeInstanceManager>().GetPrototypeProperties_Content2(1, ref fSize, ref rSize, ref name);
+        bike_object[1].GetComponent<Content2_AppBikeSim>().SetGearSize(fSize, rSize);
+        UINames.GetComponent<DesignNames>().SetName(1, name);
+        this.MultiviewUIInstance.GetComponent<PrototypeInstanceManager>().GetPrototypeProperties_Content2(2, ref fSize, ref rSize, ref name);
+        bike_object[2].GetComponent<Content2_AppBikeSim>().SetGearSize(fSize, rSize);
+        UINames.GetComponent<DesignNames>().SetName(2, name);
     }
     private void CheckBikeStatus()
     {
@@ -85,8 +102,10 @@ public class SimulateGameBike : MonoBehaviour {
             }
 
             //check the 1st runner
-            if (bike.transform.position.x > Pos1st.x) Pos1st = bike.transform.position;
-            Pos1st = bike.transform.position;
+            if (bike.transform.position.x > Pos1st.x)
+            {
+                Pos1st = bike.transform.position;                
+            }
             //     Debug.Log("Bike #" + idx + " :" + rb.velocity.x);
             //idx++;
 
@@ -123,6 +142,7 @@ public class SimulateGameBike : MonoBehaviour {
             game_camera.transform.position = camPos;
        
     }
+    
     private void AllBikesStop()
     {
         Debug.Log("[DEBUG] All Bikes Stop!");

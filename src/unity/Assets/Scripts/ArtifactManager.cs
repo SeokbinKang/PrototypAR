@@ -185,15 +185,27 @@ public class prototypeDef
     }
     public ModelDef getModelDefbyType(ModelCategory type)
     {
+        //get the largest model
+        ModelDef largestModel = null;
+        double size = -1;
         foreach (var group in mModels)
         {
+            
             for (int i = 0; i < group.Value.Count; i++)
             {
-                if (group.Value[i].modelType == type) return group.Value[i];
+                if (group.Value[i].modelType == type)
+                {
+                    if (group.Value[i].AreaSize > size)
+                    {
+                        size = group.Value[i].AreaSize;
+
+                        largestModel =  group.Value[i];
+                    }
+                }
 
             }
         }
-        return null;
+        return largestModel;
     }
     public bool RefinePrototypeModels()
     {

@@ -1,8 +1,9 @@
 ﻿<Properties StartupItem="unity.CSharp.Plugins.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Content2\SimulateGameBike.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CommonUI\CheckingUI.cs">
     <Files>
-      <File FileName="Assets\Scripts\Content2\SimulateGameBike.cs" Line="12" Column="35" />
+      <File FileName="Assets\Scripts\CommonUI\CheckingUI.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Content2\SimulateGameBike.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Simulation.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>

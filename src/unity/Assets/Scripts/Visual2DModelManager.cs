@@ -15,6 +15,7 @@ public class Visual2DModelManager : MonoBehaviour
 
     public Vector2 testFramePosition;
     public bool testFramePos = false;
+    public GameObject appcontrol;
     private List<Visual2DModel> mModelList = null;
     // Use this for initialization
     private CvMat objectOverlayImgRGBA = null;
@@ -120,7 +121,7 @@ public class Visual2DModel
 
 
         //add the prototype to prototypeInstanceManager
-        GameObject go_multiview = GameObject.Find("MultiviewUI");
+        GameObject go_multiview = GameObject.Find("InventoryUI");
         PrototypeInstanceManager t = go_multiview.GetComponent<PrototypeInstanceManager>();
         CvRect regionBox = GlobalRepo.GetRegionBox(false);
         Texture2D temporaryTexture = null;
@@ -132,7 +133,10 @@ public class Visual2DModel
         temporaryTexture.Apply();
         if (temporaryTexture != null)
         {
-            t.AddIncompletePrototypeInstance(temporaryTexture,feedbacklist);
+            DesignContent mDesignContent = ApplicationControl.ContentType;
+            SimulationParam sp = new SimulationParam();
+            Content.ExtractSimulationParameters(conceptModel, mDesignContent, ref sp);
+            t.AddIncompletePrototypeInstance(temporaryTexture,feedbacklist,sp);
         }
 
 

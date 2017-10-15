@@ -1,18 +1,14 @@
 ##unity
 
 src/unity/[Ll]ibrary/
-
+src/unity/Library/metadata
 src/unity/[Tt]emp/
-
 src/unity/[Oo]bj/
-
 src/unity/[Bb]uild/
-
 src/unity/[Bb]uilds/
 
 src/unity/Assets/AssetStoreTools*
 
-src/unity/Library/metadata
 src/unity/Library/UnityAssemblies
 src/unity/.vs/
 *.pidb.meta

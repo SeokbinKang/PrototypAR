@@ -16,7 +16,7 @@ public class ApplicationControl : MonoBehaviour
     public enum RunMod : int { Configuration, Release }
 
     public RunMod ApplicationMode;
-    public DesignContent ContentType;
+    public static DesignContent ContentType;
     public bool ShowDebugImages = false;
     public bool SuppressCVWindows = true;
     public Vector2 RegionboxLefttop=new Vector2(0,0);
@@ -89,11 +89,22 @@ public class ApplicationControl : MonoBehaviour
         GlobalRepo.reset();
 
     }
+    public void StartLearning()
+    {
+        if (GlobalRepo.UserMode != GlobalRepo.UserPhase.design) Reset();
+        GlobalRepo.setLearningCount(ConfigLearningFrames);
+    }
+    public void ResumeDesign()
+    {
+        Reset();
+    }
     private void KeyInput()
     {
+        if (ApplicationMode == RunMod.Release)
+            return;
         if (Input.GetButtonUp("Fire1"))
         {
-         
+            if (GlobalRepo.UserMode != GlobalRepo.UserPhase.design) Reset();
             GlobalRepo.setLearningCount(ConfigLearningFrames);
         }
         if (Input.GetButtonUp("Cancel"))
@@ -107,7 +118,7 @@ public class ApplicationControl : MonoBehaviour
         }*/
         if (Input.GetButtonUp("Fire3"))
         {
-            this.GetComponent<CameraControl>().MainCameraFoV = 120;
+       //     this.GetComponent<CameraControl>().MainCameraFoV = 120;
             
         }
         if (Input.GetButton("key0") )

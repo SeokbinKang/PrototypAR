@@ -13,6 +13,10 @@ public class UserModeControl : MonoBehaviour {
 	void Update () {        
 	
 	}
+    public void switchToDesign()
+    {
+        switchTo(userAppMode.design);
+    }
     public void switchToContent2Race()
     {
         switchTo(userAppMode.content2_race);

@@ -1,5 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using OpenCvSharp;
+using OpenCvSharp.Blob;
+using OpenCvSharp.CPlusPlus;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
+using System;
+using System.Runtime.InteropServices;
+using Uk.Org.Adcock.Parallel;
 
 public class Content2_AppBikeSim : MonoBehaviour {
 
@@ -9,12 +20,17 @@ public class Content2_AppBikeSim : MonoBehaviour {
     public GameObject part_rearGear;
     public GameObject part_pedal;
     public Vector3 minitialGearScale;
+
+
     public float config_baseXVelocityToAngularSpeed; //1 to rotation rate of the rearwheel and gear    
     public float referenceGearSize = 430;    
-
     public float mFrontGearSize;
     public float mRearGearSize;
+
+    private List<KeyValuePair<GameObject, Transform>> initTransformProperties;
+    private float initialDrag;
     
+
     // Use this for initialization
     void Start () {
         if (part_frontWheel == null || part_rearGear == null || part_frontGear == null || part_rearGear == null)
@@ -22,8 +38,8 @@ public class Content2_AppBikeSim : MonoBehaviour {
             Debug.Log("[ERROR] the bike object's sub-objects are null");
             return;
         }
-       
-
+        saveObjectTransforms();
+        initialDrag = this.GetComponent<Rigidbody2D>().drag;
     }
 	
 	// Update is called once per frame
@@ -34,6 +50,57 @@ public class Content2_AppBikeSim : MonoBehaviour {
             return;
         }
         Roll();
+
+    }
+    public void reset()
+    {
+        //load the initial transforms
+        restoreObjectTransforms();
+        //init the variables
+        this.mFrontGearSize = 0;
+        this.mRearGearSize = 0;
+
+        //set rigidbody properties
+        resetRigidProperties();
+
+
+    }
+    private void resetRigidProperties()
+    {
+        Rigidbody2D r = this.GetComponent<Rigidbody2D>();
+        if (r == null) return;
+        r.velocity = new Vector2(0, 0);
+        r.angularVelocity = 0;
+        this.GetComponent<Rigidbody2D>().drag = initialDrag;
+
+
+    }
+    private void restoreObjectTransforms()
+    {
+        if (initTransformProperties == null)
+        {
+            return;
+        }
+        foreach(var t in initTransformProperties)
+        {
+            t.Key.transform.position = t.Value.position;
+            t.Key.transform.localScale = t.Value.localScale;
+            t.Key.transform.rotation = t.Value.rotation;
+        }
+    }
+    private void saveObjectTransforms()
+    {
+        if (initTransformProperties == null)
+        {
+            initTransformProperties = new List<KeyValuePair<GameObject, Transform>>();
+        }
+        initTransformProperties.Clear();
+        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(this.gameObject, this.transform));
+        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(part_frontGear, part_frontGear.transform));
+        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(part_frontWheel, part_frontWheel.transform));
+        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(part_pedal, part_pedal.transform));
+        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(part_rearGear, part_rearGear.transform));
+        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(part_rearWheel, part_rearWheel.transform));
 
     }
     private void Roll()

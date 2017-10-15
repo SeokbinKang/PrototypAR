@@ -28,7 +28,7 @@ public class Simulation : MonoBehaviour {
         SimulationControlDone = false;
         ActiveInstance = this;
         simState = new SimulationState();
-        mDesignContent = this.GetComponentInParent<ApplicationControl>().ContentType;
+        mDesignContent = ApplicationControl.ContentType;
     }
 	
 	// Update is called once per frame
@@ -52,7 +52,7 @@ public class Simulation : MonoBehaviour {
         SimulationControlDone = false;
         ActiveInstance = this;
         simState = new SimulationState();
-        mDesignContent = this.GetComponentInParent<ApplicationControl>().ContentType;
+        mDesignContent = ApplicationControl.ContentType;
     }
     private void ControlSimulationContent_1()
     {
@@ -162,10 +162,8 @@ public class Simulation : MonoBehaviour {
         {
             SimulationParam sp = new SimulationParam();
             Content.ExtractSimulationParameters(userPrototypeInstance, mDesignContent, ref sp);
-            sp.C2_pedallingRate = 30;  //test
                                        //all the animation's priods are set to 6 sec. BR = 10
-            sp.C2_rearGearSize =  Mathf.Sqrt((float)userPrototypeInstance.getModelDefbyType(ModelCategory.RearSprocket).AreaSize);
-            sp.C2_frontGearSize =  Mathf.Sqrt((float)userPrototypeInstance.getModelDefbyType(ModelCategory.FrontChainring).AreaSize);
+           
             float animationSpeedParam = sp.C2_pedallingRate / 12.0f;
             //1 = 1rotation / 5 sec            
             simState.timeElapsed = 0;
@@ -194,7 +192,7 @@ public class Simulation : MonoBehaviour {
             SimulationControlDone = true;
 
             //add the prototype to prototypeInstanceManager
-            GameObject go_multiview = GameObject.Find("MultiviewUI");
+            GameObject go_multiview = GameObject.Find("InventoryUI");
             PrototypeInstanceManager t = go_multiview.GetComponent<PrototypeInstanceManager>();
 
             CvRect regionBox = GlobalRepo.GetRegionBox(false);

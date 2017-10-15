@@ -188,9 +188,20 @@ public class Content {
             Debug.Log("Lung Area = " + lungAreaPortion);
             //range 0.01 to 0.20
             ret.C1_breathingAmountLevel = (int)(lungAreaPortion * 100.0f/ 0.2f);
+        }
+        if (cType == DesignContent.BicycleGearSystem)
+        {
+            ret.C2_rearGearSize = 200;
+            ret.C2_frontGearSize = 200;
+            ret.C2_pedallingRate = 30;  //test
+            ModelDef frontGearModel = proto.getModelDefbyType(ModelCategory.FrontChainring);
+            ModelDef rearGearModel = proto.getModelDefbyType(ModelCategory.RearSprocket);
+            if (frontGearModel != null && rearGearModel != null)
+            {
+                ret.C2_rearGearSize = Mathf.Sqrt((float)rearGearModel.AreaSize);
+                ret.C2_frontGearSize = Mathf.Sqrt((float)frontGearModel.AreaSize);
+            }
             
-
-
         }
     }
    

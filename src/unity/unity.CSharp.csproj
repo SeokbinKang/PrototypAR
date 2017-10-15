@@ -133,9 +133,12 @@
     <Compile Include="Assets\Scripts\CVProc.cs" />
     <Compile Include="Assets\Scripts\ColorDetector.cs" />
     <Compile Include="Assets\Scripts\CommonDS.cs" />
+    <Compile Include="Assets\Scripts\CommonUI\CheckingUI.cs" />
+    <Compile Include="Assets\Scripts\CommonUI\PrototypeInventoryPane.cs" />
     <Compile Include="Assets\Scripts\ConfigObject.cs" />
     <Compile Include="Assets\Scripts\Content.cs" />
     <Compile Include="Assets\Scripts\Content2\Content2_AppBikeSim.cs" />
+    <Compile Include="Assets\Scripts\Content2\DesignNames.cs" />
     <Compile Include="Assets\Scripts\Content2\FinishStats.cs" />
     <Compile Include="Assets\Scripts\Content2\SimulateGameBike.cs" />
     <Compile Include="Assets\Scripts\Content2\testrigidbody.cs" />
