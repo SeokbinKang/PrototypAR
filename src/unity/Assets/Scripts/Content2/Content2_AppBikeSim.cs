@@ -27,9 +27,9 @@ public class Content2_AppBikeSim : MonoBehaviour {
     public float mFrontGearSize;
     public float mRearGearSize;
 
-    private List<KeyValuePair<GameObject, Transform>> initTransformProperties;
+    private List<KeyValuePair<GameObject, TransformInstance>> initTransformProperties;
     private float initialDrag;
-    
+    private bool initialized = false;
 
     // Use this for initialization
     void Start () {
@@ -38,8 +38,7 @@ public class Content2_AppBikeSim : MonoBehaviour {
             Debug.Log("[ERROR] the bike object's sub-objects are null");
             return;
         }
-        saveObjectTransforms();
-        initialDrag = this.GetComponent<Rigidbody2D>().drag;
+       
     }
 	
 	// Update is called once per frame
@@ -52,8 +51,19 @@ public class Content2_AppBikeSim : MonoBehaviour {
         Roll();
 
     }
+    private void init()
+    {
+        if (!initialized)
+        {
+            Debug.Log("Saving Bike's transform");
+            saveObjectTransforms();
+            initialDrag = this.GetComponent<Rigidbody2D>().drag;
+            initialized = true;
+        }
+    }
     public void reset()
     {
+        init();
         //load the initial transforms
         restoreObjectTransforms();
         //init the variables
@@ -81,7 +91,8 @@ public class Content2_AppBikeSim : MonoBehaviour {
         {
             return;
         }
-        foreach(var t in initTransformProperties)
+        Debug.Log("restoring object transforms.....");
+        foreach(KeyValuePair<GameObject, TransformInstance> t in initTransformProperties)
         {
             t.Key.transform.position = t.Value.position;
             t.Key.transform.localScale = t.Value.localScale;
@@ -92,15 +103,17 @@ public class Content2_AppBikeSim : MonoBehaviour {
     {
         if (initTransformProperties == null)
         {
-            initTransformProperties = new List<KeyValuePair<GameObject, Transform>>();
+            initTransformProperties = new List<KeyValuePair<GameObject, TransformInstance>>();
         }
+        
+
         initTransformProperties.Clear();
-        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(this.gameObject, this.transform));
-        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(part_frontGear, part_frontGear.transform));
-        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(part_frontWheel, part_frontWheel.transform));
-        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(part_pedal, part_pedal.transform));
-        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(part_rearGear, part_rearGear.transform));
-        initTransformProperties.Add(new KeyValuePair<GameObject, Transform>(part_rearWheel, part_rearWheel.transform));
+        initTransformProperties.Add(new KeyValuePair<GameObject, TransformInstance>(this.gameObject, new TransformInstance(this.transform)));
+        initTransformProperties.Add(new KeyValuePair<GameObject, TransformInstance>(part_frontGear, new TransformInstance(part_frontGear.transform)));
+        initTransformProperties.Add(new KeyValuePair<GameObject, TransformInstance>(part_frontWheel, new TransformInstance(part_frontWheel.transform)));
+        initTransformProperties.Add(new KeyValuePair<GameObject, TransformInstance>(part_pedal, new TransformInstance(part_pedal.transform)));
+        initTransformProperties.Add(new KeyValuePair<GameObject, TransformInstance>(part_rearGear, new TransformInstance(part_rearGear.transform)));
+        initTransformProperties.Add(new KeyValuePair<GameObject, TransformInstance>(part_rearWheel, new TransformInstance(part_rearWheel.transform)));
 
     }
     private void Roll()
@@ -142,14 +155,14 @@ public class Content2_AppBikeSim : MonoBehaviour {
             Debug.Log("[ERROR] the bike object's sub-objects are null");
             return;
         }
-        Debug.Log("Set gear: " + front + " : " + rear);
+       // Debug.Log("Set gear: " + front + " : " + rear);
         mFrontGearSize = front;
         mRearGearSize = rear;
         Vector3 newScale = minitialGearScale;
         newScale.x = newScale.x * (front / referenceGearSize);
         newScale.y = newScale.y * (front / referenceGearSize);
         part_frontGear.transform.localScale = newScale;
-        Debug.Log("Set gear: " + newScale.x+" "+newScale.y);
+     //   Debug.Log("Set gear: " + newScale.x+" "+newScale.y);
         newScale = minitialGearScale;
         newScale.x = newScale.x * (rear / referenceGearSize);
         newScale.y = newScale.y * (rear / referenceGearSize);
@@ -158,4 +171,16 @@ public class Content2_AppBikeSim : MonoBehaviour {
     }
 
 
+}
+public class TransformInstance
+{
+    public Vector3 position;
+    public Vector3 localScale;
+    public Quaternion rotation;
+    public TransformInstance(Transform t)
+    {
+        this.position = t.position;
+        this.localScale = t.localScale;
+        this.rotation = t.rotation;
+    }
 }

@@ -141,6 +141,7 @@
     <Compile Include="Assets\Scripts\Content2\DesignNames.cs" />
     <Compile Include="Assets\Scripts\Content2\FinishStats.cs" />
     <Compile Include="Assets\Scripts\Content2\SimulateGameBike.cs" />
+    <Compile Include="Assets\Scripts\Content2\minimapUI.cs" />
     <Compile Include="Assets\Scripts\Content2\testrigidbody.cs" />
     <Compile Include="Assets\Scripts\CustomAnimation\CameraControl.cs" />
     <Compile Include="Assets\Scripts\CustomAnimation\HorizontalBar.cs" />

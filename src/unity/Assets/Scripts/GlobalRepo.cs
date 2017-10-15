@@ -364,7 +364,7 @@ public class GlobalRepo
          //   repoDict[RepoDataType.dRawRegionRGBA] = new CvMat(RegionBoxRaw.Height, RegionBoxRaw.Width, MatrixType.U8C4);
             repoDictByteStream[RepoDataType.dRawRegionRGBAByte] = new byte[RegionBoxRaw.Height* RegionBoxRaw.Width*4];
             repoDict[RepoDataType.dRawRegionRGBA] = new CvMat(RegionBoxRaw.Height, RegionBoxRaw.Width, MatrixType.U8C4, repoDictByteStream[RepoDataType.dRawRegionRGBAByte]);
-            Debug.Log("SFSDFSDF");
+           
 
         }
         repoDict[RepoDataType.dRawRGBA].GetSubArr(out tmp, RegionBoxRaw);
@@ -382,7 +382,7 @@ public class GlobalRepo
 
             if (!repoDict.ContainsKey(RepoDataType.dRawRegionBGR) || repoDict[RepoDataType.dRawRegionBGR] == null || repoDict[RepoDataType.dRawRegionBGR].GetSize() != RegionBoxRaw.Size)
             {
-            Debug.Log("create2");
+           
               repoDict[RepoDataType.dRawRegionBGR] = new CvMat(RegionBoxRaw.Height,RegionBoxRaw.Width, MatrixType.U8C3);
             }
             // repoDict[RepoDataType.dRawRegionRGBA].CvtColor(repoDict[RepoDataType.dRawRegionBGR], ColorConversion.RgbaToBgr);
@@ -391,7 +391,7 @@ public class GlobalRepo
 
             if (!repoDict.ContainsKey(RepoDataType.dRawRegionHSV) || repoDict[RepoDataType.dRawRegionHSV] == null || repoDict[RepoDataType.dRawRegionHSV].GetSize() != repoDict[RepoDataType.dRawRegionRGBA].GetSize())
             {
-                Debug.Log("create3");
+              
                 repoDict[RepoDataType.dRawRegionHSV] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C3);
             }
               repoDict[RepoDataType.dRawRegionBGR].CvtColor(repoDict[RepoDataType.dRawRegionHSV], ColorConversion.BgrToHsv);
@@ -399,14 +399,14 @@ public class GlobalRepo
 
             if (!repoDict.ContainsKey(RepoDataType.dRawRegionLAB) || repoDict[RepoDataType.dRawRegionLAB] == null || repoDict[RepoDataType.dRawRegionLAB].GetSize() != repoDict[RepoDataType.dRawRegionRGBA].GetSize())
             {
-                Debug.Log("create4");
+              
                 repoDict[RepoDataType.dRawRegionLAB] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C3);
             }
             //   repoDict[RepoDataType.dRawRegionBGR].CvtColor(repoDict[RepoDataType.dRawRegionLAB], ColorConversion.BgrToLab);
 
             if (!repoDict.ContainsKey(RepoDataType.dRawRegionGray) || repoDict[RepoDataType.dRawRegionGray] == null || repoDict[RepoDataType.dRawRegionGray].GetSize() != repoDict[RepoDataType.dRawRegionRGBA].GetSize())
             {
-                Debug.Log("create5");
+              
                 repoDict[RepoDataType.dRawRegionGray] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
             }
             repoDict[RepoDataType.dRawRegionBGR].CvtColor(repoDict[RepoDataType.dRawRegionGray], ColorConversion.BgrToGray);
@@ -416,7 +416,7 @@ public class GlobalRepo
         {
             repoDictByteStream[RepoDataType.dRealityARRegionRGBAByte] = new byte[repoDict[RepoDataType.dRawRegionRGBA].Step * repoDict[RepoDataType.dRawRegionRGBA].Height];
             repoDict[RepoDataType.pRealityARRegionRGBA] = new CvMat(RegionBoxRaw.Height,RegionBoxRaw.Width, MatrixType.U8C4, repoDictByteStream[RepoDataType.dRealityARRegionRGBAByte]);
-            Debug.Log("dARTxTRegionByteRGBA created size:" + repoDict[RepoDataType.dRawRegionRGBA].Step + " x " + repoDict[RepoDataType.dRawRegionRGBA].Height);
+       //     Debug.Log("dARTxTRegionByteRGBA created size:" + repoDict[RepoDataType.dRawRegionRGBA].Step + " x " + repoDict[RepoDataType.dRawRegionRGBA].Height);
             Debug.Log("Region Box : " + RegionBoxRaw.Width + " , " + RegionBoxRaw.Height);
         }
      //   Marshal.Copy(repoDict[RepoDataType.dRawRegionRGBA].DataArrayByte.Ptr, repoDictByteStream[RepoDataType.dRealityARRegionByteRGBA], 0, repoDict[RepoDataType.dRawRegionRGBA].Step * repoDict[RepoDataType.dRawRegionRGBA].Height);

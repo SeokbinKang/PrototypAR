@@ -28,7 +28,7 @@ public class Simulation : MonoBehaviour {
         SimulationControlDone = false;
         ActiveInstance = this;
         simState = new SimulationState();
-        mDesignContent = ApplicationControl.ContentType;
+        mDesignContent = this.GetComponentInParent<ApplicationControl>().getContentType();
     }
 	
 	// Update is called once per frame
@@ -52,7 +52,7 @@ public class Simulation : MonoBehaviour {
         SimulationControlDone = false;
         ActiveInstance = this;
         simState = new SimulationState();
-        mDesignContent = ApplicationControl.ContentType;
+        mDesignContent = this.GetComponentInParent<ApplicationControl>().getContentType();
     }
     private void ControlSimulationContent_1()
     {

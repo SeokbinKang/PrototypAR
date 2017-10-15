@@ -31,10 +31,9 @@ public class SimulateGameBike : MonoBehaviour {
     }
 	void OnEnable()
     {
-        LoadBikeInfo();        
-        defaultDrag = bike_object[0].GetComponent<Rigidbody2D>().drag;
-        SimMode = PedalMode.None;
-        lastFinishRank = 0;
+        reset();
+        defaultDrag = bike_object[0].GetComponent<Rigidbody2D>().drag;       
+        
         Debug.Log("Awake");
     }
 	// Update is called once per frame
@@ -60,14 +59,13 @@ public class SimulateGameBike : MonoBehaviour {
         //ResetBikesDrag();
         lastFinishRank = 0;
         UIStats.GetComponent<FinishStats>().resetLabels();
-
-
         LoadBikeInfo();
     }
-    private void initGame()
+    public void LoadSimulationData()
     {
         //load bike info
-
+        reset();
+        
         //reset 
     }
     private void LoadBikeInfo()
@@ -159,7 +157,7 @@ public class SimulateGameBike : MonoBehaviour {
 
         Rigidbody2D rb = go.GetComponent<Rigidbody2D>();
         if (rb == null) return;
-        rb.drag = 15;
+        rb.drag = 8;
     }
     private void ResetBikesDrag()
     {
@@ -193,12 +191,12 @@ public class SimulateGameBike : MonoBehaviour {
                 
                 Rigidbody2D rb = bike.GetComponent<Rigidbody2D>();
                 if (rb == null) continue;
-                Debug.Log(rb.velocity.x);
+               // Debug.Log(rb.velocity.x);
                 
 
                 //rb.AddForce(new Vector2(rnd.Next(4, 5), 0), ForceMode2D.Force);
                 float gearRatio = bike.GetComponent<Content2_AppBikeSim>().mRearGearSize / bike.GetComponent<Content2_AppBikeSim>().mFrontGearSize;
-                if (rb.velocity.x > 6) continue;
+               // if (rb.velocity.x > 6) continue;
                 rb.AddForce(new Vector2(((float)rnd.Next(2, 3)) / Mathf.Sqrt(Mathf.Sqrt(gearRatio)), 0), ForceMode2D.Force);
                 
             }

@@ -16,7 +16,8 @@ public class ApplicationControl : MonoBehaviour
     public enum RunMod : int { Configuration, Release }
 
     public RunMod ApplicationMode;
-    public static DesignContent ContentType;
+    public DesignContent ContentType;
+    
     public bool ShowDebugImages = false;
     public bool SuppressCVWindows = true;
     public Vector2 RegionboxLefttop=new Vector2(0,0);
@@ -24,8 +25,8 @@ public class ApplicationControl : MonoBehaviour
     public int ViewScale=2;
     public int ConfigLearningFrames=1;
 
-    
 
+    public static ApplicationControl ActiveInstance = null;
     public GameObject ARDetector = null;
     private List<CvPoint> regionPoints;
     private CvMat scaledFrame = null;
@@ -37,6 +38,7 @@ public class ApplicationControl : MonoBehaviour
         {
             CreateConfigurations();
         }
+        ActiveInstance = this;
         loadPref();
         GlobalRepo.suppressCVWindows(SuppressCVWindows);
         GlobalRepo.Setting_ShowDebugImgs(ShowDebugImages);

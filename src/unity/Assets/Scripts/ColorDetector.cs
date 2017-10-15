@@ -344,7 +344,7 @@ public class ColorDetector : MonoBehaviour {
                 {
                     GlobalRepo.showDebugImage("colorBlob#" + i, colorblobImage[i]);
                 }
-                 Cv.WaitKey(100);
+                 Cv.WaitKey(10);
             }
         }
         for (int i = 0; i < validColorsN; i++)
@@ -427,7 +427,7 @@ public class ColorDetector : MonoBehaviour {
     //        Cv.Erode(tmpImage[j], tmpImage[j]);
      //       Cv.Dilate(tmpImage[j], tmpImage[j]);
             colorblobImage[j].Add(tmpImage[j], colorblobImage[j]);
-
+            
         }
 
     }

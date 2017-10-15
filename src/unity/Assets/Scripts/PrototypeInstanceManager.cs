@@ -25,7 +25,7 @@ public class PrototypeInstanceManager : MonoBehaviour {
         mPrototypes = new List<prototypeInstance>();
         mPrototype_Queue = null;
         initPosition = this.transform.position;
-        Debug.Log("[DEBUG] init position: " + initPosition);
+        //Debug.Log("[DEBUG] init position: " + initPosition);
         movetoHide();
         selectedPrototypeIndex = new List<int>();
     }
@@ -159,7 +159,7 @@ public class PrototypeInstanceManager : MonoBehaviour {
         if (mPrototypes == null ) return;
         if (idx >= mPrototypes.Count) return;
         //when prototype is not selected        
-
+        if (idx >= selectedPrototypeIndex.Count) return;
         int prototypeIdx = selectedPrototypeIndex[idx];
         //get the selected prototype
         frontgearsize = mPrototypes[prototypeIdx].mSimulationParam.C2_frontGearSize;
