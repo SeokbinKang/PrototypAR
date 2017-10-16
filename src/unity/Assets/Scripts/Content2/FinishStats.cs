@@ -5,6 +5,7 @@ public class FinishStats : MonoBehaviour {
 
     public GameObject[] placementLabel;
     public GameObject[] statsLabel;
+    public GameObject soundControlObject;
 	// Use this for initialization
 	void Start () {
        resetLabels();
@@ -20,7 +21,12 @@ public class FinishStats : MonoBehaviour {
         if (placementLabel[row] == null || statsLabel[row] == null) return;
         placementLabel[row].GetComponent<Text>().text = placement;
         statsLabel[row].GetComponent<Text>().text = "Gear Ratio(F/R)\n= "+stats;
+        playStopSound();
 
+    }
+    private void playStopSound()
+    {
+        soundControlObject.GetComponent<SoundControl>().onStop();
     }
     public void resetLabels()
     {

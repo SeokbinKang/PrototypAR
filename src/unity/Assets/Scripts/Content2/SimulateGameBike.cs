@@ -108,7 +108,7 @@ public class SimulateGameBike : MonoBehaviour {
             //idx++;
 
             //Check the 1 revolution status
-             if(SimMode==PedalMode.Once && RevOnceBufferCnt>3 && rb.velocity.x==0)
+             if(SimMode==PedalMode.Once && RevOnceBufferCnt>3 && rb.velocity.x==0 && bike.transform.position.x <this.finishLine.transform.position.x)
               {
                   AllBikesStop();
                 SimMode = PedalMode.None;
@@ -214,7 +214,7 @@ public class SimulateGameBike : MonoBehaviour {
     public void PedalAllBikesOnce()
     {
     
-        if (bike_object == null || bike_object.Length < 1) return;
+        if (bike_object == null || bike_object.Length <3) return;
         System.Random rnd = new System.Random();        
         int k = 0;
         Vector3 Pos1st=new Vector3(0,0,0);
@@ -228,11 +228,10 @@ public class SimulateGameBike : MonoBehaviour {
             {
                 //running
                 Rigidbody2D rb = bike.GetComponent<Rigidbody2D>();
-                if (rb == null) continue;
-                
+                if (rb == null) continue;                
                 //rb.AddForce(new Vector2(rnd.Next(4, 5), 0), ForceMode2D.Force);
                 float gearRatio = bike.GetComponent<Content2_AppBikeSim>().mRearGearSize / bike.GetComponent<Content2_AppBikeSim>().mFrontGearSize;
-                 rb.AddForce(new Vector2(baseForce*3/gearRatio, 0), ForceMode2D.Force);
+                rb.AddForce(new Vector2(baseForce*3/gearRatio, 0), ForceMode2D.Force);
 
              //   Debug.Log("Force " + ff[k] + "    " + 3 / gearRatio);
                 //rb.AddForce(new Vector2(ff[k++]*baseForce, 0), ForceMode2D.Force);

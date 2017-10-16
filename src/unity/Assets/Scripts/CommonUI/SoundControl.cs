@@ -1,0 +1,37 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class SoundControl : MonoBehaviour {
+    public GameObject sClick;
+    public GameObject sChange;
+    public GameObject sStop;
+    public GameObject sRoll;
+    public GameObject sRun;
+    public GameObject sGood;
+	// Use this for initialization
+	void Start () {
+	
+	}
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
+    public void onClick()
+    {
+        sClick.GetComponent<AudioSource>().Play();
+    }
+    public void onChange()
+    {
+        sChange.GetComponent<AudioSource>().Play();
+    }
+    public void onStop()
+    {
+        sStop.GetComponent<AudioSource>().Play();
+    }
+          public void onRoll()
+    {
+        sRoll.GetComponent<AudioSource>().Play();
+    }
+
+}
