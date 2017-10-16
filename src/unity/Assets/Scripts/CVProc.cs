@@ -922,7 +922,7 @@ public class CVProc {
         int dist = int.MaxValue;
         CvSize regionSize = GlobalRepo.GetRegionBox(false).Size;
         if (regionSize.Width < 1) return ret; // default
-
+        Debug.Log("DEBUG takeaway direction p(x,y)=" + p.X + " , " + p.Y + "    region(w,h)" + regionSize.Width + " , " + regionSize.Height);
         if (p.X < dist)
         {
             dist = p.X;
@@ -943,7 +943,7 @@ public class CVProc {
             dist = regionSize.Height - p.Y;
             ret = Direction4Way.Down;
         }
-
+        Debug.Log("DEBUG takeaway direction: " + ret);
         return ret;
     }
 }

@@ -119,6 +119,8 @@ public class FBSModel {
         StrEntityEvalMapTalbe[(int)ModelCategory.FrontChainring] = StrEntityEvalType.OneonOne;
         StrEntityEvalMapTalbe[(int)ModelCategory.RearSprocket] = StrEntityEvalType.OneonOne;
         StrEntityEvalMapTalbe[(int)ModelCategory.Chain] = StrEntityEvalType.OneonOne;
+        StrEntityEvalMapTalbe[(int)ModelCategory.LowerChain] = StrEntityEvalType.OneonOne;
+        StrEntityEvalMapTalbe[(int)ModelCategory.UpperChain] = StrEntityEvalType.OneonOne;
         StrEntityEvalMapTalbe[(int)ModelCategory.PedalCrank] = StrEntityEvalType.OneonOne;
 
         StrEntityEvalMapTalbe[(int)ModelCategory.Fish] = StrEntityEvalType.atLeastOne;

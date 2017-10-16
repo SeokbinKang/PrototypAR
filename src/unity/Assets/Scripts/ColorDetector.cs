@@ -177,12 +177,13 @@ public class ColorDetector : MonoBehaviour {
         }
 
     }
-    private static void CaptureImage()
+    public static void CaptureImage()
     {
         string path = "./log/input/InputImage_";        
         CvMat img = GlobalRepo.GetRepo(RepoDataType.dRawRGBA);
+        if (img == null) return;
         path = path + System.DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss")+".png";
-        Debug.Log("Image Saved to " + path);
+        //Debug.Log("Image Saved to " + path);
         img.SaveImage(path);
     }
     private void ResetandGo()
@@ -250,8 +251,8 @@ public class ColorDetector : MonoBehaviour {
         CvMat avgRegionImg = new CvMat(regionImgHSV.Rows, regionImgHSV.Cols, MatrixType.U8C4);
         designARManager m = this.GetComponentInParent<designARManager>();
       
-
-            CvMat regionImgClone = GlobalRepo.GetRepo(RepoDataType.dRawRegionGray);
+        /***FOR deployment 2017-10-17. Ignore behavior and connection.
+        CvMat regionImgClone = GlobalRepo.GetRepo(RepoDataType.dRawRegionGray);
         {
             SignDetector.ConnectivityandBehaviorRecognition(regionImgClone, ref newPrototype, ref markerList, ref behaviorList, ref BVList,ref ConnList);            
             this.GetComponentInParent<BehaviorDetector>().recognizeBehaviorVariables(m.pConceptModelManager.pFBSModel);
@@ -259,7 +260,7 @@ public class ColorDetector : MonoBehaviour {
             //   debugSignMarkers(markerList);
             debugTextLabels(behaviorList);
             //function label
-        }  
+        } */ 
         foreach (var t in behaviorList)
         {
             newPrototype.addBehavior(t);
@@ -356,7 +357,7 @@ public class ColorDetector : MonoBehaviour {
         //debug
 
         if(pProto.mModels!=null)  {
-            Debug.Log("New Prototype N of Models : " + pProto.mModels.Count);
+            Debug.Log("New Prototype N of Models : " + pProto.GetNumberofModels());
         }
         PostRefinePrototype(pProto);
         return pProto;

@@ -67,7 +67,7 @@ public class designARManager : MonoBehaviour {
     }
     public void addPrototype(prototypeDef t)
     {
-        if (pConceptModelManager == null) return;
+        if (pConceptModelManager == null || t==null) return;
         if (pConceptModelManager.mPrototypeList.Count >= pMaxPrototype) return;
         if (mDesignContentModel == null)
         {

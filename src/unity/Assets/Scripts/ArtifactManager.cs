@@ -47,6 +47,7 @@ public class ConceptModelManager {
     private void EvaluationandVisualize(prototypeDef proto)
     {
         // evaluate the design
+        
         if(proto==null || this.pFBSModel ==null)
         {
             Debug.Log("[Error] evaluation model does not exist");
@@ -148,6 +149,18 @@ public class prototypeDef
     public bool isEvaluated = false;
     private bool isRefinementDone=false;
     public Visual2DModel p2DVisualModel = null;
+    public prototypeDef()
+    {
+        if (mModels == null)
+        {
+            mModels = new Dictionary<ModelCategory, List<ModelDef>>();
+            foreach (ModelCategory val in System.Enum.GetValues(typeof(ModelCategory)))
+            {
+                mModels.Add(val, new List<ModelDef>());
+            }
+
+        }
+    }
     public void DebugPrintSummary()
     {
         Debug.Log("======Prototype Summary======");
@@ -170,6 +183,16 @@ public class prototypeDef
                 Debug.Log("ID:" + t.instanceID + "\t Type:" + t.behaviorType + "\t associated structureID:" + t.baseStrcuture.instanceID);
             }
         }
+    }
+    public bool isEmpty()
+    {
+        int modelCnt = 0;
+        foreach (ModelCategory val in System.Enum.GetValues(typeof(ModelCategory)))
+        {
+            modelCnt += mModels[val].Count;        
+        }
+        if (modelCnt == 0) return true;
+        return false;
     }
     public ModelDef getModelDefbyID(int id)
     {
@@ -258,9 +281,19 @@ public class prototypeDef
         if (mConnections == null) mConnections = new List<UserDescriptionInfo>();
         mConnections.Add(conn);
     }
+    public int GetNumberofModels()
+    {
+        int modelCnt = 0;
+        foreach (ModelCategory val in System.Enum.GetValues(typeof(ModelCategory)))
+        {
+            modelCnt += mModels[val].Count;
+        }
+        
+        return modelCnt;
+    }
     public void  addModels(List<ModelDef> modelList)
     {
-        if (modelList == null) return;
+        if (modelList == null || modelList.Count==0) return;
         if (mModels == null) {
             mModels = new Dictionary<ModelCategory, List<ModelDef>>();
             foreach (ModelCategory val in System.Enum.GetValues(typeof(ModelCategory)))

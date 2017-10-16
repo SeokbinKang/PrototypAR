@@ -48,8 +48,8 @@ public class SceneObjectManager : MonoBehaviour {
             SceneObjectPool.Add(PreLoadedObjects.STR_missing_c2_chain, GameObject.Find("STR_MS_chain"));
             SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_left, GameObject.Find("STR_EXTRA_left"));
             SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_down, GameObject.Find("STR_EXTRA_down"));
-            SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_right, GameObject.Find("STR_EXTRA_up"));
-            SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_up, GameObject.Find("STR_EXTRA_right"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_right, GameObject.Find("STR_EXTRA_right"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_up, GameObject.Find("STR_EXTRA_up"));
             SceneObjectPool.Add(PreLoadedObjects.STR_SHAPE_left, GameObject.Find("STR_SHAPE_left"));
             SceneObjectPool.Add(PreLoadedObjects.STR_SHAPE_right, GameObject.Find("STR_SHAPE_right"));
             SceneObjectPool.Add(PreLoadedObjects.STR_POS_dialog, GameObject.Find("STR_POS"));

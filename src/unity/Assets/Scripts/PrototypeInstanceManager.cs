@@ -102,8 +102,8 @@ public class PrototypeInstanceManager : MonoBehaviour {
             Debug.Log("[DEBUG] No prototype in the prototype queue");
             return;
         }
-        
-        
+
+        ColorDetector.CaptureImage();
         mPrototypes.Add(mPrototype_Queue);
         mPrototype_Queue = null;
         UpdateMultiveUI();
