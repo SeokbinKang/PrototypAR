@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{C3DA89E1-70C6-7D6C-993E-C8F831D35880}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_3_8;UNITY_5_3;UNITY_5;ENABLE_NEW_BUGREPORTER;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_SPRITE_POLYGON;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;INCLUDE_DIRECTX12;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_LOCALIZATION;ENABLE_ANDROID_ATLAS_ETC1_COMPRESSION;ENABLE_EDITOR_TESTS_RUNNER;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_LOG_MIXED_STACKTRACE;ENABLE_UNITYWEBREQUEST;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;UNITY_TEAM_LICENSE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\BLINDED_AM_ME package\OtherResources\MiniJSON.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\Bolt.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\Electricity.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\ExampleUseof_MeshColliderPeMaterial.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\ExampleUseof_SavedData.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\Math_Functions.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\ParticlePathFlow.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\Path_Comp.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\PortalView.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\RotationsPerMinute.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\SaveData.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\_2D\AdjustableQuad2D.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\_2D\Parallax2D.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\_2D\Spline2D.cs" />
+     <Compile Include="Assets\BLINDED_AM_ME package\Scripts\_ScriptHelper\SelectableSphereGizmo.cs" />
+     <Compile Include="Assets\NewBehaviourScript.cs" />
+     <Compile Include="Assets\NewBehaviourScript1.cs" />
+     <Compile Include="Assets\Scripts\3DAnimation.cs" />
+     <Compile Include="Assets\Scripts\AR2DImageProc.cs" />
+     <Compile Include="Assets\Scripts\AirParticle.cs" />
+     <Compile Include="Assets\Scripts\Animation2DManager.cs" />
+     <Compile Include="Assets\Scripts\ApplicationControl.cs" />
+     <Compile Include="Assets\Scripts\ArtifactManager.cs" />
+     <Compile Include="Assets\Scripts\BehaviorDetector.cs" />
+     <Compile Include="Assets\Scripts\BlobAnalysis.cs" />
+     <Compile Include="Assets\Scripts\CVProc.cs" />
+     <Compile Include="Assets\Scripts\ColorDetector.cs" />
+     <Compile Include="Assets\Scripts\CommonDS.cs" />
+     <Compile Include="Assets\Scripts\CommonUI\CheckingUI.cs" />
+     <Compile Include="Assets\Scripts\CommonUI\PrototypeInventoryPane.cs" />
+     <Compile Include="Assets\Scripts\CommonUI\SoundControl.cs" />
+     <Compile Include="Assets\Scripts\ConfigObject.cs" />
+     <Compile Include="Assets\Scripts\Content.cs" />
+     <Compile Include="Assets\Scripts\Content2\Content2_AppBikeSim.cs" />
+     <Compile Include="Assets\Scripts\Content2\DesignNames.cs" />
+     <Compile Include="Assets\Scripts\Content2\FinishStats.cs" />
+     <Compile Include="Assets\Scripts\Content2\SimulateGameBike.cs" />
+     <Compile Include="Assets\Scripts\Content2\minimapUI.cs" />
+     <Compile Include="Assets\Scripts\Content2\testrigidbody.cs" />
+     <Compile Include="Assets\Scripts\CustomAnimation\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\CustomAnimation\HorizontalBar.cs" />
+     <Compile Include="Assets\Scripts\CustomAnimation\ParticleBubble.cs" />
+     <Compile Include="Assets\Scripts\CustomAnimation\floatingmovement.cs" />
+     <Compile Include="Assets\Scripts\DebugTrans.cs" />
+     <Compile Include="Assets\Scripts\FBSModel.cs" />
+     <Compile Include="Assets\Scripts\FeedbackToken.cs" />
+     <Compile Include="Assets\Scripts\GlobalRepo.cs" />
+     <Compile Include="Assets\Scripts\HueClustering.cs" />
+     <Compile Include="Assets\Scripts\IP_ObjectShape.cs" />
+     <Compile Include="Assets\Scripts\ImageProcessingBed.cs" />
+     <Compile Include="Assets\Scripts\LayerControl.cs" />
+     <Compile Include="Assets\Scripts\MyExampleScriptableObjectClass.cs" />
+     <Compile Include="Assets\Scripts\ObjectShape2DBuilder.cs" />
+     <Compile Include="Assets\Scripts\PrototypeInstanceManager.cs" />
+     <Compile Include="Assets\Scripts\SceneObjectManager.cs" />
+     <Compile Include="Assets\Scripts\SignDetector.cs" />
+     <Compile Include="Assets\Scripts\Simulation.cs" />
+     <Compile Include="Assets\Scripts\Simulation_Artifact_Chain.cs" />
+     <Compile Include="Assets\Scripts\Simulation_Content_Aqua.cs" />
+     <Compile Include="Assets\Scripts\UserModeControl.cs" />
+     <Compile Include="Assets\Scripts\Visual2DModelManager.cs" />
+     <Compile Include="Assets\Scripts\Visual3DModelManager.cs" />
+     <Compile Include="Assets\Scripts\WebcamController.cs" />
+     <Compile Include="Assets\Scripts\designARManager.cs" />
+     <Compile Include="Assets\Scripts\serialColorModel.cs" />
+     <Compile Include="Assets\lib\Parallel.cs" />
+     <None Include="Assets\Resources\BlurShader.shader" />
+     <None Include="Assets\OpenCV30\OpenCv30Sharp.Blob.xml" />
+     <None Include="Assets\link.xml" />
+     <None Include="Assets\Resources\DepthShader.shader" />
+     <None Include="Assets\Resources\SpeechGrammar.grxml.txt" />
+     <None Include="Assets\OpenCV30\OpenCv30Sharp.UserInterface.xml" />
+     <None Include="Assets\Resources\BlurShader3.shader" />
+     <None Include="Assets\readme_SDK.txt" />
+     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\BLINDED_AM_ME package\Shaders\Clip_Plane.shader" />
+     <None Include="Assets\Resources\Color2DepthShader.shader" />
+     <None Include="Assets\BLINDED_AM_ME package\Shaders\burnThrough.shader" />
+     <None Include="Assets\Resources\BlurShader2.shader" />
+     <None Include="Assets\BLINDED_AM_ME package\Shaders\DiffuseOultine.shader" />
+     <None Include="Assets\license_3rdpartynotice.txt" />
+     <None Include="Assets\BLINDED_AM_ME package\Shaders\CelShaded_ShadowDetails.shader" />
+     <None Include="Assets\Plugins\Tesseract.xml" />
+     <None Include="Assets\Resources\Depth2ColorShader.shader" />
+     <None Include="Assets\BLINDED_AM_ME package\Shaders\Portal.shader" />
+     <None Include="Assets\Resources\FlippedColorBodyShader.shader" />
+     <None Include="Assets\BLINDED_AM_ME package\Shaders\Clip_Radius.shader" />
+     <None Include="Assets\Resources\Erode.shader" />
+     <None Include="Assets\OpenCV30\OpenCv30Sharp.xml" />
+     <None Include="Assets\Resources\BodyShader.shader" />
+     <None Include="Assets\Resources\Dilate.shader" />
+     <None Include="Assets\Resources\Color2BodyShader.shader" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="OpenCvSharp.Blob">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/OpenCV/OpenCvSharp.Blob.dll</HintPath>
+ </Reference>
+ <Reference Include="OpenCvSharp.CPlusPlus">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/OpenCV/OpenCvSharp.CPlusPlus.dll</HintPath>
+ </Reference>
+ <Reference Include="OpenCvSharp">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/OpenCV/OpenCvSharp.dll</HintPath>
+ </Reference>
+ <Reference Include="OpenCvSharp.UserInterface">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/OpenCV/OpenCvSharp.UserInterface.dll</HintPath>
+ </Reference>
+ <Reference Include="OpenCv30Sharp.Blob">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/OpenCV30/OpenCv30Sharp.Blob.dll</HintPath>
+ </Reference>
+ <Reference Include="OpenCv30Sharp">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/OpenCV30/OpenCv30Sharp.dll</HintPath>
+ </Reference>
+ <Reference Include="OpenCv30Sharp.UserInterface">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/OpenCV30/OpenCv30Sharp.UserInterface.dll</HintPath>
+ </Reference>
+ <Reference Include="IPPluginWrapper">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/Plugins/IPPluginWrapper.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Configuration">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/Plugins/System.Configuration.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Configuration.Install">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/Plugins/System.Configuration.Install.dll</HintPath>
+ </Reference>
+ <Reference Include="System.Drawing">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/Plugins/System.Drawing.dll</HintPath>
+ </Reference>
+ <Reference Include="Tesseract">
+ <HintPath>C:/GitHub/ProjectRainbow/src/unity/Assets/Plugins/Tesseract.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{518622B2-9050-A153-E465-3E4BD155181A}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>

@@ -180,7 +180,7 @@ public class ColorDetector : MonoBehaviour {
     public static void CaptureImage()
     {
         string path = "./log/input/InputImage_";        
-        CvMat img = GlobalRepo.GetRepo(RepoDataType.dRawRGBA);
+        CvMat img = GlobalRepo.GetRepo(RepoDataType.dRawBGR);
         if (img == null) return;
         path = path + System.DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss")+".png";
         //Debug.Log("Image Saved to " + path);

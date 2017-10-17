@@ -95,6 +95,7 @@ public class ApplicationControl : MonoBehaviour
     {
         if (GlobalRepo.UserMode != GlobalRepo.UserPhase.design) Reset();
         GlobalRepo.setLearningCount(ConfigLearningFrames);
+        ColorDetector.CaptureImage();
     }
     public void ResumeDesign()
     {
