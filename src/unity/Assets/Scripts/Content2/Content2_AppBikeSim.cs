@@ -19,6 +19,7 @@ public class Content2_AppBikeSim : MonoBehaviour {
     public GameObject part_frontGear;
     public GameObject part_rearGear;
     public GameObject part_pedal;
+    public GameObject part_rider;
     public Vector3 minitialGearScale;
 
 
@@ -145,6 +146,13 @@ public class Content2_AppBikeSim : MonoBehaviour {
         ani = part_pedal.GetComponent<Animator>();
         if (ani == null) return;
         ani.SetFloat("speedparam", frontGearAngularSpeed);
+
+        ani = part_rider.GetComponent<Animator>();
+        if (ani == null) return;
+        Debug.Log("speed param" + frontGearAngularSpeed);
+        ani.SetFloat("speedparam", frontGearAngularSpeed);
+
+
     }
 
     //Set the gear size in the physical prototype
