@@ -1,8 +1,12 @@
 ﻿<Properties StartupItem="unity.CSharp.Plugins.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ColorDetector.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Recognizer\LogicalRecog.cs">
     <Files>
-      <File FileName="Assets\Scripts\ColorDetector.cs" Line="430" Column="1" />
+      <File FileName="Assets\Scripts\Recognizer\LogicalRecog.cs" Line="94" Column="1" />
+      <File FileName="Assets\Scripts\WebcamController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\FBSModel.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\designARManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ColorDetector.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CommonUI\CheckingUI.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Content2\SimulateGameBike.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Simulation.cs" Line="1" Column="1" />

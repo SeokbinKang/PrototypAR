@@ -425,6 +425,7 @@ public class UserDescriptionInfo
     public Mat desc20;
     public CvPoint center;
     public CvPoint[] contourPoints;
+    public CvPoint[] contourPointsLocal;
     public CvRect boundingBox;
     public CvMat BVImage;
     public UserDescriptionInfo()    
