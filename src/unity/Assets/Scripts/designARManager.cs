@@ -17,6 +17,7 @@ public class designARManager : MonoBehaviour {
     public bool showArtifact = true;
     public int pMaxPrototype = 1;
     public bool enableAnimation = true;
+    public static bool ControlBackground = false;
     
     // internal
     private GlobalRepo.UserPhase lastUserPhase = GlobalRepo.UserPhase.none;
@@ -246,6 +247,7 @@ public class designARManager : MonoBehaviour {
     }
     private void ContentBackgroundControl()
     {
+        if (!ControlBackground) return;
         if (SceneObjectManager.getActiveInstance()==null) return;
         lastUserPhase = GlobalRepo.UserMode;
 
@@ -272,7 +274,8 @@ public class designARManager : MonoBehaviour {
         {
             if (lastUserPhase == GlobalRepo.UserPhase.design)
             {
-                SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content2_BGPartial, 30);
+
+                SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendereFadeIn(PreLoadedObjects.Content2_BGPartial,50);
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content2_BGFull, 0);
                 SceneObjectManager.getActiveInstance().MoveToScreenRelativePos(PreLoadedObjects.Content2_BGPartial, new Vector2(0.5f, 0.5f));
             }

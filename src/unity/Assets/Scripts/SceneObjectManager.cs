@@ -95,6 +95,28 @@ public class SceneObjectManager : MonoBehaviour {
         Debug.Log("[DEBUG] Scene Object activated:"+obj.name);
 
     }
+    public void adjustAlphaSpriteRendereFadeIn(PreLoadedObjects objType, float value)
+    {
+        if (!SceneObjectPool.ContainsKey(objType)) return;
+
+        GameObject obj = SceneObjectPool[objType];
+        obj.SetActive(true);
+        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+        if (sr == null) return;
+        Color spriteColor = sr.color;
+        if (Mathf.Abs(value / 255f - spriteColor.a) > 0.005f)
+        {
+            //       Debug.Log("alpha : " + spriteColor.a + "---->" + value / 255f);
+            spriteColor.a = spriteColor.a + Math.Max(Mathf.Abs((value / 255f - spriteColor.a) * 0.003f), 0.003f) * Mathf.Sign(value / 255f - spriteColor.a);
+        }
+        else
+        {
+
+            spriteColor.a = value / 255f;
+        }
+        sr.color = spriteColor;
+        return;
+    }
     public void adjustAlphaSpriteRendere(PreLoadedObjects objType,float value)
     {
         if (!SceneObjectPool.ContainsKey(objType)) return;

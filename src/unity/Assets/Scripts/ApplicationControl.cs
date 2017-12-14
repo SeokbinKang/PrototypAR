@@ -103,8 +103,8 @@ public class ApplicationControl : MonoBehaviour
     }
     private void KeyInput()
     {
-        if (ApplicationMode == RunMod.Release)
-            return;
+      /*  if (ApplicationMode == RunMod.Release)
+            return;*/
         if (Input.GetButtonUp("Fire1"))
         {
             if (GlobalRepo.UserMode != GlobalRepo.UserPhase.design) Reset();
@@ -144,6 +144,14 @@ public class ApplicationControl : MonoBehaviour
         {
             ColorDetector.processKeyInput('4');
         }
+        if (Input.GetButton("Jump"))
+        {
+
+            designARManager.ControlBackground = !designARManager.ControlBackground;
+
+
+        }
+        
 
     }
     private void loadPref()
