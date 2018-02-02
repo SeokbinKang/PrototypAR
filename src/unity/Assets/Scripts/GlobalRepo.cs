@@ -530,6 +530,9 @@ public class Asset2DTexture
     public CvRect presetOverlayRegion;
     public CvPoint AnchorPointRelative;
     public CvMat[] txtBGRAImgSequence=null;
+
+    public byte[] rawByte;
+    public Texture2D texture2DInstance;
     public Asset2DTexture(string filename_)
     {
         
@@ -556,6 +559,18 @@ public class Asset2DTexture
         CM = BlobAnalysis.ExtractBlobCenterfromBGRAImage(newimg);
         filename = filename_;
     }
+    public Asset2DTexture(CvMat img)
+    {
+        this.rawByte = new byte[img.Step * img.Height];
+        txtBGRAImg = new CvMat(img.Height, img.Width, MatrixType.U8C4, this.rawByte);
+        Marshal.Copy(img.DataArrayByte.Ptr, this.rawByte, 0, img.Step * img.Height);
+        texture2DInstance  = new Texture2D(img.Width, img.Height, TextureFormat.RGBA32, false);
+        texture2DInstance.LoadRawTextureData(rawByte);
+    }
+    public void release() {
+        
+        
+    }
     public CvPoint getAnchorPointAbsolute()
     {
         CvPoint ret = new CvPoint(0,0);
@@ -571,6 +586,7 @@ public class Asset2DTexture
 
         return ret;
     }
+    
     public Asset2DTexture(string filename_,int scale)
     {
 

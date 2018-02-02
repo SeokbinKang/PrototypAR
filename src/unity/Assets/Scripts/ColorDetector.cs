@@ -251,16 +251,17 @@ public class ColorDetector : MonoBehaviour {
         CvMat avgRegionImg = new CvMat(regionImgHSV.Rows, regionImgHSV.Cols, MatrixType.U8C4);
         designARManager m = this.GetComponentInParent<designARManager>();
       
-        /***FOR deployment 2017-10-17. Ignore behavior and connection.
+        //***FOR deployment 2017-10-17. Ignore behavior and connection.
+        
         CvMat regionImgClone = GlobalRepo.GetRepo(RepoDataType.dRawRegionGray);
         {
-            SignDetector.ConnectivityandBehaviorRecognition(regionImgClone, ref newPrototype, ref markerList, ref behaviorList, ref BVList,ref ConnList);            
+            //SignDetector.ConnectivityandBehaviorRecognition(regionImgClone, ref newPrototype, ref markerList, ref behaviorList, ref BVList,ref ConnList);            
             this.GetComponentInParent<BehaviorDetector>().recognizeBehaviorVariables(m.pConceptModelManager.pFBSModel);
             behaviorList = this.GetComponentInParent<BehaviorDetector>().exportBehaviorList();
             //   debugSignMarkers(markerList);
             debugTextLabels(behaviorList);
             //function label
-        } */ 
+        } 
         foreach (var t in behaviorList)
         {
             newPrototype.addBehavior(t);

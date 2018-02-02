@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 public class Simulation : MonoBehaviour {
 
     public GameObject Simulation3_Aqua = null;
+    public GameObject Simulation4_Camera= null;
     private static Dictionary<ModelCategory, GameObject> InactiveGameObjectDict = null;
     private static Dictionary<ModelCategory, SimulationObjectType> SimulationTypeDict = null;
     // Use this for initialization
@@ -42,11 +43,13 @@ public class Simulation : MonoBehaviour {
         RevealSimulationObject();
         
         if(mDesignContent==DesignContent.HumanRespiratorySystem)   ControlSimulationContent_1();
-            else if (mDesignContent == DesignContent.BicycleGearSystem) ControlSimulationContent_2(); 
+            else if (mDesignContent == DesignContent.BicycleGearSystem) ControlSimulationContent_2();
+            else if (mDesignContent == DesignContent.CameraSystem) ControlSimulationContent_4();
     }
     public void reset()
     {
-        DestroySimulationContent_2();        
+        DestroySimulationContent_2();
+      //  DestroySimulationContent_4();
         initGameObjectPool();
         userPrototypeInstance = null;
         SimulationControlDone = false;
@@ -54,6 +57,7 @@ public class Simulation : MonoBehaviour {
         simState = new SimulationState();
         mDesignContent = this.GetComponentInParent<ApplicationControl>().getContentType();
     }
+
     private void ControlSimulationContent_1()
     {
         if (userPrototypeInstance == null || SimulationActiveObject.Count == 0) return;
@@ -208,6 +212,7 @@ public class Simulation : MonoBehaviour {
             }
         }     
     }
+
     private void DestroySimulationContent_2()
     {
         if (userPrototypeInstance == null || SimulationActiveObject.Count == 0) return;
@@ -247,7 +252,55 @@ public class Simulation : MonoBehaviour {
 
 
     }
+    private void ControlSimulationContent_4()
+    {
+        
+        if (userPrototypeInstance == null || SimulationActiveObject.Count == 0) return;
+        Debug.Log("!!!!!!!!  control content 4");
 
+        if (!SimulationControlDone)
+        {
+            SimulationParam sp = new SimulationParam();
+            Content.ExtractSimulationParameters(userPrototypeInstance, mDesignContent, ref sp);
+            if(Simulation4_Camera!=null)
+            {
+                Simulation4_Camera.GetComponent<Simulation_Content_Camera>().UpdateCameraParams(sp);
+            }
+            SimulationControlDone = true;
+
+
+            //add the prototype to prototypeInstanceManager
+            GameObject go_multiview = GameObject.Find("InventoryUI");
+            PrototypeInstanceManager t = go_multiview.GetComponent<PrototypeInstanceManager>();
+
+            CvRect regionBox = GlobalRepo.GetRegionBox(false);
+            Texture2D temporaryTexture = null;
+            if (temporaryTexture == null || temporaryTexture.width != regionBox.Width || temporaryTexture.height != regionBox.Height)
+            {
+                temporaryTexture = new Texture2D(regionBox.Width, regionBox.Height, TextureFormat.RGBA32, false);
+            }
+            temporaryTexture.LoadRawTextureData(GlobalRepo.getByteStream(RepoDataType.dRawRegionRGBAByte));
+            temporaryTexture.Apply();
+            if (temporaryTexture != null)
+            {
+                t.AddcompletePrototypeInstance(temporaryTexture, sp);
+            }
+        }
+    }
+
+    private void DestroySimulationContent_4()
+    {
+        if (userPrototypeInstance == null || SimulationActiveObject.Count == 0) return;
+        //calculate Breathing rate and Amount
+
+        SimulationParam sp = new SimulationParam();
+        sp.C4_focalLength = 0;
+        sp.C4_sensorType = "";
+        sp.C4_shutterSpeed = 0;
+        this.Simulation4_Camera.GetComponent<Simulation_Content_Camera>().UpdateCameraParams(sp);
+        this.Simulation4_Camera.GetComponent<Simulation_Content_Camera>().reset();
+
+    }
     private void RevealSimulationObject()
     {
         for(int i=0;i<SimulationActiveObject.Count;i++)
@@ -339,7 +392,7 @@ public class Simulation : MonoBehaviour {
     }
 
     //recursive
-    private static void SetSpriteAlphato(GameObject go,float alpha)
+    public static void SetSpriteAlphato(GameObject go,float alpha)
     {
         if (go == null) return;
         SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
@@ -512,9 +565,9 @@ public class Simulation : MonoBehaviour {
             if (chain_go == null) return;
             Simulation_Artifact_Chain chain_sim = chain_go.GetComponent<Simulation_Artifact_Chain>();
             if (chain_sim == null) return;
-            if(FBSModel.activeFBSInstance.getModelsVirtualPosType(model)==VirtualPosType.SyncwithPhysical)
+            if(FBSModel.activeFBSInstance.getModelsVirtualPosType(model)==VirtualPosType.AlignWithPhysicalPrototype)
                 chain_sim.InitChain(model, userproto);
-            else if (FBSModel.activeFBSInstance.getModelsVirtualPosType(model) == VirtualPosType.Stableasfixed)
+            else if (FBSModel.activeFBSInstance.getModelsVirtualPosType(model) == VirtualPosType.AlignWithVirtualBG)
             {
                 //connect chain to pre-loaded gears
                 GameObject frontgear = InactiveGameObjectDict[ModelCategory.FrontChainring];
@@ -540,7 +593,16 @@ public class Simulation : MonoBehaviour {
     }
     //pick a childe of which default size is most close to the user model
     //
+    public static bool IsActiveinSimulation(GameObject obj)
+    {
+        if (obj == null) return false;
+        for (int i = 0; i < SimulationActiveObject.Count; i++)
+        {
+            if (SimulationActiveObject[i].name == obj.name) return true;
+        }
 
+        return false;
+    }
     private static void SimulateStaticModelMultiChild(ModelDef model, bool fitAspect, bool adjustPivottoConnect)
     {
         if (model == null) return;
@@ -653,7 +715,7 @@ public class Simulation : MonoBehaviour {
             userobjPivotinScreen.y = userObjBoxRB.y + userobjSize.y * spritePivot.y;
             userobjPivotinScreen.z = 1;
         }
-        if (FBSModel.activeFBSInstance.getModelsVirtualPosType(model) == VirtualPosType.Stableasfixed)
+        if (FBSModel.activeFBSInstance.getModelsVirtualPosType(model) == VirtualPosType.AlignWithVirtualBG)
         {
             userobjPivotinScreen = FBSModel.activeFBSInstance.getClosestModelsTruthScreenPos(model);
         }
@@ -763,7 +825,7 @@ public class Simulation : MonoBehaviour {
             userobjPivotinScreen.y = userObjBoxRB.y + userobjSize.y * spritePivot.y;
             userobjPivotinScreen.z = 1;
         }
-        if (FBSModel.activeFBSInstance.getModelsVirtualPosType(model) == VirtualPosType.Stableasfixed)
+        if (FBSModel.activeFBSInstance.getModelsVirtualPosType(model) == VirtualPosType.AlignWithVirtualBG)
         {
             userobjPivotinScreen = FBSModel.activeFBSInstance.getClosestModelsTruthScreenPos(model);
         }
@@ -922,6 +984,10 @@ public class Simulation : MonoBehaviour {
         InactiveGameObjectDict[ModelCategory.LowerChain] = GameObject.Find("c2_LowerChain");
         InactiveGameObjectDict[ModelCategory.PedalCrank] = GameObject.Find("c2_PedalCrank");
 
+        InactiveGameObjectDict[ModelCategory.C4_lens] = GameObject.Find("c4_lens");
+        InactiveGameObjectDict[ModelCategory.C4_shutter] = GameObject.Find("c4_shutter");
+        InactiveGameObjectDict[ModelCategory.C4_sensor] = GameObject.Find("c4_sensor");
+
         foreach (ModelCategory val in System.Enum.GetValues(typeof(ModelCategory)))
         {
             if (!InactiveGameObjectDict.ContainsKey(val)) InactiveGameObjectDict[val] = null;
@@ -943,6 +1009,10 @@ public class Simulation : MonoBehaviour {
         SimulationTypeDict[ModelCategory.LowerChain] = SimulationObjectType.LoadCustomArtifact;
         SimulationTypeDict[ModelCategory.PedalCrank] = SimulationObjectType.LoadStaticModelFixedPosNoConnect;
 
+
+        SimulationTypeDict[ModelCategory.C4_lens] = SimulationObjectType.LoadStaticModelAdaptAspectNoConnect;
+        SimulationTypeDict[ModelCategory.C4_shutter] = SimulationObjectType.LoadStaticModelAdaptAspectNoConnect;
+        SimulationTypeDict[ModelCategory.C4_sensor] = SimulationObjectType.LoadStaticModelAdaptAspectNoConnect;
 
 
         foreach (ModelCategory val in System.Enum.GetValues(typeof(ModelCategory)))

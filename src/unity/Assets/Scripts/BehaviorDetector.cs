@@ -132,8 +132,8 @@ public class BehaviorDetector : MonoBehaviour {
                     CvRect BVImgRect = new CvRect(pos, 0, BBVImageUC8.Width - pos -1, BBVImageUC8.Height);
                     blist[l].BVImage = blist[l].image.GetSubArr(out blist[l].BVImage, BVImgRect).Clone();
                     blist[l].image = blist[l].image.GetSubArr(out blist[l].image, BImgRect).Clone();
-                    GlobalRepo.showDebugImage("bv image", blist[l].BVImage);
-                    GlobalRepo.showDebugImage("b image", blist[l].image);
+                    GlobalRepo.showDebugImage("bv image"+l, blist[l].BVImage);
+                    GlobalRepo.showDebugImage("b image"+l, blist[l].image);
                     break;
                 }
                 else if (successiveBorder < 0) successiveBorder = 0;
@@ -167,14 +167,20 @@ public class BehaviorDetector : MonoBehaviour {
     }
     public void recognizeBehaviorVariables(FBSModel pFBSModel)
     {
+        Debug.Log("BV RECOG!!!!!!!!");
         if (pFBSModel == null || this.mBehaviorList == null) return;
-
+        
         for(int i = 0; i < mBehaviorList.Count; i++)
         {
             UserDescriptionInfo bdesc = mBehaviorList[i];
             BehaviorVariableEntity be = pFBSModel.GetBehaviorEntity(bdesc.InfoBehaviorCategory);
-            int borderHorizontalPos = Content.getBVHorizontalBorder(bdesc.InfoBehaviorCategory);
-            if (be == null || borderHorizontalPos==0) continue;
+            if (be == null)
+            {
+                Debug.Log("[DEBUG BV] could not find a corresponding BV entity in the FBS model");
+                continue;
+            }
+            //int borderHorizontalPos = Content.getBVHorizontalBorder(bdesc.InfoBehaviorCategory);
+            //if (be == null || borderHorizontalPos==0) continue;
 
             //extract BV image
             //    CvMat BVImg = CVProc.getSubimgHorizontalBorder(bdesc.image, borderHorizontalPos).Clone();
@@ -187,12 +193,17 @@ public class BehaviorDetector : MonoBehaviour {
                 bdesc.InfoNumericalBVPercent = measureLevel;
                 bdesc.InfoNumericalBVValue = (float)be.numericalValueRange.Key;
                 if (measureLevel != -1) bdesc.InfoNumericalBVValue += (be.numericalValueRange.Value - be.numericalValueRange.Key) * measureLevel / 100.0f;
+                Debug.Log("[DEBUG]BV type=" + be.VariableType + "Measure BV %=" + bdesc.InfoNumericalBVPercent);
             }
             if (be.VariableType == BehaviorVariableType.Categorical)
             {
-                bdesc.InfoCategoricalBVValue = "";
+                if(measureLevel>=0 && measureLevel < 4) bdesc.InfoCategoricalBVValue = be.CategoricalValueList[(int)measureLevel];
+                    else bdesc.InfoCategoricalBVValue = "";
+                 //TODO detect categorical value
+
+                Debug.Log("[DEBUG]BV type=" + be.VariableType + "Measure BV name=" + bdesc.InfoCategoricalBVValue);
             }
-                Debug.Log("[DEBUG]BV type="+be.VariableType+"Measure BV=" + measureLevel);
+             
 
             //detect according to the types
         }
@@ -211,7 +222,10 @@ public class BehaviorDetector : MonoBehaviour {
         }
         if (bvt == BehaviorVariableType.Categorical)
         {
-            ret = -1;
+            
+            int BVIndex = CVProc.measure4cornermarker(BVImg);
+            Debug.Log("[DEBUG][Cat BV] index = " + BVIndex);
+            ret = BVIndex;
         }
 
 

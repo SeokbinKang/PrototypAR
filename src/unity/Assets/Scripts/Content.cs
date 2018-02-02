@@ -6,10 +6,13 @@ using OpenCvSharp.CPlusPlus;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System;
+
 public class Content {
 
   
     private static List<KeyValuePair<BehaviorCategory,string>> behaviorDefinitionList=null;
+    private static List<KeyValuePair<BehaviorCategory, List<string>>> CategoricalBVDefs = null;
     public static string getOrganName(ModelCategory mc)
     {
         if (mc == ModelCategory.None) return "undefined";
@@ -30,6 +33,9 @@ public class Content {
         if (mc == ModelCategory.Bacteria) return "Bacteria";
         if (mc == ModelCategory.Plant) return "Plant";
         if (mc == ModelCategory.AirPump) return "AirPump";
+        if (mc == ModelCategory.C4_lens) return "Lens";
+        if (mc == ModelCategory.C4_sensor) return "Sensor";
+        if (mc == ModelCategory.C4_shutter) return "Shutter";
 
         return "undefined";
 
@@ -52,7 +58,9 @@ public class Content {
         if (bc == BehaviorCategory.SUPPLY) return "SUPPLY";
         if (bc == BehaviorCategory.TRANSFER) return "TRANSFER";
         if (bc == BehaviorCategory.CLEAN) return "CLEAN";
-        
+        if (bc == BehaviorCategory.C4_FOCUS) return "FOCUS";
+        if (bc == BehaviorCategory.C4_EXPOSE) return "EXPOSE";
+        if (bc == BehaviorCategory.C4_CAPTURE) return "CAPTURE";
         return "undefined";
 
     }
@@ -70,13 +78,36 @@ public class Content {
         {
             behaviorDefinitionList.Add(new KeyValuePair<BehaviorCategory,string>(behavior, getBaviorLabelText(behavior)));
         }
+        //create categorical behaviors
+        CategoricalBVDefs = new List<KeyValuePair<BehaviorCategory, List<string>>>();
+
+        List<string> cameraSensorBVs = new List<string>();
+        cameraSensorBVs.Add("color");
+        cameraSensorBVs.Add("mono");
+        cameraSensorBVs.Add("infrared");
+        cameraSensorBVs.Add("thermal");
+        CategoricalBVDefs.Add(new KeyValuePair<BehaviorCategory, List<string>>(BehaviorCategory.C4_CAPTURE, cameraSensorBVs));
+    }
+    public static List<string> getCategoricalBVdefinition(BehaviorCategory t)
+    {
+        if (behaviorDefinitionList == null) CreateBehaviorDefinition();        
+        if (CategoricalBVDefs == null) return null;
+        foreach (KeyValuePair<BehaviorCategory,List<string>> c in CategoricalBVDefs)
+        {
+            if (c.Key == t)
+            {
+                return c.Value;
+            }
+        }
+        return null;
     }
     public static BehaviorCategory DetermineBehaviorType(string labelText, out int LDistance)
     {
         BehaviorCategory ret = BehaviorCategory.None;
         if (behaviorDefinitionList == null) CreateBehaviorDefinition();
         Regex rgx = new Regex("[^a-zA-Z0-9 -]");
-        labelText = rgx.Replace(labelText, "");        
+        labelText = rgx.Replace(labelText, "");
+        labelText = labelText.ToUpper();
         int[] Ldist = new int[behaviorDefinitionList.Count];
         for (int i = 0; i < behaviorDefinitionList.Count; i++)
         {            
@@ -143,8 +174,18 @@ public class Content {
             ret[4] = ModelCategory.None;
             NColors = 4;
         }
+        if (FBSModel.ContentType == DesignContent.CameraSystem)
+        {
+            ret[0] = ModelCategory.C4_lens;
+            ret[1] = ModelCategory.C4_shutter;
+            ret[2] = ModelCategory.C4_sensor;
+            ret[3] = ModelCategory.None;
+            ret[4] = ModelCategory.None;
+            NColors = 3;
+        }
         return ret;
     }
+
     public static bool ForceConvexShape(ModelCategory mc)
     {
         if (mc == ModelCategory.FrontChainring) return true;
@@ -203,11 +244,27 @@ public class Content {
             }
             
         }
+        if (cType == DesignContent.CameraSystem)
+        { //TODO
+            ModelDef lensModel = proto.getModelDefbyType(ModelCategory.C4_lens);
+            ModelDef shutterModel = proto.getModelDefbyType(ModelCategory.C4_shutter);
+            ModelDef sensor = proto.getModelDefbyType(ModelCategory.C4_sensor);
+
+            BehaviorDef be = null;
+            if(lensModel!=null) be = lensModel.getBehaviorDef(BehaviorCategory.C4_FOCUS);
+            if(be!=null) ret.C4_focalLength = be.getNumericalBV();
+            if (shutterModel != null) be = shutterModel.getBehaviorDef(BehaviorCategory.C4_EXPOSE);
+            if(be!=null) ret.C4_shutterSpeed = be.getNumericalBV();
+            if(sensor!=null) be = sensor.getBehaviorDef(BehaviorCategory.C4_CAPTURE);
+            if(be!=null) ret.C4_sensorType = be.getCategoricalBV();
+            
+        }
+
     }
    
 }
 
-public class SimulationParam
+public class SimulationParam : ICloneable
 {
     public int C1_breathingRate;
     public int C1_breathingAmountLevel;
@@ -217,13 +274,26 @@ public class SimulationParam
     public int C2_Torque;
     public float C2_frontGearSize;
     public float C2_rearGearSize;
+
+    public float C4_focalLength;
+    public float C4_shutterSpeed;
+    public string C4_sensorType;
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
+    public void DebugPrint()
+    {
+        Debug.Log("[DEBUG] Simulation Param C4: " + C4_focalLength + "\t" + C4_shutterSpeed + "\t" + C4_sensorType);
+    }
 }
 public enum DesignContent
 {
     NONE,
     HumanRespiratorySystem,
     BicycleGearSystem,
-    AquariumEcology
+    AquariumEcology,
+    CameraSystem
 }
 
 
@@ -294,6 +364,9 @@ public enum ModelCategory
     Plant,
     AirPump,
     Bacteria,
+    C4_lens,
+    C4_shutter,
+    C4_sensor,    
     TotalNumberOfModels
 
 }
@@ -317,6 +390,9 @@ public enum BehaviorCategory
     DIFFUSE,
     PRODUCE,    
     CLEAN,
+    C4_FOCUS,
+    C4_EXPOSE,
+    C4_CAPTURE,
     TotalNumberofBahaviors
 
 }

@@ -66,6 +66,8 @@ public class SceneObjectManager : MonoBehaviour {
             SceneObjectPool.Add(PreLoadedObjects.Content1_BGFull, GameObject.Find("c1_bgfull"));
             SceneObjectPool.Add(PreLoadedObjects.Content2_BGPartial, GameObject.Find("c2_bgpartial"));
             SceneObjectPool.Add(PreLoadedObjects.Content2_BGFull, GameObject.Find("c2_bgfull"));
+            SceneObjectPool.Add(PreLoadedObjects.Content4_BGPartial, GameObject.Find("c4_bgpartial"));
+            SceneObjectPool.Add(PreLoadedObjects.Content4_BGFull, GameObject.Find("c4_bgfull"));
         }
 
 
@@ -288,6 +290,28 @@ public class SceneObjectManager : MonoBehaviour {
       //  Debug.Log("[DEBUG SImulation]  GO bound Screem min pos : " + minp + "   max pos : " + maxp);
         size = maxp - minp;
     }
+    public static void MeasureObjectPointinScreen(GameObject go, Vector2 pointPivot, ref Vector3 screenCoord)
+    {   
+
+        GameObject obj = go;
+        if (obj == null) return;
+        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+        if (sr == null) return;
+        Vector3 minp = sr.bounds.min;
+        Vector3 maxp = sr.bounds.max;
+        Vector3 centerp = sr.bounds.center;
+        Vector3 size;
+
+        minp = Camera.main.WorldToScreenPoint(minp);
+        maxp = Camera.main.WorldToScreenPoint(maxp);
+        size = maxp - minp;
+        // Debug.Log("[DEBUG MeasureObjectPointinScreen]  min : " + minp + "   max : " + maxp);
+        screenCoord.x = minp.x + size.x * pointPivot.x;
+        screenCoord.y = minp.y + size.y * pointPivot.y;
+        screenCoord.z = centerp.z;
+
+
+    }
     public static void MeasureObjectPointinScreen(PreLoadedObjects preObjType, Vector2 pointPivot, ref Vector3 screenCoord)
     {
         if (activeSOMgr==null || !activeSOMgr.SceneObjectPool.ContainsKey(preObjType)) return;
@@ -368,5 +392,7 @@ public enum PreLoadedObjects
     Content1_BGFull,
     Content2_BGPartial,
     Content2_BGFull,
+    Content4_BGFull,
+    Content4_BGPartial,
     TotalNofObjects
 }

@@ -396,6 +396,16 @@ public class BehaviorDef
     public UserDescriptionInfo marker;
     public ModelDef baseStrcuture;    
 
+    public string getCategoricalBV()
+    {
+        if (marker == null) return "";
+        return marker.InfoCategoricalBVValue;
+    }
+    public float getNumericalBV()
+    {
+        if (marker == null) return 0;
+        return marker.InfoNumericalBVValue;        
+    }
     public BehaviorDef(UserDescriptionInfo pMarker)
     {
         int dist;
@@ -460,6 +470,14 @@ public class ModelDef
         mShapeBuilder = null;
 
         
+    }
+    public BehaviorDef getBehaviorDef(BehaviorCategory cat)
+    {
+        for(int i = 0; i < this.behaviors.Count; i++)
+        {
+            if (this.behaviors[i].behaviorType == cat) return behaviors[i];
+        }
+        return null;
     }
     public ObjectShape2DBuilder getShapeBuilder()
     {

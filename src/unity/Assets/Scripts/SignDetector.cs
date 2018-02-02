@@ -29,16 +29,17 @@ public class SignDetector {
         List<UserDescriptionInfo> anyMarkerList = new List<UserDescriptionInfo>();        
         CVProc.findRectMarkers(ROIimg, ref anyMarkerList, ref squareSignmarker, ref rectmarker);
         int q = 0;
-       //   debugSignMarkers(behaviorsignmarker);
+        //   debugSignMarkers(behaviorsignmarker);
 
 
         // SignDetection(ref squareSignmarker);
 
-//        CVProc.textLabelDetection(ref rectmarker);
+        // 
+        //CVProc.textLabelDetection(ref rectmarker); // DEPRECATED
 
 
-    //    BehaviorVariableDetection(ref pProto, ref rectmarker, ref BVmarker);
-        ConnectionDetection(ref pProto, ref anyMarkerList, ref connectionList);
+        BehaviorVariableDetection(ref pProto, ref rectmarker, ref BVmarker);
+     //   ConnectionDetection(ref pProto, ref anyMarkerList, ref connectionList);
         Debug.Log(anyMarkerList.Count + "any markers found");
         Debug.Log(squareSignmarker.Count + "square markers found");
         Debug.Log(rectmarker.Count + "rect markers found");

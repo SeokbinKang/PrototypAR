@@ -116,6 +116,25 @@ public class CVProc {
         if (cntFilled + cntBlank == 0) return 0;
         return cntFilled * 100 / (cntFilled + cntBlank);
     }
+    public static int measure4cornermarker(CvMat marker)
+    {
+        
+        CvMat reducedMarker = new CvMat(2, 2, MatrixType.U8C1);        
+        marker.Resize(reducedMarker, Interpolation.Area);
+        GlobalRepo.showDebugImage("4corner", reducedMarker);
+        int[] val = new int[4];
+        for (int i = 0; i < 4; i++) {
+            val[i] = (int)reducedMarker.Get1D(i).Val0;
+        }
+        int minValue = val.Min();
+        int minIndex = val.ToList().IndexOf(minValue);
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == minIndex) continue;
+            if (Math.Abs(minValue - val[i]) < 30) return -1;
+        }
+        return minIndex;
+    }
     public static bool isPointinBox(CvPoint p, CvRect box)
     {
         return box.Contains(p);
@@ -642,7 +661,7 @@ public class CVProc {
                                     //square marker
                                 } else
                                 {  // rectangluar label    
-                                    /*                              
+                                    /*                  
                                     roi = shrinkROI(roi);
                                     CvMat mask = new CvMat(img.Rows, img.Cols, MatrixType.U8C1);
                                     mask.SetZero();
@@ -670,9 +689,9 @@ public class CVProc {
                                     marker.instanceID = id++;
                                     marker.InfoBehaviorTypeId = 999;
                                     marker.center = centeroid;
-                                    rectMarkerList.Add(marker);*/
+                                    rectMarkerList.Add(marker);
 
-
+                                */
                                 }
 
 
@@ -758,6 +777,43 @@ public class CVProc {
         return (dx1 * dx2 + dy1 * dy2) / Math.Sqrt((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2) + 1e-10);
     }
     // Update is called once per frame
+
+    public static CvMat CropToAspectRatio(CvMat img,float width, float height,float portion)
+    {
+        float srcAspect = (float)((float)img.Width) / ((float)img.Height);
+        Vector2 cropSize;
+        //aspect ratio
+        Debug.Log("[DEBUG][Photo Crop] " + srcAspect + "-->" + width / height);
+        if (width/height > srcAspect)
+        { //full with
+            cropSize.x = img.Width - 10;
+            cropSize.y = cropSize.x * height / width;
+        } else 
+        {
+            cropSize.y = img.Height - 10;
+            cropSize.x = cropSize.y * width / height;
+            //full height
+        }
+        //fov portion
+        cropSize = cropSize * portion;
+
+        //crop at the center
+        CvSize rectsize = new CvSize((int)cropSize.x, (int)cropSize.y);
+        CvRect roi = new CvRect(img.Width / 2 - rectsize.Width / 2, img.Height / 2 - rectsize.Height / 2, rectsize.Width, rectsize.Height);
+        CvMat subimg;
+        Debug.Log("[DEBUG][Photo Crop] " + roi.TopLeft.X+"\t"+roi.TopLeft.Y+"\t"+roi.Width + "\t" + roi.Height);
+        subimg = img.GetSubArr(out subimg, roi).Clone();
+    
+        return subimg;
+    }
+    public static float linearMap(float x, float x0, float x1, float y0, float y1)
+    {
+        if ((x1 - x0) == 0)
+        {
+            return (y0 + y1) / 2;
+        }
+        return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
+    }
     void Update() {
 
     }
@@ -817,7 +873,7 @@ public class CVProc {
         angles[0] = Mathf.Atan2((RT - LT).Y * -1, (RT - LT).X);
         angles[1] = Mathf.Atan2((RB - LB).Y * -1, (RB - LB).X);
         degree = angles.Sum() / ((float)angles.Length);
-        Debug.Log("[DEBUG TILT] LT:" + LT.X + "," + LT.Y + "  RT:" + RT.X + "," + RT.Y + "  LB:" + LB.X + "," + LB.Y + "  RB:" + RB.X + "," + RB.Y);
+        //Debug.Log("[DEBUG TILT] LT:" + LT.X + "," + LT.Y + "  RT:" + RT.X + "," + RT.Y + "  LB:" + LB.X + "," + LB.Y + "  RB:" + RB.X + "," + RB.Y);
         c.X = rectPoints.Sum(x => x.X) / 4;
         c.Y = rectPoints.Sum(x => x.Y) / 4;
         return c;

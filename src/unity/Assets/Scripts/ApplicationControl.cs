@@ -88,9 +88,11 @@ public class ApplicationControl : MonoBehaviour
     {
         this.GetComponentInParent<Simulation>().reset();
         ARDetector.GetComponent<designARManager>().resetScene();
+
         GlobalRepo.reset();
 
     }
+    
     public void StartLearning()
     {
         if (GlobalRepo.UserMode != GlobalRepo.UserPhase.design) Reset();

@@ -136,6 +136,7 @@ public class Visual2DModel
             DesignContent mDesignContent = ApplicationControl.ActiveInstance.getContentType();
             SimulationParam sp = new SimulationParam();
             Content.ExtractSimulationParameters(conceptModel, mDesignContent, ref sp);
+
             t.AddIncompletePrototypeInstance(temporaryTexture,feedbacklist,sp);
         }
 

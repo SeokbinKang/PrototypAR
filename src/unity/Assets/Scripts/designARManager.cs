@@ -17,7 +17,7 @@ public class designARManager : MonoBehaviour {
     public bool showArtifact = true;
     public int pMaxPrototype = 1;
     public bool enableAnimation = true;
-    public static bool ControlBackground = false;
+    public static bool ControlBackground = true;
     
     // internal
     private GlobalRepo.UserPhase lastUserPhase = GlobalRepo.UserPhase.none;
@@ -155,22 +155,22 @@ public class designARManager : MonoBehaviour {
             StructurePosVariable pos;            
             pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.265f, 0.4f), 150);
             StructureEntity freeWheel = new StructureEntity(ModelCategory.RearSprocket, pos);
-            freeWheel.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
+            freeWheel.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
             pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.462f, 0.38f), 150);
             StructureEntity frontChainRing = new StructureEntity(ModelCategory.FrontChainring, pos);
-            frontChainRing.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
+            frontChainRing.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
 
             pos = new StructurePosVariable(PosEvalType.None, PreLoadedObjects.Content2_BGPartial, new Vector2(0.61f, 0.71f), 150);
             StructureEntity Upperchain = new StructureEntity(ModelCategory.UpperChain, pos);
-            Upperchain.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
+            Upperchain.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
 
             pos = new StructurePosVariable(PosEvalType.None, PreLoadedObjects.Content2_BGPartial, new Vector2(0.61f, 0.71f), 150);
             StructureEntity Lowerchain = new StructureEntity(ModelCategory.LowerChain, pos);
-            Lowerchain.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
+            Lowerchain.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
 
             pos = new StructurePosVariable(PosEvalType.ContourProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.462f, 0.38f), 100);
             StructureEntity PedalCrank = new StructureEntity(ModelCategory.PedalCrank, pos);
-            PedalCrank.v6_VirtualPositionType = VirtualPosType.Stableasfixed;
+            PedalCrank.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
 
             mDesignContentModel.AddStructureEntity(freeWheel);
             mDesignContentModel.AddStructureEntity(frontChainRing);
@@ -244,6 +244,40 @@ public class designARManager : MonoBehaviour {
             this.pConceptModelManager.setFBSModel(mDesignContentModel);
 
         }
+        if (contentType == DesignContent.CameraSystem)
+        {
+            mDesignContentModel = new FBSModel(contentType);
+            StructurePosVariable pos;
+            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content4_BGPartial, new Vector2(0.265f, 0.4f), 150);
+            StructureEntity lens = new StructureEntity(ModelCategory.C4_lens, pos);
+            lens.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
+            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content4_BGPartial, new Vector2(0.462f, 0.38f), 150);
+            StructureEntity shutter = new StructureEntity(ModelCategory.C4_shutter, pos);
+            shutter.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
+            //TODO structure virtual positions have to be updated
+
+            pos = new StructurePosVariable(PosEvalType.None, PreLoadedObjects.Content4_BGPartial, new Vector2(0.62f, 0.38f), 150);
+            StructureEntity sensor = new StructureEntity(ModelCategory.C4_sensor, pos);
+            sensor.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
+
+            mDesignContentModel.AddStructureEntity(lens);
+            mDesignContentModel.AddStructureEntity(shutter);
+            mDesignContentModel.AddStructureEntity(sensor);
+
+            BehaviorEntity be;
+            be = new BehaviorEntity(BehaviorCategory.C4_FOCUS, lens, new BehaviorVariableEntity(BehaviorVariableType.Numeric, new KeyValuePair<float, float>(10, 200)));
+            mDesignContentModel.AddBehaviorEntity(be);
+            be = new BehaviorEntity(BehaviorCategory.C4_EXPOSE, shutter, new BehaviorVariableEntity(BehaviorVariableType.Numeric, new KeyValuePair<float, float>(1, 1000)));
+            mDesignContentModel.AddBehaviorEntity(be);
+            List<string> sensorBVdef = Content.getCategoricalBVdefinition(BehaviorCategory.C4_CAPTURE);
+            if (sensorBVdef == null || sensorBVdef.Count==0) Debug.Log("sensor BV def is empty");
+            be = new BehaviorEntity(BehaviorCategory.C4_CAPTURE, sensor, new BehaviorVariableEntity(BehaviorVariableType.Categorical, sensorBVdef));
+            mDesignContentModel.AddBehaviorEntity(be);
+            
+            
+            this.pConceptModelManager.setFBSModel(mDesignContentModel);
+
+        }
     }
     private void ContentBackgroundControl()
     {
@@ -272,6 +306,7 @@ public class designARManager : MonoBehaviour {
 
         if (FBSModel.ContentType == DesignContent.BicycleGearSystem)
         {
+            
             if (lastUserPhase == GlobalRepo.UserPhase.design)
             {
 
@@ -291,7 +326,27 @@ public class designARManager : MonoBehaviour {
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content2_BGFull, 200);
             }
         }
+        if (FBSModel.ContentType == DesignContent.CameraSystem)
+        {
+            Debug.Log("designARManager, contenttype = canera");
+            if (lastUserPhase == GlobalRepo.UserPhase.design)
+            {
 
+                SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendereFadeIn(PreLoadedObjects.Content4_BGPartial, 50);
+                SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content4_BGFull, 0);
+                SceneObjectManager.getActiveInstance().MoveToScreenRelativePos(PreLoadedObjects.Content4_BGPartial, new Vector2(0.5f, 0.5f));
+            }
+            else if (lastUserPhase == GlobalRepo.UserPhase.feedback)
+            {
+                SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content4_BGPartial, 10);
+                SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content4_BGFull, 0);
+            }
+            else if (lastUserPhase == GlobalRepo.UserPhase.simulation)
+            {
+                SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content4_BGPartial, 20);
+                SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content4_BGFull, 50);
+            }
+        }
     }
     
     void ResetAll ()

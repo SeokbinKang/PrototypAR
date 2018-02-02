@@ -34,11 +34,11 @@ public class FBSModel {
         List<FeedbackToken> ret = new List<FeedbackToken>();
         List<FeedbackToken> feedbacklist;
         //phase 3 check existence
-  //       feedbacklist = EvaluateStrExistence(userPrototype);
+        feedbacklist = EvaluateStrExistence(userPrototype);
 
-//           ret.AddRange(feedbacklist);  //DEBUG
+       // ret.AddRange(feedbacklist);  //DEBUG
 
-        //        debugFeedback(feedbacklist);        
+        debugFeedback(feedbacklist);        
 
         //       feedbacklist = EvaluateStrShape(userPrototype);
         // ret.AddRange(feedbacklist);
@@ -101,11 +101,15 @@ public class FBSModel {
         ShapeEvaluationMapTable[(int)ModelCategory.RearSprocket] = ShapeEvalType.ActualShape;
         ShapeEvaluationMapTable[(int)ModelCategory.Chain] = ShapeEvalType.DoNot;
         ShapeEvaluationMapTable[(int)ModelCategory.PedalCrank] = ShapeEvalType.DoNot;
-
+        
         ShapeEvaluationMapTable[(int)ModelCategory.Fish] = ShapeEvalType.DoNot;
         ShapeEvaluationMapTable[(int)ModelCategory.Plant] = ShapeEvalType.DoNot;
         ShapeEvaluationMapTable[(int)ModelCategory.Bacteria] = ShapeEvalType.DoNot;
         ShapeEvaluationMapTable[(int)ModelCategory.AirPump] = ShapeEvalType.DoNot;
+
+        ShapeEvaluationMapTable[(int)ModelCategory.C4_lens] = ShapeEvalType.ActualShape;
+        ShapeEvaluationMapTable[(int)ModelCategory.C4_shutter] = ShapeEvalType.ActualShape;
+        ShapeEvaluationMapTable[(int)ModelCategory.C4_sensor] = ShapeEvalType.DoNot;        
 
         //set color pallete accordingly
         StrEntityEvalMapTalbe = new StrEntityEvalType[(int)ModelCategory.TotalNumberOfModels + 1];
@@ -127,6 +131,11 @@ public class FBSModel {
         StrEntityEvalMapTalbe[(int)ModelCategory.Plant] = StrEntityEvalType.atLeastOne;
         StrEntityEvalMapTalbe[(int)ModelCategory.Bacteria] = StrEntityEvalType.atLeastOne;
         StrEntityEvalMapTalbe[(int)ModelCategory.AirPump] = StrEntityEvalType.atLeastOne;
+
+        StrEntityEvalMapTalbe[(int)ModelCategory.C4_lens] = StrEntityEvalType.OneonOne;
+        StrEntityEvalMapTalbe[(int)ModelCategory.C4_sensor] = StrEntityEvalType.OneonOne;
+        StrEntityEvalMapTalbe[(int)ModelCategory.C4_shutter] = StrEntityEvalType.OneonOne;
+
     }
     public int AddStructureEntity(StructureEntity se)
     {
@@ -772,6 +781,6 @@ public class StructurePosVariable
 public enum VirtualPosType
 {
     none,
-    SyncwithPhysical,
-    Stableasfixed
+    AlignWithPhysicalPrototype,
+    AlignWithVirtualBG
 }
