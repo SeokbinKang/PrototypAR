@@ -135,6 +135,8 @@
     <Compile Include="Assets\Scripts\CommonDS.cs" />
     <Compile Include="Assets\Scripts\CommonUI\AppButtons.cs" />
     <Compile Include="Assets\Scripts\CommonUI\CheckingUI.cs" />
+    <Compile Include="Assets\Scripts\CommonUI\CommonUI.cs" />
+    <Compile Include="Assets\Scripts\CommonUI\DebugUI.cs" />
     <Compile Include="Assets\Scripts\CommonUI\PrototypeInventoryPane.cs" />
     <Compile Include="Assets\Scripts\CommonUI\SoundControl.cs" />
     <Compile Include="Assets\Scripts\ConfigObject.cs" />
@@ -145,12 +147,17 @@
     <Compile Include="Assets\Scripts\Content2\SimulateGameBike.cs" />
     <Compile Include="Assets\Scripts\Content2\minimapUI.cs" />
     <Compile Include="Assets\Scripts\Content2\testrigidbody.cs" />
+    <Compile Include="Assets\Scripts\Content4\BeamMgr.cs" />
+    <Compile Include="Assets\Scripts\Content4\BeamUnit.cs" />
+    <Compile Include="Assets\Scripts\Content4\C4_lens.cs" />
+    <Compile Include="Assets\Scripts\Content4\C4_sensor.cs" />
     <Compile Include="Assets\Scripts\Content4\Content4_UIControl.cs" />
     <Compile Include="Assets\Scripts\Content4\Content4_UI_Components.cs" />
     <Compile Include="Assets\Scripts\Content4\SensorImageViewer.cs" />
     <Compile Include="Assets\Scripts\Content4\Simulation_Content4_AppCam.cs" />
+    <Compile Include="Assets\Scripts\Content4\Simulation_Content4_Camera.cs" />
     <Compile Include="Assets\Scripts\Content4\Simulation_Content4_Photography.cs" />
-    <Compile Include="Assets\Scripts\Content4\Simulation_Content_Camera.cs" />
+    <Compile Include="Assets\Scripts\Content4\UI_ViewFinder.cs" />
     <Compile Include="Assets\Scripts\CustomAnimation\CameraControl.cs" />
     <Compile Include="Assets\Scripts\CustomAnimation\HorizontalBar.cs" />
     <Compile Include="Assets\Scripts\CustomAnimation\ParticleBubble.cs" />
@@ -172,7 +179,7 @@
     <Compile Include="Assets\Scripts\Simulation.cs" />
     <Compile Include="Assets\Scripts\Simulation_Artifact_Chain.cs" />
     <Compile Include="Assets\Scripts\Simulation_Content_Aqua.cs" />
-    <Compile Include="Assets\Scripts\UserModeControl.cs" />
+    <Compile Include="Assets\Scripts\SystemModeControl.cs" />
     <Compile Include="Assets\Scripts\Visual2DModelManager.cs" />
     <Compile Include="Assets\Scripts\Visual3DModelManager.cs" />
     <Compile Include="Assets\Scripts\WebcamController.cs" />

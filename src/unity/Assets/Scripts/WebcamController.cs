@@ -140,13 +140,13 @@ public class WebcamController : MonoBehaviour {
         {
            
             webcamTexture_.GetPixels32(webcamdata);
-            TextureToMat3ch(webcamdata, colorImageBGR,webcamTexture_.width, webcamTexture_.height);
+            TextureToCvMatUC3(webcamdata, colorImageBGR,webcamTexture_.width, webcamTexture_.height);
             GlobalRepo.updateRepoRaw(RepoDataType.dRawBGR, colorImageBGR, webcamTexture_.width, webcamTexture_.height, 3);
             GlobalRepo.updateInternalRepo(true);
             BackupImage = null;  
         }
         
-        GlobalRepo.tickLearningCount();
+       // GlobalRepo.tickLearningCount();
         if (webcamTexture_ != null && GlobalRepo.NeedLiveStream())
         {
            
@@ -187,7 +187,7 @@ public class WebcamController : MonoBehaviour {
     }
 
 
-    void TextureToMat3ch(Color32[] _data, byte[] dest,int width,int height)
+    void TextureToCvMatUC3(Color32[] _data, byte[] dest,int width,int height)
     {
         // Color32 array : r, g, b, a
         if (dest.Length != _data.Length * 3)

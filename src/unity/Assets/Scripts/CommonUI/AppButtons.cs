@@ -21,6 +21,7 @@ public class AppButtons : MonoBehaviour {
         {
             Debug.Log("[ERROR] Could not find ApplicationControl obejct");
             return;
+            
         }
         ApplicationControl appControlInstance = appControl.GetComponent<ApplicationControl>();
         if (appControlInstance == null)

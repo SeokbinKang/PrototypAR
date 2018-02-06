@@ -2179,6 +2179,7 @@ MonoBehaviour:
   scaleFactor: 1
   ShowDebugImage: 1
   hueFilterThreshold: 5
+  BackgroundRecognition: 1
 --- !u!4 &252776108
 Transform:
   m_ObjectHideFlags: 0
@@ -13616,7 +13617,7 @@ GameObject:
   - 114: {fileID: 1517689564}
   m_Layer: 0
   m_Name: ApplicationControl
-  m_TagString: Untagged
+  m_TagString: SystemControl
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13711,6 +13712,8 @@ MonoBehaviour:
   designModeCamera: {fileID: 85729203}
   Content2_App: {fileID: 1350033266}
   Content4_App: {fileID: 720426544}
+  BackgroundProcessing: 1
+  UserActivityThreshold: 0.05
 --- !u!1 &1523046123
 GameObject:
   m_ObjectHideFlags: 0

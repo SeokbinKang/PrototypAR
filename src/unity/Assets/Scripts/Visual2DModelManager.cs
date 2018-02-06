@@ -16,14 +16,14 @@ public class Visual2DModelManager : MonoBehaviour
     public Vector2 testFramePosition;
     public bool testFramePos = false;
     public GameObject appcontrol;
-    private List<Visual2DModel> mModelList = null;
+    private List<Visual2DModel> mPrototypeVisual2DList = null;
     // Use this for initialization
     private CvMat objectOverlayImgRGBA = null;
     private CvWindow DebugVisual2DModel = null;
     
     void Start()
     {
-        mModelList = new List<Visual2DModel>();
+        mPrototypeVisual2DList = new List<Visual2DModel>();
         
     }
 
@@ -34,19 +34,25 @@ public class Visual2DModelManager : MonoBehaviour
     }
     public void reset()
     {
-        foreach(var t in mModelList)
+        foreach(var t in mPrototypeVisual2DList)
         {
             t.reset();
         }
-        mModelList.Clear();
+        mPrototypeVisual2DList.Clear();
     }
     public void createVisual2DModel(prototypeDef proto, List<FeedbackToken> feedbacklist)
     {
         Visual2DModel vmodel = new Visual2DModel(proto, feedbacklist);
-        mModelList.Add(vmodel);
+        mPrototypeVisual2DList.Add(vmodel);
         proto.p2DVisualModel = vmodel;
     }
-
+    public void ShowScaffoldingFeedback()
+    {
+        foreach(var p in mPrototypeVisual2DList)
+        {
+            p.ProduceScaffoldingFeedback();
+        }
+    }
     private void tickVisual2DModels()
     {
         if (GlobalRepo.GetRepo(RepoDataType.dRawRegionBGR) == null) return;
@@ -58,7 +64,7 @@ public class Visual2DModelManager : MonoBehaviour
 
         }
         if(objectOverlayImgRGBA!=null) objectOverlayImgRGBA.Zero();
-        foreach (Visual2DModel vmodel in mModelList)
+        foreach (Visual2DModel vmodel in mPrototypeVisual2DList)
         { //display object augmentation
             vmodel.tick(objectOverlayImgRGBA, null);
         }
@@ -96,7 +102,7 @@ public class Visual2DModel
 {
     private prototypeDef mRefConceptModel = null;
     private List<Visual2DObject> mObjectList = null;
-
+    private List<FeedbackToken> mFeedbackList = null;
     //M feedback List
     //private animationClip mAnimationClip
     //public void overlayObject(CvMat dstROI);
@@ -104,21 +110,38 @@ public class Visual2DModel
     {
         mRefConceptModel = conceptModel;
         mObjectList = new List<Visual2DObject>();
-        Debug.Log("receving feedback " + feedbacklist.Count);
-        if (feedbacklist.Count == 0)
-        {
-            CreateSimulatedVisualization(conceptModel);
-            GlobalRepo.SetUserPhas(GlobalRepo.UserPhase.simulation);
-            return;
-        }
+        Debug.Log("!!!receving feedback " + feedbacklist.Count);
+        
         //for (int i = 0; i < feedbacklist.Count; i++)
         for (int i = 0; i < 1; i++)
         {
-            CreateFeedback(conceptModel, feedbacklist[i]);
-            if (feedbacklist[i].type == EvaluationResultCategory.Shape_existence_missing) break;
+            if (GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().BackgroundProcessing)
+            {
+                mFeedbackList = feedbacklist;
+                GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().NotifyScaffoldingFeedback(feedbacklist.Count);
+            }
+            else
+            {
+                ProduceScaffoldingFeedback(conceptModel, feedbacklist[i]);
+                if (feedbacklist[i].type == EvaluationResultCategory.Shape_existence_missing) break;
+                GlobalRepo.SetUserPhas(GlobalRepo.UserStep.feedback);
+            }
         }
-        GlobalRepo.SetUserPhas(GlobalRepo.UserPhase.feedback);
 
+
+        if (GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().BackgroundProcessing)
+        {
+            
+            CreateVisualSimulation(conceptModel);
+            if(feedbacklist.Count == 0) GlobalRepo.SetUserPhas(GlobalRepo.UserStep.simulation);
+               // else GlobalRepo.SetUserPhas(GlobalRepo.UserStep.feedback);
+        }
+        else if (feedbacklist.Count == 0)
+            {
+                CreateVisualSimulation(conceptModel);
+                GlobalRepo.SetUserPhas(GlobalRepo.UserStep.simulation);
+                return;
+            }
 
         //add the prototype to prototypeInstanceManager
         GameObject go_multiview = GameObject.Find("InventoryUI");
@@ -136,26 +159,10 @@ public class Visual2DModel
             DesignContent mDesignContent = ApplicationControl.ActiveInstance.getContentType();
             SimulationParam sp = new SimulationParam();
             Content.ExtractSimulationParameters(conceptModel, mDesignContent, ref sp);
-
             t.AddIncompletePrototypeInstance(temporaryTexture,feedbacklist,sp);
         }
 
-
-
-
-
-        /*
-        foreach (KeyValuePair<ModelCategory, List<ModelDef>> item in mRefConceptModel.mModels)
-        {
-            foreach (ModelDef m in item.Value)
-            {
-                if (m.modelType != ModelCategory.Airways)
-                { //TODO: airways's seeding point shouldn't be CM, which could be out of the blob)
-                    Visual2DObject vObj = new Visual2DObject(m);
-                    mObjectList.Add(vObj);
-                }
-            }
-        }*/
+        
     }
     public void reset()
     {
@@ -163,9 +170,19 @@ public class Visual2DModel
         if (SOMgr != null) SOMgr.initSceneObject();
         mRefConceptModel = null;
         mObjectList.Clear();
+        mFeedbackList = null;
 
     }
-    private void CreateFeedback(prototypeDef proto, FeedbackToken feedback)
+    public void ProduceScaffoldingFeedback()
+    {
+        if (mRefConceptModel == null || mFeedbackList == null || mFeedbackList.Count == 0)
+        {
+            Debug.Log("[DEBUG] No data to produce scaffoldign feedback");
+            return;
+        }
+        ProduceScaffoldingFeedback(mRefConceptModel, mFeedbackList[0]);
+    }
+    private void ProduceScaffoldingFeedback(prototypeDef proto, FeedbackToken feedback)
     {
         feedback.DebugPrint();
         //##########################################################
@@ -344,7 +361,7 @@ public class Visual2DModel
 
     }
         
-        private void CreateSimulatedVisualization(prototypeDef proto)
+        private void CreateVisualSimulation(prototypeDef proto)
     {
         Debug.Log("OK Let's stat simlulation!");
 
@@ -364,7 +381,11 @@ public class Visual2DModel
             vobj.tick(objectOverlayDst);
             if (!vobj.isBuildingDone()) debugBuildingCheck = false;
         }
-        if (debugBuildingCheck) GlobalRepo.ProcessingDone();
+        if (debugBuildingCheck)
+        {
+            
+          //  GlobalRepo.ProcessingDone();
+        }
     }
 
 }

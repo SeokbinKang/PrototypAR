@@ -56,6 +56,7 @@ public class ConceptModelManager {
 
         // evaulate the prototype model
         List<FeedbackToken> feedback = pFBSModel.EvaluatePrototype(proto);
+
         pVisual2DMgr.createVisual2DModel(proto, feedback);
         // generate 2d feedback
 
@@ -75,10 +76,7 @@ public class ConceptModelManager {
         }
         return isDone;
     }
-    public void create2DVisualModel()
-    {
-
-    }
+  
     public void animateVisual3DModelTick()
     {
         foreach(var t in mPrototypeList)

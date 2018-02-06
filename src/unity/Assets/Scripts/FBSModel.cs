@@ -36,7 +36,7 @@ public class FBSModel {
         //phase 3 check existence
         feedbacklist = EvaluateStrExistence(userPrototype);
 
-       // ret.AddRange(feedbacklist);  //DEBUG
+        ret.AddRange(feedbacklist);  //DEBUG
 
         debugFeedback(feedbacklist);        
 
@@ -44,15 +44,15 @@ public class FBSModel {
         // ret.AddRange(feedbacklist);
 
       //   feedbacklist = EvaluateStrPosition(userPrototype);
-      //   ret.AddRange(feedbacklist);
+      //  ret.AddRange(feedbacklist);
 
       //   feedbacklist = EvaluateStrConnectivity(userPrototype);
      //    ret.AddRange(feedbacklist);
 
-     //     feedbacklist = EvaluateBehavior(userPrototype);
-     //     ret.AddRange(feedbacklist);
+       //   feedbacklist = EvaluateBehavior(userPrototype);
+      //    ret.AddRange(feedbacklist);
 
-     //   feedbacklist = EvaluateBehaviorVariables(userPrototype);
+      //  feedbacklist = EvaluateBehaviorVariables(userPrototype);
      //   ret.AddRange(feedbacklist);
         //phase 1 check shape
 

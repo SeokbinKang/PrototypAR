@@ -249,12 +249,15 @@ public class Content {
             ModelDef lensModel = proto.getModelDefbyType(ModelCategory.C4_lens);
             ModelDef shutterModel = proto.getModelDefbyType(ModelCategory.C4_shutter);
             ModelDef sensor = proto.getModelDefbyType(ModelCategory.C4_sensor);
-
+            ret.C4_focalLength = -1;
+            ret.C4_shutterSpeed = -1;
+            ret.C4_sensorType = "none";
             BehaviorDef be = null;
             if(lensModel!=null) be = lensModel.getBehaviorDef(BehaviorCategory.C4_FOCUS);
-            if(be!=null) ret.C4_focalLength = be.getNumericalBV();
+            if (be != null) ret.C4_focalLength = be.getNumericalBV();            
             if (shutterModel != null) be = shutterModel.getBehaviorDef(BehaviorCategory.C4_EXPOSE);
             if(be!=null) ret.C4_shutterSpeed = be.getNumericalBV();
+                
             if(sensor!=null) be = sensor.getBehaviorDef(BehaviorCategory.C4_CAPTURE);
             if(be!=null) ret.C4_sensorType = be.getCategoricalBV();
             

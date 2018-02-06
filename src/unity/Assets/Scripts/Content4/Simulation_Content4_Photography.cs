@@ -17,7 +17,7 @@ public class Simulation_Content4_Photography : MonoBehaviour {
     public GameObject game_camera;
     public GameObject[] camera_instances;
     public GameObject PrototypesInvertoryUI;
-
+    public GameObject viewFinder;
 
     private Vector3 CameraInitPos;
     // Use this for initialization
@@ -71,11 +71,13 @@ public class Simulation_Content4_Photography : MonoBehaviour {
     {
         float fovLevel100 = CVProc.linearMap(fov, 20, 200, 1, 100);
         game_camera.GetComponent<Simulation_Content4_AppCam>().setFovLevel100(fovLevel100);
+        viewFinder.GetComponent<UI_ViewFinder>().UpdateFocusVal(fov);
     }
     private void SetShutterSpeed(float ss)
     {
         float lightLevel100 = CVProc.linearMap(ss, 1, 1000, 100, 1);
         game_camera.GetComponent<Simulation_Content4_AppCam>().setLightBrightnessLevel100(lightLevel100);
+        viewFinder.GetComponent<UI_ViewFinder>().UpdateSSpeedVal(ss);
     }
     private void reset()
     {
@@ -91,6 +93,15 @@ public class Simulation_Content4_Photography : MonoBehaviour {
         //reload photo
 
         //load prototypes and init mincams
+    }
+    public void loadPrototypeParam()
+    {
+        if (GlobalRepo.UserMode != GlobalRepo.UserStep.AppContent4) return;
+        SimulationParam sp = PrototypesInvertoryUI.GetComponent<PrototypeInstanceManager>().GetPrototypeProperties_Content4();
+        sp.DebugPrint();
+        SetFov(sp.C4_focalLength);
+        SetShutterSpeed(sp.C4_shutterSpeed);
+        
     }
     
 }

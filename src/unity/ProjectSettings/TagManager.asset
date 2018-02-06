@@ -4,10 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Floor
-  - Character
-  - Glove
-  - Target
+  - SystemControl
+  - DebugUI
+  - C4_lens
+  - C4_sensor
+  - C4_focus
+  - C4_shutter
   layers:
   - Default
   - TransparentFX
