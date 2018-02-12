@@ -137,8 +137,11 @@
     <Compile Include="Assets\Scripts\CommonUI\CheckingUI.cs" />
     <Compile Include="Assets\Scripts\CommonUI\CommonUI.cs" />
     <Compile Include="Assets\Scripts\CommonUI\DebugUI.cs" />
+    <Compile Include="Assets\Scripts\CommonUI\PrototypeInventoryInfo.cs" />
     <Compile Include="Assets\Scripts\CommonUI\PrototypeInventoryPane.cs" />
+    <Compile Include="Assets\Scripts\CommonUI\PrototypeInventoryParam.cs" />
     <Compile Include="Assets\Scripts\CommonUI\SoundControl.cs" />
+    <Compile Include="Assets\Scripts\CommonUI\UserActiveStatus.cs" />
     <Compile Include="Assets\Scripts\ConfigObject.cs" />
     <Compile Include="Assets\Scripts\Content.cs" />
     <Compile Include="Assets\Scripts\Content2\Content2_AppBikeSim.cs" />
@@ -153,8 +156,10 @@
     <Compile Include="Assets\Scripts\Content4\C4_sensor.cs" />
     <Compile Include="Assets\Scripts\Content4\Content4_UIControl.cs" />
     <Compile Include="Assets\Scripts\Content4\Content4_UI_Components.cs" />
+    <Compile Include="Assets\Scripts\Content4\PhotoReviewUI.cs" />
     <Compile Include="Assets\Scripts\Content4\SensorImageViewer.cs" />
     <Compile Include="Assets\Scripts\Content4\Simulation_Content4_AppCam.cs" />
+    <Compile Include="Assets\Scripts\Content4\Simulation_Content4_AppCapture.cs" />
     <Compile Include="Assets\Scripts\Content4\Simulation_Content4_Camera.cs" />
     <Compile Include="Assets\Scripts\Content4\Simulation_Content4_Photography.cs" />
     <Compile Include="Assets\Scripts\Content4\UI_ViewFinder.cs" />
@@ -214,6 +219,7 @@
     <None Include="Assets\Resources\Erode.shader" />
     <None Include="Assets\Resources\FlippedColorBodyShader.shader" />
     <None Include="Assets\Resources\SpeechGrammar.grxml.txt" />
+    <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GrayscaleEffect.shader" />
     <None Include="Assets\license_3rdpartynotice.txt" />
     <None Include="Assets\link.xml" />
     <None Include="Assets\readme_SDK.txt" />

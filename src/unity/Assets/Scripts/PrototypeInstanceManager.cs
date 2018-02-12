@@ -129,12 +129,14 @@ public class PrototypeInstanceManager : MonoBehaviour {
             if (multivewPane != null && multivewPane.Length > i && multivewPane[i] != null)
             {
                 multivewPane[i].GetComponent<PrototypeInventoryPane>().loadTexture(mPrototypes[i].mPrototypeImgTexture);
-                multivewPane[i].GetComponent<PrototypeInventoryPane>().SetName(mPrototypes[i].name);
+                multivewPane[i].GetComponent<PrototypeInventoryPane>().UpdateInfo(mPrototypes[i]);
+                //multivewPane[i].GetComponent<PrototypeInventoryPane>().SetName(mPrototypes[i].name);
                 multivewPane[i].GetComponent<PrototypeInventoryPane>().Selected(invisible);
             }
         }
         for (int i = mPrototypes.Count; i < multivewPane.Length; i++)
         {
+            multivewPane[i].GetComponent<PrototypeInventoryPane>().UpdateInfo((prototypeInstance) null);
             multivewPane[i].GetComponent<PrototypeInventoryPane>().loadTexture(null);
             multivewPane[i].GetComponent<PrototypeInventoryPane>().Selected(invisible);
         }
@@ -160,17 +162,17 @@ public class PrototypeInstanceManager : MonoBehaviour {
         }
         //allocate slot and update UI texture
     }
-    public SimulationParam GetPrototypeProperties_Content4()
+    public SimulationParam GetPrototypeProperties_Content4(out string PrototypeName)
     {
         SimulationParam ret = new SimulationParam();
         ret.C4_focalLength = 100;
         ret.C4_sensorType = "color";
         ret.C4_shutterSpeed = 500;
-
+        PrototypeName = "";
         if (selectedPrototypeIndex==null || selectedPrototypeIndex.Count==0)  {
             return ret;
         }
-        
+        PrototypeName = mPrototypes[selectedPrototypeIndex[0]].name;
         return mPrototypes[selectedPrototypeIndex[0]].mSimulationParam;
     }
     public void GetPrototypeProperties_Content2(int idx, ref float frontgearsize, ref float reargearsize,ref string name)

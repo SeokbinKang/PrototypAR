@@ -285,11 +285,15 @@ public class GlobalRepo
     }
     public static bool readyForRecognition(float movementThreshold)
     {
-        bool userActive = CheckUserActivity(movementThreshold,3f);
+        float InactiveTime = 0;
+        bool userActive = true;
+        bool InActivity = CheckUserActivity(movementThreshold,3f,out InactiveTime,out userActive);
         bool isLearning = getLearningCount() > 0;
-        GameObject o = GameObject.FindGameObjectWithTag("DebugUI");
-        if(o!=null) o.GetComponent<DebugUI>().DebugUserActivity(userActive);
-        if (userActive && GlobalRepo.UserStep.feedback == GlobalRepo.UserMode)
+        /*GameObject o = GameObject.FindGameObjectWithTag("DebugUI");
+        if(o!=null) o.GetComponent<DebugUI>().DebugUserActivity(userActive);*/
+        GameObject o = GameObject.FindGameObjectWithTag("StatusUI");
+        if (o != null) o.GetComponent<UserActiveStatus>().updateStatus(userActive, WaitingNextModel,InactiveTime,3f);
+        if (InActivity && GlobalRepo.UserStep.feedback == GlobalRepo.UserMode)
         {
             GameObject.FindGameObjectWithTag("SystemControl").GetComponent<ApplicationControl>().ResetDesignData();
 
@@ -306,16 +310,18 @@ public class GlobalRepo
                 return false;
             }
         }
-        if (!userActive && !WaitingNextModel) return true; 
+        if (!InActivity && !WaitingNextModel) return true; 
         return false;
     }
     public static void PingRecognitionDone()
     {
         WaitingNextModel = true;
     }
-    private static bool CheckUserActivity(float MovementThreshold,float HoldingTime)
+    private static bool CheckUserActivity(float MovementThreshold,float HoldingTime,out float timeElpase,out bool currentActivity)
     {
-       // if (isProcessingFinished()) return true;
+        // if (isProcessingFinished()) return true;
+        timeElpase = 0;
+        currentActivity = true;
         if (!repoDict.ContainsKey(RepoDataType.dRawRegionGray) || repoDict[RepoDataType.dRawRegionGray] == null) return true;
         if (repoDict[RepoDataType.dRawRegionGrayLast] == null || repoDict[RepoDataType.dRawRegionGrayLast].Step * repoDict[RepoDataType.dRawRegionGrayLast].Height != repoDict[RepoDataType.dRawRegionGray].Step * repoDict[RepoDataType.dRawRegionGray].Height)
         {  //create new memory space and copy 
@@ -340,12 +346,14 @@ public class GlobalRepo
         }
         //check time threshold
         //inactive
+        currentActivity = false;
         if (TimeInactivityBegin < 0)
         {
             TimeInactivityBegin = Time.time;
             return true;
         }
-        if(Time.time - TimeInactivityBegin > HoldingTime)
+        timeElpase = Time.time - TimeInactivityBegin;
+        if (timeElpase > HoldingTime)
         {
             return false;
         }

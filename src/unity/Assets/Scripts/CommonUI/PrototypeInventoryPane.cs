@@ -15,7 +15,7 @@ using UnityEngine.UI;
 public class PrototypeInventoryPane : MonoBehaviour {
 
     public GameObject selectedMark;
-
+    public GameObject PanelInfo;
 	// Use this for initialization
 	void Start () {
 	
@@ -30,15 +30,51 @@ public class PrototypeInventoryPane : MonoBehaviour {
         Image i = selectedMark.GetComponent<Image>();
         i.color = c;
     }
+    public void UpdateInfo(PhotoShot p)
+    {
+        if (p == null)
+        {
+            this.SetName("");
+            return;
+        }
+        this.SetName(p.prototypeName);
+        //udpate parameters
+        if (ApplicationControl.ActiveInstance.ContentType == DesignContent.CameraSystem)
+        {
+            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(0, "focal length", p.parameter.C4_focalLength + " mm");
+            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(1, "shutter speed", p.parameter.C4_shutterSpeed + " ms");
+            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(2, "sensor type", p.parameter.C4_sensorType);
+        }
+    }
+    public void UpdateInfo(prototypeInstance p)
+    {
+        if (p == null)
+        {
+            this.SetName("");
+            return;
+        }
+        this.SetName(p.name);
+        //udpate parameters
+        if (ApplicationControl.ActiveInstance.ContentType == DesignContent.CameraSystem)
+        {
+            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(0, "focal length", p.mSimulationParam.C4_focalLength + " mm");
+            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(1, "shutter speed", p.mSimulationParam.C4_shutterSpeed + " ms");
+            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(2, "sensor type", p.mSimulationParam.C4_sensorType);
+        }
+            
+    }
     public void loadTexture(Texture2D txt)
     {
         RawImage txtdest = this.GetComponent<RawImage>();
         if (txtdest == null) return;
         txtdest.texture = txt;
+        
+        
         refresh();
     }
     public string GetName()
     {
+        return PanelInfo.GetComponent<PrototypeInventoryInfo>().GetName();
         for (int i = 0; i < this.transform.childCount; i++)
         {
             InputField namefield = this.transform.GetChild(i).gameObject.GetComponent<InputField>();
@@ -49,6 +85,8 @@ public class PrototypeInventoryPane : MonoBehaviour {
     }
     public void SetName(string name_)
     {
+        PanelInfo.GetComponent<PrototypeInventoryInfo>().SetName(name_);
+        return;
         for (int i = 0; i < this.transform.childCount; i++)
         {
             InputField namefield = this.transform.GetChild(i).gameObject.GetComponent<InputField>();
@@ -65,13 +103,17 @@ public class PrototypeInventoryPane : MonoBehaviour {
         {
             DisableImageView();
             DisableButtons();
+            PanelInfo.SetActive(false);
         } else
         {
+            Debug.Log("[DEBUG] Loding texture...");
             EnableImageView();
             EnableButtons();
+            PanelInfo.SetActive(true);
         }
 
     }
+
     private void DisableImageView()
     {
         RawImage txtdest = this.GetComponent<RawImage>();
@@ -87,6 +129,7 @@ public class PrototypeInventoryPane : MonoBehaviour {
         Color c = txtdest.color;
         c.a = 1;
         txtdest.color = c;
+        
     }
     private void DisableButtons()
     {

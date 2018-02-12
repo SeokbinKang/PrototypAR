@@ -5,7 +5,7 @@ public class SystemModeControl : MonoBehaviour {
     public GameObject designModeCamera;
     public GameObject Content2_App;
     public GameObject Content4_App;
-    public GameObject CommonUIGO;
+    public GameObject DesignUIGO;
     public bool BackgroundProcessing = false;
     public float UserActivityThreshold = 0.05f;
     private int warmupFrame = 100;
@@ -28,7 +28,7 @@ public class SystemModeControl : MonoBehaviour {
     }
     private void UpdateCommonUI()
     {
-        CommonUIGO.GetComponent<CommonUI>().UpdateFeedbackButton(this.AvailableFeedbacks);
+        DesignUIGO.GetComponent<CommonUI>().UpdateFeedbackButton(this.AvailableFeedbacks);
     }
     private void CheckRecognition()
     {
@@ -87,11 +87,13 @@ public class SystemModeControl : MonoBehaviour {
         {
             designModeCamera.SetActive(false);
             Content2_App.SetActive(true);
+            Content4_App.SetActive(false);
         }
         if (mode == userAppMode.content4_photography)
         {
             GlobalRepo.SetUserPhas(GlobalRepo.UserStep.AppContent4);
             designModeCamera.SetActive(false);
+            Content2_App.SetActive(false);
             Content4_App.SetActive(true);
         }
     }
