@@ -7,7 +7,7 @@ public class Content4_UIControl : MonoBehaviour {
     public GameObject[] ObjectApplicationPhotography;
     // Use this for initialization
     private Content4_UIModes mCurrentMode = Content4_UIModes.None;
-    private GlobalRepo.UserPhase lastUserMode = GlobalRepo.UserPhase.design;
+    private GlobalRepo.UserStep lastUserMode = GlobalRepo.UserStep.design;
     void Start () {
         SetUIMode(Content4_UIModes.Design);
     }
@@ -15,7 +15,7 @@ public class Content4_UIControl : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (GlobalRepo.UserMode != lastUserMode && GlobalRepo.UserMode== GlobalRepo.UserPhase.design)
+        if (GlobalRepo.UserMode != lastUserMode && GlobalRepo.UserMode== GlobalRepo.UserStep.design)
         {
             ModeDesign();
         }

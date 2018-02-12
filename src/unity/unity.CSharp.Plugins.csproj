@@ -101,6 +101,8 @@
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\CameraIntrinsics.cs" />
     <Compile Include="Assets\Standard Assets\CollectionMap.cs" />
+    <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\Grayscale.cs" />
+    <Compile Include="Assets\Standard Assets\Effects\ImageEffects\Scripts\ImageEffectBase.cs" />
     <Compile Include="Assets\Standard Assets\EventPump.cs" />
     <Compile Include="Assets\Standard Assets\ExceptionHelper.cs" />
     <Compile Include="Assets\Standard Assets\INativeWrapper.cs" />
@@ -256,6 +258,7 @@
     <None Include="Assets\Resources\Erode.shader" />
     <None Include="Assets\Resources\FlippedColorBodyShader.shader" />
     <None Include="Assets\Resources\SpeechGrammar.grxml.txt" />
+    <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\GrayscaleEffect.shader" />
     <None Include="Assets\license_3rdpartynotice.txt" />
     <None Include="Assets\link.xml" />
     <None Include="Assets\readme_SDK.txt" />

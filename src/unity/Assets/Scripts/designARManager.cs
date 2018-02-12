@@ -20,7 +20,7 @@ public class designARManager : MonoBehaviour {
     public static bool ControlBackground = true;
     
     // internal
-    private GlobalRepo.UserPhase lastUserPhase = GlobalRepo.UserPhase.none;
+    private GlobalRepo.UserStep lastUserPhase = GlobalRepo.UserStep.none;
 
     private FBSModel mDesignContentModel = null;
     void Start()
@@ -62,17 +62,14 @@ public class designARManager : MonoBehaviour {
     {
         GlobalRepo.closeDebugWindow();
     }
-    public void evaluateandVisualize()
-    {
-       
-    }
+   
     public void addPrototype(prototypeDef t)
     {
         if (pConceptModelManager == null || t==null) return;
         if (pConceptModelManager.mPrototypeList.Count >= pMaxPrototype) return;
         if (mDesignContentModel == null)
         {
-            GameObject appControl = GameObject.Find("ApplicationControl");
+            GameObject appControl = GameObject.FindGameObjectWithTag("SystemControl");
             if (appControl == null)
             {
                 Debug.Log("[ERROR] Could not find ApplicationControl obejct");
@@ -88,6 +85,7 @@ public class designARManager : MonoBehaviour {
         }
         //add the prototype to artifact manager
         pConceptModelManager.addPrototype(t);
+        //GameObject.FindGameObjectWithTag("SystemControl").GetComponent<ApplicationControl>().Reset();
         pConceptModelManager.setVisual2DMgr(this.GetComponentInParent<Visual2DModelManager>());
         //construct 3d model for the prototype and link
         //   this.GetComponentInParent<Visual3DModelManager>().create3DModel(t);        
@@ -103,7 +101,7 @@ public class designARManager : MonoBehaviour {
     }
     public void resetScene()
     {
-        GlobalRepo.SetUserPhas(GlobalRepo.UserPhase.design);
+        GlobalRepo.SetUserPhas(GlobalRepo.UserStep.design);
         pConceptModelManager.reset();
         this.GetComponentInParent<BehaviorDetector>().reset();
         this.GetComponentInParent<ColorDetector>().reset();
@@ -287,16 +285,16 @@ public class designARManager : MonoBehaviour {
 
         if(FBSModel.ContentType==DesignContent.HumanRespiratorySystem)
         {
-            if(lastUserPhase==GlobalRepo.UserPhase.design)
+            if(lastUserPhase==GlobalRepo.UserStep.design)
             {
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content1_BGPartial, 20);
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content1_BGFull, 0,0.005f);
                 SceneObjectManager.getActiveInstance().MoveToScreenRelativePos(PreLoadedObjects.Content1_BGPartial, new Vector2(0.5f, 0.5f));
-            } else if (lastUserPhase == GlobalRepo.UserPhase.feedback)
+            } else if (lastUserPhase == GlobalRepo.UserStep.feedback)
             {
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content1_BGPartial, 10);
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content1_BGFull, 0);
-            } else if (lastUserPhase == GlobalRepo.UserPhase.simulation)
+            } else if (lastUserPhase == GlobalRepo.UserStep.simulation)
             {
                 
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content1_BGPartial, 30);
@@ -307,19 +305,19 @@ public class designARManager : MonoBehaviour {
         if (FBSModel.ContentType == DesignContent.BicycleGearSystem)
         {
             
-            if (lastUserPhase == GlobalRepo.UserPhase.design)
+            if (lastUserPhase == GlobalRepo.UserStep.design)
             {
 
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendereFadeIn(PreLoadedObjects.Content2_BGPartial,50);
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content2_BGFull, 0);
                 SceneObjectManager.getActiveInstance().MoveToScreenRelativePos(PreLoadedObjects.Content2_BGPartial, new Vector2(0.5f, 0.5f));
             }
-            else if (lastUserPhase == GlobalRepo.UserPhase.feedback)
+            else if (lastUserPhase == GlobalRepo.UserStep.feedback)
             {
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content2_BGPartial, 10);
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content2_BGFull, 0);
             }
-            else if (lastUserPhase == GlobalRepo.UserPhase.simulation)
+            else if (lastUserPhase == GlobalRepo.UserStep.simulation)
             {
 
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content2_BGPartial, 20);
@@ -328,20 +326,20 @@ public class designARManager : MonoBehaviour {
         }
         if (FBSModel.ContentType == DesignContent.CameraSystem)
         {
-            Debug.Log("designARManager, contenttype = canera");
-            if (lastUserPhase == GlobalRepo.UserPhase.design)
+           
+            if (lastUserPhase == GlobalRepo.UserStep.design)
             {
 
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendereFadeIn(PreLoadedObjects.Content4_BGPartial, 50);
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content4_BGFull, 0);
                 SceneObjectManager.getActiveInstance().MoveToScreenRelativePos(PreLoadedObjects.Content4_BGPartial, new Vector2(0.5f, 0.5f));
             }
-            else if (lastUserPhase == GlobalRepo.UserPhase.feedback)
+            else if (lastUserPhase == GlobalRepo.UserStep.feedback)
             {
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content4_BGPartial, 10);
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content4_BGFull, 0);
             }
-            else if (lastUserPhase == GlobalRepo.UserPhase.simulation)
+            else if (lastUserPhase == GlobalRepo.UserStep.simulation)
             {
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content4_BGPartial, 20);
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content4_BGFull, 50);

@@ -20,6 +20,7 @@ public class ColorDetector : MonoBehaviour {
     public bool ShowDebugImage = true;
     public CvMat rawcolorImage = null;
     public float hueFilterThreshold = 4.0f;
+ 
     private CvMat colorImg=null;
     private CvMat debugImg = null;
     private CvMat regionImgHSV = null;
@@ -98,10 +99,28 @@ public class ColorDetector : MonoBehaviour {
 	void Update () {
 
         regionImgHSV = GlobalRepo.GetRepo(RepoDataType.dRawRegionHSV);
-        if (regionImgHSV != null && mCP.mProfileList != null && mCP.mProfileList.Count >= 5)
+        if(regionImgHSV==null || mCP.mProfileList ==null || mCP.mProfileList.Count == 0)
         {
-            //blob analysis
-            if (GlobalRepo.getLearningCount()> 0)
+            Debug.Log("[DEBUG][ColorDectector] Fail to load data/profile");
+            return;
+        }
+        if (GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().BackgroundProcessing)
+        {
+            //check if the image is stable
+            if (GlobalRepo.getLearningCount() > 0)
+            {
+                processColorBlobs();
+                Debug.Log("Color Processing..." + GlobalRepo.getLearningCount() + " frames remain");
+                GlobalRepo.tickLearningCount();
+                if (GlobalRepo.getLearningCount() == 0)
+                {                    
+                  //  GlobalRepo.setLearningCount(-1);                    
+                    createPrototypeFromColorBlobs();
+                    
+                }
+            }
+
+        } else if (GlobalRepo.getLearningCount()> 0)
             {
                 processColorBlobs();                
                 Debug.Log("Color Processing..." + GlobalRepo.getLearningCount() + " frames remain");
@@ -115,12 +134,11 @@ public class ColorDetector : MonoBehaviour {
                     else colorblobImage.ForEach(p => p.Zero());*/
                 }
             } 
-        }
         
+        //DEBUG
         if (this.ShowDebugImage)
         {
-            
-            //if (debugWindow3 != null && signImg != null) debugWindow3.ShowImage(signImg);
+            if (regionImgHSV != null) GlobalRepo.showDebugImage("colorBlob", regionImgHSV);
             if (colorblobImage != null)
             {
                 for (int i = 0; i < colorblobImage.Count; i++)
@@ -128,13 +146,8 @@ public class ColorDetector : MonoBehaviour {
                  //   GlobalRepo.showDebugImage("colorBlob#"+i,colorblobImage[i]);
                 }
             }
-            if(regionImgHSV !=null) GlobalRepo.showDebugImage("colorBlob",regionImgHSV);
-        }
-     //   int key = Cv.WaitKey(1);
-        {
-      //      processKeyInput(key);
-        }
-
+          
+        }   
 
     }
     public void reset()
@@ -270,9 +283,9 @@ public class ColorDetector : MonoBehaviour {
         {
             newPrototype.addConnectivity(t);
         }
-        
-      
-        
+
+
+        GameObject.FindGameObjectWithTag("SystemControl").GetComponent<ApplicationControl>().Reset();
         if (m != null && newPrototype != null)
         {
             m.addPrototype(newPrototype);
@@ -433,7 +446,7 @@ public class ColorDetector : MonoBehaviour {
         }
 
     }
-    
+    //DEPRECATED
     public void UpdateColorImage(byte[] rgbaImage,byte[] overlayedRGBAimage,int width, int height)
     { // called by kinect.
         int[] from_to = { 0, 2, 1, 1, 2, 0, 3, 3 };
@@ -462,7 +475,7 @@ public class ColorDetector : MonoBehaviour {
             GlobalRepo.updateInternalRepo(true);
             
             //debugWindow2.ShowImage(regionImg);
-            GlobalRepo.tickLearningCount();
+         //   GlobalRepo.tickLearningCount();
             
         }
         

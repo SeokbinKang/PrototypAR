@@ -24,6 +24,7 @@ public class ApplicationControl : MonoBehaviour
     public Vector2 RegionboxRightbot = new Vector2(0, 0);    
     public int ViewScale=2;
     public int ConfigLearningFrames=1;
+    
 
 
     public static ApplicationControl ActiveInstance = null;
@@ -84,33 +85,37 @@ public class ApplicationControl : MonoBehaviour
     {
 
     }
-    private void Reset()
+    public void Reset()
+    {
+        ResetSimulationData();
+        ResetDesignData();
+    }
+    public void ResetSimulationData()
     {
         this.GetComponentInParent<Simulation>().reset();
+    }
+    public void ResetDesignData()
+    {
         ARDetector.GetComponent<designARManager>().resetScene();
-
         GlobalRepo.reset();
-
     }
     
     public void StartLearning()
     {
-        if (GlobalRepo.UserMode != GlobalRepo.UserPhase.design) Reset();
+        //if (GlobalRepo.UserMode != GlobalRepo.UserStep.design) Reset();
+        
         GlobalRepo.setLearningCount(ConfigLearningFrames);
         ColorDetector.CaptureImage();
     }
-    public void ResumeDesign()
-    {
-        Reset();
-    }
+   
     private void KeyInput()
     {
       /*  if (ApplicationMode == RunMod.Release)
             return;*/
         if (Input.GetButtonUp("Fire1"))
         {
-            if (GlobalRepo.UserMode != GlobalRepo.UserPhase.design) Reset();
-            GlobalRepo.setLearningCount(ConfigLearningFrames);
+            if (GlobalRepo.UserMode != GlobalRepo.UserStep.design) Reset();
+            GlobalRepo.setLearningCount(3);
         }
         if (Input.GetButtonUp("Cancel"))
         {

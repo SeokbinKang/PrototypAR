@@ -23,20 +23,22 @@ public class GlobalRepo
     private static Dictionary<string, Asset2DTexture> ExtraAsset2DlDict = null;
     private static Dictionary<string, CvWindow> CvWindowDict = null;
 
-    private static int TasksDone;
+    public static int TasksDone;
     private static bool beInit=false;
     private static int learningCount = 0;
+    private static bool WaitingNextModel = false;
 
-    private static CvMat lastdRawRegionRGBA=null;
 
+    private static float TimeInactivityBegin;
+    private static float TimeInactivityEnd;
     private static bool setting_suppressCVWins;
     private static bool setting_showdebugimg;
     //initialize with a size
-    public enum UserPhase : int { none,design, feedback, simulation }
+    public enum UserStep : int { none,design, feedback, simulation, AppContent2, AppContent4}
     //design : live stream. BG overlayed
     //feedback : last image still but update background texture. BG become more transparent
     //simulation : BG still but do not update background texture
-    public static UserPhase UserMode = UserPhase.design;
+    public static UserStep UserMode = UserStep.design;
 
     [DllImport("msvcrt.dll", EntryPoint = "memcpy")]
     public static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
@@ -51,6 +53,10 @@ public class GlobalRepo
         repoDict.Add(RepoDataType.dRawRegionBGR, null);
         repoDict.Add(RepoDataType.dRawRegionHSV, null);
         repoDict.Add(RepoDataType.dRawRegionLAB, null);
+        repoDict.Add(RepoDataType.dRawRegionGray, null);
+        repoDict.Add(RepoDataType.dRawRegionGrayLast, null);
+        repoDict.Add(RepoDataType.dRawRegionGrayDiff, null);
+        
         repoDictByteStream = new Dictionary<RepoDataType, byte[]>();
         repoDictByteStream.Add(RepoDataType.dRealityARRegionRGBAByte, null);
         
@@ -58,12 +64,15 @@ public class GlobalRepo
         RawSize.Height = 1080;
         TasksDone = 0;
         load2DAssetTexture();
-        UserMode = UserPhase.design;
+        UserMode = UserStep.design;
         beInit = true;
+        WaitingNextModel = true;
+        TimeInactivityBegin = -1;
     }
     public static void reset()
     {
         TasksDone = 0;
+        WaitingNextModel = true;
     }
     public static bool isInit()
     {
@@ -193,6 +202,7 @@ public class GlobalRepo
     }
     public static void ProcessingDone()
     {
+        
         TasksDone++;
     }
     public static bool isRegionSet()
@@ -252,18 +262,7 @@ public class GlobalRepo
         }       
     }
     
-    public static void updateRepo(RepoDataType dataName, IntPtr datastrea, int w, int h, int c)
-    {
-        if (isProcessingFinished()) return;
-        if (!repoDict.ContainsKey(dataName) || repoDict[dataName] == null || repoDict[dataName].Step* repoDict[dataName].Height != w*h*c)
-        {  //create new memory space and copy 
-
-            if(c==3)  repoDict[dataName] = new CvMat(h, w, MatrixType.U8C3);
-            if (c == 4) repoDict[dataName] = new CvMat(h, w, MatrixType.U8C4);
-        }
-        CopyMemory(repoDict[dataName].Data, datastrea, (uint)(w * h * c));        
-
-    }
+ 
     public static void updateRepoRaw(RepoDataType dataName, byte[] datastrea, int w, int h, int c)
     {
         if (isProcessingFinished()) return;
@@ -280,9 +279,85 @@ public class GlobalRepo
         pinnedArray.Free();
         RawSize = repoDict[dataName].GetSize();
        // repoDict[dataName].Flip(repoDict[dataName], FlipMode.Y);
+        
 
 
+    }
+    public static bool readyForRecognition(float movementThreshold)
+    {
+        float InactiveTime = 0;
+        bool userActive = true;
+        bool InActivity = CheckUserActivity(movementThreshold,3f,out InactiveTime,out userActive);
+        bool isLearning = getLearningCount() > 0;
+        /*GameObject o = GameObject.FindGameObjectWithTag("DebugUI");
+        if(o!=null) o.GetComponent<DebugUI>().DebugUserActivity(userActive);*/
+        GameObject o = GameObject.FindGameObjectWithTag("StatusUI");
+        if (o != null) o.GetComponent<UserActiveStatus>().updateStatus(userActive, WaitingNextModel,InactiveTime,3f);
+        if (InActivity && GlobalRepo.UserStep.feedback == GlobalRepo.UserMode)
+        {
+            GameObject.FindGameObjectWithTag("SystemControl").GetComponent<ApplicationControl>().ResetDesignData();
 
+        }
+        if (isLearning) return false;
+        if (WaitingNextModel)
+        {
+            if(userActive)
+            {
+           
+                WaitingNextModel = false;
+            } else
+            {
+                return false;
+            }
+        }
+        if (!InActivity && !WaitingNextModel) return true; 
+        return false;
+    }
+    public static void PingRecognitionDone()
+    {
+        WaitingNextModel = true;
+    }
+    private static bool CheckUserActivity(float MovementThreshold,float HoldingTime,out float timeElpase,out bool currentActivity)
+    {
+        // if (isProcessingFinished()) return true;
+        timeElpase = 0;
+        currentActivity = true;
+        if (!repoDict.ContainsKey(RepoDataType.dRawRegionGray) || repoDict[RepoDataType.dRawRegionGray] == null) return true;
+        if (repoDict[RepoDataType.dRawRegionGrayLast] == null || repoDict[RepoDataType.dRawRegionGrayLast].Step * repoDict[RepoDataType.dRawRegionGrayLast].Height != repoDict[RepoDataType.dRawRegionGray].Step * repoDict[RepoDataType.dRawRegionGray].Height)
+        {  //create new memory space and copy 
+            repoDict[RepoDataType.dRawRegionGrayLast] = new CvMat(repoDict[RepoDataType.dRawRegionGray].Rows, repoDict[RepoDataType.dRawRegionGray].Cols, MatrixType.U8C1);
+            repoDict[RepoDataType.dRawRegionGrayDiff] = new CvMat(repoDict[RepoDataType.dRawRegionGray].Rows, repoDict[RepoDataType.dRawRegionGray].Cols, MatrixType.U8C1);
+            repoDict[RepoDataType.dRawRegionGray].Copy(repoDict[RepoDataType.dRawRegionGrayLast]);
+            TimeInactivityBegin = -1;
+            return true;
+        }
+        
+        repoDict[RepoDataType.dRawRegionGray].AbsDiff(repoDict[RepoDataType.dRawRegionGrayLast], repoDict[RepoDataType.dRawRegionGrayDiff]);
+        repoDict[RepoDataType.dRawRegionGrayDiff].Threshold(repoDict[RepoDataType.dRawRegionGrayDiff], 30, 255, ThresholdType.Binary);
+        int numberOfDiffPixel = Cv.CountNonZero(repoDict[RepoDataType.dRawRegionGrayDiff]);
+        float DiffPortion = ((float)numberOfDiffPixel) / ((float)repoDict[RepoDataType.dRawRegionGrayDiff].Cols * repoDict[RepoDataType.dRawRegionGrayDiff].Cols);
+    //    Debug.Log("[DEBUG][CHeck User Activity] percent: " + DiffPortion);
+        repoDict[RepoDataType.dRawRegionGray].Copy(repoDict[RepoDataType.dRawRegionGrayLast]);
+        if (MovementThreshold < DiffPortion)
+        {
+            TimeInactivityBegin = -1;
+            return true;
+
+        }
+        //check time threshold
+        //inactive
+        currentActivity = false;
+        if (TimeInactivityBegin < 0)
+        {
+            TimeInactivityBegin = Time.time;
+            return true;
+        }
+        timeElpase = Time.time - TimeInactivityBegin;
+        if (timeElpase > HoldingTime)
+        {
+            return false;
+        }
+        return true;
     }
 
     public static int getLearningCount()
@@ -292,11 +367,18 @@ public class GlobalRepo
     public static int setLearningCount(int k)
     {
         learningCount = k;
+        if(k>0)
+        {
+            PingRecognitionDone();
+        }
         return learningCount;
     }
     public static void tickLearningCount()
     {
-        if (learningCount > 0) learningCount--;
+        if (learningCount > 0)
+        {
+            learningCount--;            
+        }
     }
     public static CvMat GetRepo(RepoDataType dataName)
     {
@@ -309,47 +391,7 @@ public class GlobalRepo
     public static void updateInternalRepo(bool NeedImgProcessing)
     {  //this should be called after "pRawRGBA" and "pOverlayRGBA" are updated
 
-        /*
-        if (isProcessingFinished())
-        {
-            if(AR2DImageProc.NeedLiveStream())
-            {
-                if (!repoDict.ContainsKey(RepoDataType.dRawRGBA) || repoDict[RepoDataType.dRawRGBA] == null || repoDict[RepoDataType.dRawRGBA].GetSize() != repoDict[RepoDataType.dRawBGR].GetSize())
-                {
-                    repoDict[RepoDataType.dRawRGBA] = new CvMat(repoDict[RepoDataType.dRawBGR].Rows, repoDict[RepoDataType.dRawBGR].Cols, MatrixType.U8C4);
-                }
-                repoDict[RepoDataType.dRawBGR].CvtColor(repoDict[RepoDataType.dRawRGBA], ColorConversion.BgrToRgba);
-
-                if (!repoDictByteStream.ContainsKey(RepoDataType.dARTxTRegionByteRGBA) || repoDictByteStream[RepoDataType.dARTxTRegionByteRGBA] == null || repoDictByteStream[RepoDataType.dARTxTRegionByteRGBA].Length != repoDict[RepoDataType.dRawRegionRGBA].Step * repoDict[RepoDataType.dRawRegionRGBA].Height)
-                {
-                    repoDictByteStream[RepoDataType.dARTxTRegionByteRGBA] = new byte[repoDict[RepoDataType.dRawRegionRGBA].Step * repoDict[RepoDataType.dRawRegionRGBA].Height];
-                    repoDict[RepoDataType.pARTxTRegionRGBA] = new CvMat(RegionBoxRaw.Height, RegionBoxRaw.Width, MatrixType.U8C4, repoDictByteStream[RepoDataType.dARTxTRegionByteRGBA]);
-                    Debug.Log("dARTxTRegionByteRGBA created size:" + repoDict[RepoDataType.dRawRegionRGBA].Step + " x " + repoDict[RepoDataType.dRawRegionRGBA].Height);
-                    Debug.Log("Region Box : " + RegionBoxRaw.Width + " , " + RegionBoxRaw.Height);
-                }
-                Marshal.Copy(repoDict[RepoDataType.dRawRegionRGBA].DataArrayByte.Ptr, repoDictByteStream[RepoDataType.dARTxTRegionByteRGBA], 0, repoDict[RepoDataType.dRawRegionRGBA].Step * repoDict[RepoDataType.dRawRegionRGBA].Height);
-
-                return;
-            }
-            if (AR2DImageProc.NeedBackupStream())
-            {
-                Marshal.Copy(repoDict[RepoDataType.dRawRegionRGBA].DataArrayByte.Ptr, repoDictByteStream[RepoDataType.dARTxTRegionByteRGBA], 0, repoDict[RepoDataType.dRawRegionRGBA].Step * repoDict[RepoDataType.dRawRegionRGBA].Height);
-            }
-            //put bg to background.
-        }*/
-            
-        //set region
-        /*
-         pARTxTRegionRGBA,
-        borderPointerbetweenData,
-        dRawRGBA,  OK
-        dRawRGB,   OK
-        dRawRegionRGBA, OK
-        dRawRegionBGR, OK
-        dRawRegionHSV, ok
-        dRawRegionLAB, ok
-        dRawRegionGray,ok
-        dARTxTRegionByteRGBA, ok*/
+     
         CvMat tmp;
       
         if (!repoDict.ContainsKey(RepoDataType.dRawRGBA) || repoDict[RepoDataType.dRawRGBA] == null || repoDict[RepoDataType.dRawRGBA].GetSize() != repoDict[RepoDataType.dRawBGR].GetSize())
@@ -363,21 +405,15 @@ public class GlobalRepo
         {
          //   repoDict[RepoDataType.dRawRegionRGBA] = new CvMat(RegionBoxRaw.Height, RegionBoxRaw.Width, MatrixType.U8C4);
             repoDictByteStream[RepoDataType.dRawRegionRGBAByte] = new byte[RegionBoxRaw.Height* RegionBoxRaw.Width*4];
-            repoDict[RepoDataType.dRawRegionRGBA] = new CvMat(RegionBoxRaw.Height, RegionBoxRaw.Width, MatrixType.U8C4, repoDictByteStream[RepoDataType.dRawRegionRGBAByte]);
-           
+            repoDict[RepoDataType.dRawRegionRGBA] = new CvMat(RegionBoxRaw.Height, RegionBoxRaw.Width, MatrixType.U8C4, repoDictByteStream[RepoDataType.dRawRegionRGBAByte]);           
 
         }
         repoDict[RepoDataType.dRawRGBA].GetSubArr(out tmp, RegionBoxRaw);
         tmp.Copy(repoDict[RepoDataType.dRawRegionRGBA]);
-
+       
         if (NeedImgProcessing)            
             {
-            //     if (!repoDict.ContainsKey(RepoDataType.dRawRegionBGRA) || repoDict[RepoDataType.dRawRegionBGRA] == null || repoDict[RepoDataType.dRawRegionRGBA].GetSize() != RegionBoxRaw.Size)
-            //     {
-            //         Debug.Log("create1");
-            //         repoDict[RepoDataType.dRawRegionBGRA] = new CvMat(RegionBoxRaw.Height, RegionBoxRaw.Width, MatrixType.U8C4);
-            //     }
-            // //    repoDict[RepoDataType.dRawRegionRGBA].CvtColor(repoDict[RepoDataType.dRawRegionBGRA], ColorConversion.RgbaToBgra);
+         
 
 
             if (!repoDict.ContainsKey(RepoDataType.dRawRegionBGR) || repoDict[RepoDataType.dRawRegionBGR] == null || repoDict[RepoDataType.dRawRegionBGR].GetSize() != RegionBoxRaw.Size)
@@ -419,8 +455,8 @@ public class GlobalRepo
        //     Debug.Log("dARTxTRegionByteRGBA created size:" + repoDict[RepoDataType.dRawRegionRGBA].Step + " x " + repoDict[RepoDataType.dRawRegionRGBA].Height);
             Debug.Log("Region Box : " + RegionBoxRaw.Width + " , " + RegionBoxRaw.Height);
         }
-     //   Marshal.Copy(repoDict[RepoDataType.dRawRegionRGBA].DataArrayByte.Ptr, repoDictByteStream[RepoDataType.dRealityARRegionByteRGBA], 0, repoDict[RepoDataType.dRawRegionRGBA].Step * repoDict[RepoDataType.dRawRegionRGBA].Height);
-        if(learningCount <3) lastdRawRegionRGBA = repoDict[RepoDataType.dRawRegionRGBA].Clone();
+     
+        
 
     }
 
@@ -476,26 +512,26 @@ public class GlobalRepo
 
     public static bool NeedLiveStream()
     {
-        if (UserMode == UserPhase.design) return true;
+        if (UserMode == UserStep.design) return true;
         else return false;
     }
     public static bool NeedBackupStream()
     {
-        if (UserMode == UserPhase.feedback) return true;
+        if (UserMode == UserStep.feedback) return true;
         else return false;
     }
     public static bool NeedStream()
     {
-        if (UserMode != UserPhase.simulation) return true;
+        if (UserMode != UserStep.simulation) return true;
         else return false;
     }
-    public static void SetUserPhas(UserPhase p)
+    public static void SetUserPhas(UserStep p)
     {
         UserMode = p;
     }
     public static bool RealityARActivated()
     {
-        return UserMode != UserPhase.design;
+        return UserMode != UserStep.design;
     }
 
 
@@ -520,6 +556,9 @@ public enum RepoDataType
     dRealityARRegionRGBAByte,
     dContentBGRGBA,
     dContentBGRGBAByte,
+    dRawRegionGrayLast,
+    dRawRegionGrayDiff
+
 }
 
 public class Asset2DTexture

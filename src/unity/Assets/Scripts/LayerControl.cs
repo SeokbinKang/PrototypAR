@@ -36,19 +36,19 @@ public class LayerControl : MonoBehaviour {
     private void OnOffLayers()
     {
         if (!GlobalRepo.isInit()) return;
-        if(GlobalRepo.UserMode==GlobalRepo.UserPhase.design) {
+        if(GlobalRepo.UserMode==GlobalRepo.UserStep.design) {
             Layer0_LiveStream.SetActive(true);
             Layer1_RealityAR.SetActive(true);
             adjustAlphaTextureColor(Layer0_LiveStream, 255, 0.15f);
             adjustAlphaTextureColor(Layer1_RealityAR, 0, 0.07f);
         }
-        if (GlobalRepo.UserMode == GlobalRepo.UserPhase.feedback)
+        if (GlobalRepo.UserMode == GlobalRepo.UserStep.feedback)
         {
             Layer0_LiveStream.SetActive(true);
             Layer1_RealityAR.SetActive(true);
             adjustAlphaTextureColor(Layer1_RealityAR, 255, 0.02f);
         }
-        if (GlobalRepo.UserMode == GlobalRepo.UserPhase.simulation)
+        if (GlobalRepo.UserMode == GlobalRepo.UserStep.simulation)
         {
             Layer0_LiveStream.SetActive(true);
             Layer1_RealityAR.SetActive(true);

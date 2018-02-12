@@ -46,6 +46,11 @@ public class SceneObjectManager : MonoBehaviour {
             SceneObjectPool.Add(PreLoadedObjects.STR_missing_c2_reargear, GameObject.Find("STR_MS_reargear"));
             SceneObjectPool.Add(PreLoadedObjects.STR_missing_c2_pedal, GameObject.Find("STR_MS_pedal"));
             SceneObjectPool.Add(PreLoadedObjects.STR_missing_c2_chain, GameObject.Find("STR_MS_chain"));
+
+            SceneObjectPool.Add(PreLoadedObjects.STR_missing_c4_lens, GameObject.Find("STR_MS_lens"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_missing_c4_shutter, GameObject.Find("STR_MS_shutter"));
+            SceneObjectPool.Add(PreLoadedObjects.STR_missing_c4_sensor, GameObject.Find("STR_MS_sensor"));
+
             SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_left, GameObject.Find("STR_EXTRA_left"));
             SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_down, GameObject.Find("STR_EXTRA_down"));
             SceneObjectPool.Add(PreLoadedObjects.STR_EXTRA_right, GameObject.Find("STR_EXTRA_right"));
@@ -370,6 +375,9 @@ public enum PreLoadedObjects
     STR_missing_c2_reargear,
     STR_missing_c2_chain,
     STR_missing_c2_pedal,
+    STR_missing_c4_lens,
+    STR_missing_c4_shutter,
+    STR_missing_c4_sensor,
     STR_EXTRA_left,
     STR_EXTRA_down,
     STR_EXTRA_right,

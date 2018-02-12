@@ -53,17 +53,27 @@ public class PrototypeInstanceManager : MonoBehaviour {
     public void prototypeSelectedforSim(int idx)
     {
         Debug.Log("[DEBUG]prototype selected " + idx);
-        for (int i = 0; i < selectedPrototypeIndex.Count; i++)
+        if (ApplicationControl.ActiveInstance.ContentType == DesignContent.BicycleGearSystem)
         {
-            if (idx == selectedPrototypeIndex[i])
+            for (int i = 0; i < selectedPrototypeIndex.Count; i++)
             {
-                return;
+                if (idx == selectedPrototypeIndex[i])
+                {
+                    return;
+                }
             }
+            while (selectedPrototypeIndex.Count > 2)
+                selectedPrototypeIndex.RemoveAt(0);
+            selectedPrototypeIndex.Add(idx);
+            UpdateMultiveUI();
         }
-        while (selectedPrototypeIndex.Count > 2)
-            selectedPrototypeIndex.RemoveAt(0);
-        selectedPrototypeIndex.Add(idx);
-        UpdateMultiveUI();
+        if (ApplicationControl.ActiveInstance.ContentType == DesignContent.CameraSystem)
+        {
+            selectedPrototypeIndex.Clear();
+            selectedPrototypeIndex.Add(idx);
+            UpdateMultiveUI();
+          //  movetoHide();
+        }
     }
     private void randomlyFillSelectPrototypes()
     {
@@ -119,12 +129,14 @@ public class PrototypeInstanceManager : MonoBehaviour {
             if (multivewPane != null && multivewPane.Length > i && multivewPane[i] != null)
             {
                 multivewPane[i].GetComponent<PrototypeInventoryPane>().loadTexture(mPrototypes[i].mPrototypeImgTexture);
-                multivewPane[i].GetComponent<PrototypeInventoryPane>().SetName(mPrototypes[i].name);
+                multivewPane[i].GetComponent<PrototypeInventoryPane>().UpdateInfo(mPrototypes[i]);
+                //multivewPane[i].GetComponent<PrototypeInventoryPane>().SetName(mPrototypes[i].name);
                 multivewPane[i].GetComponent<PrototypeInventoryPane>().Selected(invisible);
             }
         }
         for (int i = mPrototypes.Count; i < multivewPane.Length; i++)
         {
+            multivewPane[i].GetComponent<PrototypeInventoryPane>().UpdateInfo((prototypeInstance) null);
             multivewPane[i].GetComponent<PrototypeInventoryPane>().loadTexture(null);
             multivewPane[i].GetComponent<PrototypeInventoryPane>().Selected(invisible);
         }
@@ -149,6 +161,19 @@ public class PrototypeInstanceManager : MonoBehaviour {
             }
         }
         //allocate slot and update UI texture
+    }
+    public SimulationParam GetPrototypeProperties_Content4(out string PrototypeName)
+    {
+        SimulationParam ret = new SimulationParam();
+        ret.C4_focalLength = 100;
+        ret.C4_sensorType = "color";
+        ret.C4_shutterSpeed = 500;
+        PrototypeName = "";
+        if (selectedPrototypeIndex==null || selectedPrototypeIndex.Count==0)  {
+            return ret;
+        }
+        PrototypeName = mPrototypes[selectedPrototypeIndex[0]].name;
+        return mPrototypes[selectedPrototypeIndex[0]].mSimulationParam;
     }
     public void GetPrototypeProperties_Content2(int idx, ref float frontgearsize, ref float reargearsize,ref string name)
     {

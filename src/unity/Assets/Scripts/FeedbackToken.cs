@@ -138,6 +138,15 @@ public class FeedbackToken
                 ret = PreLoadedObjects.STR_missing_c2_chain;
             if (this.modelType == ModelCategory.UpperChain)
                 ret = PreLoadedObjects.STR_missing_c2_chain;
+
+            if (this.modelType == ModelCategory.C4_lens)
+                ret = PreLoadedObjects.STR_missing_c4_lens;
+            if (this.modelType == ModelCategory.C4_sensor)
+                ret = PreLoadedObjects.STR_missing_c4_sensor;
+            if (this.modelType == ModelCategory.C4_shutter)
+                ret = PreLoadedObjects.STR_missing_c4_shutter;
+
+
         }
         return ret;
     }

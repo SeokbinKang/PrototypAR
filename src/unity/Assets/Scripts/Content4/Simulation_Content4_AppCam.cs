@@ -1,13 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
+using OpenCvSharp;
+using OpenCvSharp.Blob;
+using OpenCvSharp.CPlusPlus;
+using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
+using System;
+using System.Runtime.InteropServices;
+using Uk.Org.Adcock.Parallel;
+using UnityEngine.UI;
+using UnityStandardAssets.ImageEffects;
 
 public class Simulation_Content4_AppCam : MonoBehaviour {
 
     public GameObject diffuseLight;
+
+    
 	// Use this for initialization
 	void Start () {
-	
-	}
+       
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -58,6 +73,17 @@ public class Simulation_Content4_AppCam : MonoBehaviour {
         Light l = diffuseLight.GetComponent<Light>();
         l.intensity = intensity;
     }
+    public void SetGrayscale(bool on)
+    {
+        this.GetComponent<Grayscale>().enabled = on;
+    }
+    public Texture2D Capture()
+    {
+        Simulation_Content4_AppCapture c = this.GetComponent<Simulation_Content4_AppCapture>();
+        if (c == null) return null;
+        return c.Capture();
+    }
+    
 }
 public enum directions
 {

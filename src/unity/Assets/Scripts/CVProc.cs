@@ -812,7 +812,10 @@ public class CVProc {
         {
             return (y0 + y1) / 2;
         }
-        return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
+        float ret = y0 + (x - x0) * (y1 - y0) / (x1 - x0);
+        if (ret < y0) ret = y0;
+        else if (ret > y1) ret = y1;
+        return ret;
     }
     void Update() {
 

@@ -49,7 +49,7 @@ public class Simulation : MonoBehaviour {
     public void reset()
     {
         DestroySimulationContent_2();
-      //  DestroySimulationContent_4();
+        DestroySimulationContent_4();
         initGameObjectPool();
         userPrototypeInstance = null;
         SimulationControlDone = false;
@@ -218,7 +218,7 @@ public class Simulation : MonoBehaviour {
         if (userPrototypeInstance == null || SimulationActiveObject.Count == 0) return;
         //calculate Breathing rate and Amount
 
-                float animationSpeedParam = 0;
+        float animationSpeedParam = 0;
         //1 = 1rotation / 5 sec            
         simState.timeElapsed = 0;       
             //init breathing rate
@@ -240,15 +240,15 @@ public class Simulation : MonoBehaviour {
                 //control animation speed
                 //activate animtions
             }
-
-        InactiveGameObjectDict[ModelCategory.PedalCrank].transform.position = new Vector3(6, 2, 1);
-        InactiveGameObjectDict[ModelCategory.RearSprocket].transform.position = new Vector3(6, 2, 1);        
-        InactiveGameObjectDict[ModelCategory.FrontChainring].transform.position = new Vector3(6, 2, 1);
-        InactiveGameObjectDict[ModelCategory.RearSprocket].transform.localScale= new Vector3(0.1f, 0.1f, 1);
-        InactiveGameObjectDict[ModelCategory.FrontChainring].transform.localScale = new Vector3(0.1f, 0.1f, 1);
-        InactiveGameObjectDict[ModelCategory.PedalCrank].transform.localScale = new Vector3(0.1f, 0.1f, 1);
-        SetActiveRecursively(InactiveGameObjectDict[ModelCategory.FrontChainring], true);
-        SetActiveRecursively(InactiveGameObjectDict[ModelCategory.RearSprocket], true);
+        
+        if(InactiveGameObjectDict[ModelCategory.PedalCrank]!=null) InactiveGameObjectDict[ModelCategory.PedalCrank].transform.position = new Vector3(6, 2, 1);
+        if (InactiveGameObjectDict[ModelCategory.RearSprocket] != null) InactiveGameObjectDict[ModelCategory.RearSprocket].transform.position = new Vector3(6, 2, 1);
+        if (InactiveGameObjectDict[ModelCategory.FrontChainring] != null) InactiveGameObjectDict[ModelCategory.FrontChainring].transform.position = new Vector3(6, 2, 1);
+        if (InactiveGameObjectDict[ModelCategory.RearSprocket] != null) InactiveGameObjectDict[ModelCategory.RearSprocket].transform.localScale= new Vector3(0.1f, 0.1f, 1);
+        if (InactiveGameObjectDict[ModelCategory.FrontChainring] != null) InactiveGameObjectDict[ModelCategory.FrontChainring].transform.localScale = new Vector3(0.1f, 0.1f, 1);
+        if (InactiveGameObjectDict[ModelCategory.PedalCrank] != null) InactiveGameObjectDict[ModelCategory.PedalCrank].transform.localScale = new Vector3(0.1f, 0.1f, 1);
+        if (InactiveGameObjectDict[ModelCategory.FrontChainring] != null) SetActiveRecursively(InactiveGameObjectDict[ModelCategory.FrontChainring], true);
+        if (InactiveGameObjectDict[ModelCategory.RearSprocket] != null) SetActiveRecursively(InactiveGameObjectDict[ModelCategory.RearSprocket], true);
 
 
     }
@@ -256,7 +256,7 @@ public class Simulation : MonoBehaviour {
     {
         
         if (userPrototypeInstance == null || SimulationActiveObject.Count == 0) return;
-        Debug.Log("!!!!!!!!  control content 4");
+        //Debug.Log("!!!!!!!!  control content 4");
 
         if (!SimulationControlDone)
         {
@@ -264,7 +264,7 @@ public class Simulation : MonoBehaviour {
             Content.ExtractSimulationParameters(userPrototypeInstance, mDesignContent, ref sp);
             if(Simulation4_Camera!=null)
             {
-                Simulation4_Camera.GetComponent<Simulation_Content_Camera>().UpdateCameraParams(sp);
+                Simulation4_Camera.GetComponent<Simulation_Content4_Camera>().UpdateCameraParams(sp);
             }
             SimulationControlDone = true;
 
@@ -297,8 +297,8 @@ public class Simulation : MonoBehaviour {
         sp.C4_focalLength = 0;
         sp.C4_sensorType = "";
         sp.C4_shutterSpeed = 0;
-        this.Simulation4_Camera.GetComponent<Simulation_Content_Camera>().UpdateCameraParams(sp);
-        this.Simulation4_Camera.GetComponent<Simulation_Content_Camera>().reset();
+        this.Simulation4_Camera.GetComponent<Simulation_Content4_Camera>().UpdateCameraParams(sp);
+        this.Simulation4_Camera.GetComponent<Simulation_Content4_Camera>().reset();
 
     }
     private void RevealSimulationObject()
