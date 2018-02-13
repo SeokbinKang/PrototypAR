@@ -19,7 +19,6 @@ src/unity/.vs/
 
 *.pydevproject
 .project
-.metadata
 bin/
 tmp/
 *.tmp
@@ -72,7 +71,6 @@ build/
 *_i.c
 *_p.c
 *.ilk
-*.meta
 *.obj
 *.pch
 *.pdb

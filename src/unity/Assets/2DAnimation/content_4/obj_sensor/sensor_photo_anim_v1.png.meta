@@ -1,0 +1,447 @@
+fileFormatVersion: 2
+guid: a8e45eb87f00fe246877e814d0d72b38
+timeCreated: 1517883278
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: sensor_photo_anim_v1_0
+    21300002: sensor_photo_anim_v1_1
+    21300004: sensor_photo_anim_v1_2
+    21300006: sensor_photo_anim_v1_3
+    21300008: sensor_photo_anim_v1_4
+    21300010: sensor_photo_anim_v1_5
+    21300012: sensor_photo_anim_v1_6
+    21300014: sensor_photo_anim_v1_7
+    21300016: sensor_photo_anim_v1_8
+    21300018: sensor_photo_anim_v1_9
+    21300020: sensor_photo_anim_v1_10
+    21300022: sensor_photo_anim_v1_11
+    21300024: sensor_photo_anim_v1_12
+    21300026: sensor_photo_anim_v1_13
+    21300028: sensor_photo_anim_v1_14
+    21300030: sensor_photo_anim_v1_15
+    21300032: sensor_photo_anim_v1_16
+    21300034: sensor_photo_anim_v1_17
+    21300036: sensor_photo_anim_v1_18
+    21300038: sensor_photo_anim_v1_19
+    21300040: sensor_photo_anim_v1_20
+    21300042: sensor_photo_anim_v1_21
+    21300044: sensor_photo_anim_v1_22
+    21300046: sensor_photo_anim_v1_23
+    21300048: sensor_photo_anim_v1_24
+    21300050: sensor_photo_anim_v1_25
+    21300052: sensor_photo_anim_v1_26
+    21300054: sensor_photo_anim_v1_27
+    21300056: sensor_photo_anim_v1_28
+    21300058: sensor_photo_anim_v1_29
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1920
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_1
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 1920
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_2
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 1920
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_3
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 1920
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_4
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 1920
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_5
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 1920
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1440
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_7
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 1440
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_8
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 1440
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_9
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 1440
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_10
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 1440
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_11
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 1440
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 960
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_13
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 960
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_14
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 960
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_15
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 960
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_16
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 960
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_17
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 960
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 480
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_19
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 480
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_20
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 480
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_21
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 480
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_22
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 480
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_23
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 480
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_25
+      rect:
+        serializedVersion: 2
+        x: 547
+        y: 0
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_26
+      rect:
+        serializedVersion: 2
+        x: 1094
+        y: 0
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_27
+      rect:
+        serializedVersion: 2
+        x: 1641
+        y: 0
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_28
+      rect:
+        serializedVersion: 2
+        x: 2188
+        y: 0
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    - serializedVersion: 2
+      name: sensor_photo_anim_v1_29
+      rect:
+        serializedVersion: 2
+        x: 2735
+        y: 0
+        width: 547
+        height: 480
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
