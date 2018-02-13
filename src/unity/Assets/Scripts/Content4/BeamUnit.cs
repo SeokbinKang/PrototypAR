@@ -41,13 +41,9 @@ public class BeamUnit : MonoBehaviour {
 
         if (IsDecaying) return;
         if (col.gameObject.tag == "C4_sensor")
-        {
-            
+        {            
             col.gameObject.GetComponent<C4_sensor>().OnLightReceived();
             Decay();
-
-
-
         }
         if (col.gameObject.tag == "C4_shutter")
         {
@@ -97,7 +93,7 @@ public class BeamUnit : MonoBehaviour {
         if (IsDecaying)
         {
             Color c = this.GetComponent<SpriteRenderer>().color;
-            c.a = c.a - 0.1f;
+            c.a = c.a - 0.2f;
             this.GetComponent<SpriteRenderer>().color = c;
         }
     }

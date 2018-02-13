@@ -42,7 +42,7 @@ public class Content4_UI_Components : MonoBehaviour {
     }
     public void updateLensUI(GameObject go,  float fVal)
     {
-        Debug.Log("!!!Update Lens UI");
+      //  Debug.Log("!!!Update Lens UI");
         Vector3 goCenter = new Vector3();
         Vector3 goSize = new Vector3();
         Vector2 objRectPos = new Vector2();
