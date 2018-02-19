@@ -87,8 +87,19 @@ public class ApplicationControl : MonoBehaviour
     }
     public void Reset()
     {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
+
         ResetSimulationData();
+
+        watch.Stop();
+        var elapsedMs = watch.ElapsedMilliseconds;
+        Debug.Log("[PERFORMANCE DEBUG]time #1: " + (elapsedMs) + "<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        
+
         ResetDesignData();
+
+        
+        
     }
     public void ResetSimulationData()
     {

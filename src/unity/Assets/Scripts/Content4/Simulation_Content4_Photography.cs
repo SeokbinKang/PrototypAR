@@ -18,6 +18,9 @@ public class Simulation_Content4_Photography : MonoBehaviour {
     public GameObject PrototypesInvertoryUI;
     public GameObject viewFinder;
     public GameObject ReviewPhotoUI;
+    public GameObject[] PhotoPlaces;
+    public string[] Photonames;
+    public int selectedPhotoIndex;
     private Vector3 CameraInitPos;
 
     public List<PhotoShot> mPhotoshots;
@@ -25,6 +28,7 @@ public class Simulation_Content4_Photography : MonoBehaviour {
 
     private SimulationParam activeParam;
     private string activePrototypeName;
+    
     void Start () {
 
         //CameraInitPos = game_camera.transform.localPosition;
@@ -62,6 +66,17 @@ public class Simulation_Content4_Photography : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             game_camera.GetComponent<Simulation_Content4_AppCam>().move(directions.up);
+        }
+    }
+    public void UpdatePhotoIndex(int index)
+    {
+        selectedPhotoIndex = index;
+        if (PhotoPlaces == null || PhotoPlaces.Length==0) return;
+        for (int i = 0; i < PhotoPlaces.Length; i++)
+        {
+            if (selectedPhotoIndex != i) PhotoPlaces[i].SetActive(false);
+            else PhotoPlaces[i].SetActive(true);
+
         }
     }
     public void Pan(int d)
@@ -110,7 +125,7 @@ public class Simulation_Content4_Photography : MonoBehaviour {
         //reset photography mode
 
         //reload photo
-
+        UpdatePhotoIndex(selectedPhotoIndex);
         //load prototypes and init mincams
     }
     public void loadPrototypeParam()

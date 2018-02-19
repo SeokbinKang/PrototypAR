@@ -5,11 +5,17 @@ public class Content4_UIControl : MonoBehaviour {
 
     public GameObject[] ObjectSystemComponents;
     public GameObject[] ObjectApplicationPhotography;
+
+    public GameObject[] DefaultInactiveObjects;
     // Use this for initialization
     private Content4_UIModes mCurrentMode = Content4_UIModes.None;
     private GlobalRepo.UserStep lastUserMode = GlobalRepo.UserStep.design;
     void Start () {
         SetUIMode(Content4_UIModes.Design);
+        foreach (var i in DefaultInactiveObjects)
+        {
+            i.SetActive(false);
+        }
     }
 
     // Update is called once per frame

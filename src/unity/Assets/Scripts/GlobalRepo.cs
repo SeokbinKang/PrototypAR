@@ -52,6 +52,10 @@ public class GlobalRepo
         repoDict.Add(RepoDataType.dRawRegionRGBA, null);        
         repoDict.Add(RepoDataType.dRawRegionBGR, null);
         repoDict.Add(RepoDataType.dRawRegionHSV, null);
+        repoDict.Add(RepoDataType.dRawRegionH, null);
+        repoDict.Add(RepoDataType.dRawRegionH2, null);
+        repoDict.Add(RepoDataType.dRawRegionS, null);
+        repoDict.Add(RepoDataType.dRawRegionV, null);
         repoDict.Add(RepoDataType.dRawRegionLAB, null);
         repoDict.Add(RepoDataType.dRawRegionGray, null);
         repoDict.Add(RepoDataType.dRawRegionGrayLast, null);
@@ -429,6 +433,10 @@ public class GlobalRepo
             {
               
                 repoDict[RepoDataType.dRawRegionHSV] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C3);
+                repoDict[RepoDataType.dRawRegionH] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
+                repoDict[RepoDataType.dRawRegionH2] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
+                repoDict[RepoDataType.dRawRegionS] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
+                repoDict[RepoDataType.dRawRegionV] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
             }
               repoDict[RepoDataType.dRawRegionBGR].CvtColor(repoDict[RepoDataType.dRawRegionHSV], ColorConversion.BgrToHsv);
 
@@ -552,6 +560,10 @@ public enum RepoDataType
     dRawRegionHSV, 
     dRawRegionLAB, 
     dRawRegionGray,
+    dRawRegionH,
+    dRawRegionH2,
+    dRawRegionS,
+    dRawRegionV,
     dRawRegionRGBAByte,
     dRealityARRegionRGBAByte,
     dContentBGRGBA,

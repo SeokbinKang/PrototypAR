@@ -9,17 +9,22 @@ public class BeamUnit : MonoBehaviour {
 
     public float BaseVelocity;
 
+    private float[] hsvColor;
     private bool IsDecaying;
 	// Use this for initialization
 	void Start () {
-
+        
         BaseVelocity = 0;
-	}
+        Color c = this.GetComponent<SpriteRenderer>().color;
+        hsvColor = new float[3];
+        Color.RGBToHSV(c, out hsvColor[0], out hsvColor[1], out hsvColor[2]);
+    }
 	
 	// Update is called once per frame
 	void Update () {
         checkIfDead();
         UpdateDecay();
+        changeColor();
     }
    /* void OnCollisionEnter2D(Collision2D col)
     {
@@ -76,6 +81,15 @@ public class BeamUnit : MonoBehaviour {
             //this.transform.Rotate(new Vector3(0, 0, rotateZ));
 
         }
+    }
+    private void changeColor()
+    {
+        Color cPrev = this.GetComponent<SpriteRenderer>().color;
+        hsvColor[0] = hsvColor[0] + 0.02f;
+        if (hsvColor[0] >= 1) hsvColor[0] = 0;
+        Color c = Color.HSVToRGB(hsvColor[0], hsvColor[1], hsvColor[2]);
+        c.a = cPrev.a;
+        this.GetComponent<SpriteRenderer>().color = c;
     }
     public void Revive()
     {

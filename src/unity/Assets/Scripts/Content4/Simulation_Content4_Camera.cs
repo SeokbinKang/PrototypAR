@@ -20,7 +20,7 @@ public class Simulation_Content4_Camera : MonoBehaviour {
 
     public GameObject UIControl;
     public GameObject UIComponentsControl;
-    public GameObject UIPhotoView;
+    
     public GameObject PhotoResource;
     public GameObject PhotographyApp;
     private SimulationParam param=null;
@@ -31,7 +31,7 @@ public class Simulation_Content4_Camera : MonoBehaviour {
     private Texture2D Txt2D;
     // Use this for initialization
     void Start () {
-        reset();
+        init();
         
         if (part_lens == null || part_shutter == null || part_sensor == null || part_lightray == null)
         {
@@ -51,18 +51,13 @@ public class Simulation_Content4_Camera : MonoBehaviour {
     private void init()
     {
         if (!initialized)
-        {
-            
+        {            
             initialized = true;
-        }
-        part_lens.transform.position = new Vector3(10, 2, 1);
-        part_shutter.transform.position = new Vector3(10, 2, 1);
-        part_sensor.transform.position = new Vector3(10, 2, 1);
-        hideLightRay();
-        loadPhotos();
-        this.UIPhotoView.SetActive(false);
-        this.Txt2D = null;
-        this.PhotoByteBuffer = null;
+        }       
+    //    PhotoDict = new Dictionary<string, Asset2DTexture>();
+      //  loadPhotos();
+        reset();
+      //  this.PhotoByteBuffer = null;
 
     }
     private void hideLightRay()
@@ -79,8 +74,12 @@ public class Simulation_Content4_Camera : MonoBehaviour {
     public void reset()
     {
         param = null;
-        PhotoDict = new Dictionary<string, Asset2DTexture>();
-        init();
+        part_lens.transform.position = new Vector3(10, 2, 1);
+        part_shutter.transform.position = new Vector3(10, 2, 1);
+        part_sensor.transform.position = new Vector3(10, 2, 1);
+        this.UIComponentsControl.GetComponent<Content4_UI_Components>().reset();
+
+
     }
     private void SimulateLensLightRay()
     {

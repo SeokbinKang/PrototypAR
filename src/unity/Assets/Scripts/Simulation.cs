@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 public class Simulation : MonoBehaviour {
 
     public GameObject Simulation3_Aqua = null;
-    public GameObject Simulation4_Camera= null;
+    public GameObject Simulation4_Camera = null;
     private static Dictionary<ModelCategory, GameObject> InactiveGameObjectDict = null;
     private static Dictionary<ModelCategory, SimulationObjectType> SimulationTypeDict = null;
     // Use this for initialization
@@ -18,11 +18,11 @@ public class Simulation : MonoBehaviour {
     public prototypeDef userPrototypeInstance = null;
     private bool SimulationControlDone = false;
     public static Simulation ActiveInstance;
-    
+
 
     private DesignContent mDesignContent;
     private SimulationState simState;
-    void Start () {
+    void Start() {
         initGameObjectPool();
         initSimulationConfig();
         userPrototypeInstance = null;
@@ -31,20 +31,20 @@ public class Simulation : MonoBehaviour {
         simState = new SimulationState();
         mDesignContent = this.GetComponentInParent<ApplicationControl>().getContentType();
     }
-	
-	// Update is called once per frame
-	void Update () {
-        simState.timeElapsed = simState.timeElapsed+Time.deltaTime;
+
+    // Update is called once per frame
+    void Update() {
+        simState.timeElapsed = simState.timeElapsed + Time.deltaTime;
         //increase alpha
 
         //syn animation
 
         //update simulation context
         RevealSimulationObject();
-        
-        if(mDesignContent==DesignContent.HumanRespiratorySystem)   ControlSimulationContent_1();
-            else if (mDesignContent == DesignContent.BicycleGearSystem) ControlSimulationContent_2();
-            else if (mDesignContent == DesignContent.CameraSystem) ControlSimulationContent_4();
+
+        if (mDesignContent == DesignContent.HumanRespiratorySystem) ControlSimulationContent_1();
+        else if (mDesignContent == DesignContent.BicycleGearSystem) ControlSimulationContent_2();
+        else if (mDesignContent == DesignContent.CameraSystem) ControlSimulationContent_4();
     }
     public void reset()
     {
@@ -87,9 +87,9 @@ public class Simulation : MonoBehaviour {
                     {
                         GameObject child = SimulationActiveObject[i].transform.GetChild(c).gameObject;
                         Animator animc = child.GetComponent<Animator>();
-                        if (animc == null ) continue;
-                  //      if (animc.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0 || animc.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1) continue;
-                        Debug.Log("set Anim param ->" + child.name +"speed:"+ simState.c1_speedCurrent);
+                        if (animc == null) continue;
+                        //      if (animc.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0 || animc.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1) continue;
+                        Debug.Log("set Anim param ->" + child.name + "speed:" + simState.c1_speedCurrent);
                         child.SetActive(true);
                         animc.SetFloat("speedparam", simState.c1_speedCurrent);
                         SetSpriteAlphato(SimulationActiveObject[i], 0);
@@ -101,7 +101,7 @@ public class Simulation : MonoBehaviour {
                 }
             }
             SimulationControlDone = true;
-            
+
 
         }
         else
@@ -119,13 +119,13 @@ public class Simulation : MonoBehaviour {
                     GameObject child = SimulationActiveObject[i].transform.GetChild(c).gameObject;
                     Animator animc = child.GetComponent<Animator>();
                     if (animc == null) continue;
-           //         if (animc.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0 || animc.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1) continue;
+                    //         if (animc.GetCurrentAnimatorStateInfo(0).normalizedTime <= 0 || animc.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1) continue;
                     animc.SetFloat("speedparam", simState.c1_speedCurrent);
                     // if (animc.GetCurrentAnimatorStateInfo(0).IsName("forward")) BreathIn = true;
                     //else BreathIn = false;
-                    SceneObjectManager.adjustAlphaSpriteRendere(child, 255,0.004f);
+                    SceneObjectManager.adjustAlphaSpriteRendere(child, 255, 0.004f);
 
-                   
+
                 }
             }
             Color t = new Color(); ;
@@ -143,7 +143,7 @@ public class Simulation : MonoBehaviour {
                 t.b = 0.2f;
                 t.a = 1;
             }
-            GameObject psystem = GameObject.Find("c1_airPRight");       
+            GameObject psystem = GameObject.Find("c1_airPRight");
             psystem.GetComponent<BLINDED_AM_ME.Path_Comp>().Update_Path(BreathIn);
             psystem.GetComponent<ParticleSystemRenderer>().material.color = t;
 
@@ -151,9 +151,9 @@ public class Simulation : MonoBehaviour {
             psystem.GetComponent<BLINDED_AM_ME.Path_Comp>().Update_Path(BreathIn);
             psystem.GetComponent<ParticleSystemRenderer>().material.color = t;
 
-          
-           
-         
+
+
+
         }
     }
     private void ControlSimulationContent_2()
@@ -166,8 +166,8 @@ public class Simulation : MonoBehaviour {
         {
             SimulationParam sp = new SimulationParam();
             Content.ExtractSimulationParameters(userPrototypeInstance, mDesignContent, ref sp);
-                                       //all the animation's priods are set to 6 sec. BR = 10
-           
+            //all the animation's priods are set to 6 sec. BR = 10
+
             float animationSpeedParam = sp.C2_pedallingRate / 12.0f;
             //1 = 1rotation / 5 sec            
             simState.timeElapsed = 0;
@@ -178,7 +178,7 @@ public class Simulation : MonoBehaviour {
                 {
                     Animator animc = SimulationActiveObject[i].GetComponent<Animator>();
                     if (animc != null)
-                    { 
+                    {
                         animc.SetFloat("speedparam", animationSpeedParam);
                         continue;
                     }
@@ -200,7 +200,7 @@ public class Simulation : MonoBehaviour {
             PrototypeInstanceManager t = go_multiview.GetComponent<PrototypeInstanceManager>();
 
             CvRect regionBox = GlobalRepo.GetRegionBox(false);
-            Texture2D temporaryTexture=null;
+            Texture2D temporaryTexture = null;
             if (temporaryTexture == null || temporaryTexture.width != regionBox.Width || temporaryTexture.height != regionBox.Height)
             {
                 temporaryTexture = new Texture2D(regionBox.Width, regionBox.Height, TextureFormat.RGBA32, false);
@@ -210,12 +210,12 @@ public class Simulation : MonoBehaviour {
             if (temporaryTexture != null) {
                 t.AddcompletePrototypeInstance(temporaryTexture, sp);
             }
-        }     
+        }
     }
 
     private void DestroySimulationContent_2()
     {
-        if (userPrototypeInstance == null || SimulationActiveObject.Count == 0) return;
+        if (userPrototypeInstance == null || SimulationActiveObject.Count == 0 || ApplicationControl.ActiveInstance.ContentType!=DesignContent.BicycleGearSystem) return;
         //calculate Breathing rate and Amount
 
         float animationSpeedParam = 0;
@@ -295,10 +295,10 @@ public class Simulation : MonoBehaviour {
 
         SimulationParam sp = new SimulationParam();
         sp.C4_focalLength = 0;
-        sp.C4_sensorType = "";
-        sp.C4_shutterSpeed = 0;
-        this.Simulation4_Camera.GetComponent<Simulation_Content4_Camera>().UpdateCameraParams(sp);
+        sp.C4_sensorType = "none";
+        sp.C4_shutterSpeed = 0;        
         this.Simulation4_Camera.GetComponent<Simulation_Content4_Camera>().reset();
+        this.Simulation4_Camera.GetComponent<Simulation_Content4_Camera>().UpdateCameraParams(sp);
 
     }
     private void RevealSimulationObject()

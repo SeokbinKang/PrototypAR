@@ -78,8 +78,7 @@ public class ColorDetector : MonoBehaviour {
         }
     }
 
-    void Start () {        
-        CvMat src = new CvMat("Lenna.bmp");
+    void Start () {                
         
         mCP = new colorProfile();
         mCP.setParamThreshold(0.04f);
@@ -97,7 +96,7 @@ public class ColorDetector : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        if(Time.deltaTime>0.1f) Debug.Log("delta time: " + Time.deltaTime);
         regionImgHSV = GlobalRepo.GetRepo(RepoDataType.dRawRegionHSV);
         if(regionImgHSV==null || mCP.mProfileList ==null || mCP.mProfileList.Count == 0)
         {
@@ -109,14 +108,16 @@ public class ColorDetector : MonoBehaviour {
             //check if the image is stable
             if (GlobalRepo.getLearningCount() > 0)
             {
+              
                 processColorBlobs();
                 Debug.Log("Color Processing..." + GlobalRepo.getLearningCount() + " frames remain");
                 GlobalRepo.tickLearningCount();
                 if (GlobalRepo.getLearningCount() == 0)
-                {                    
-                  //  GlobalRepo.setLearningCount(-1);                    
+                {                    //learning finished
+                                     //  GlobalRepo.setLearningCount(-1);     
+                   
                     createPrototypeFromColorBlobs();
-                    
+                   
                 }
             }
 
@@ -129,7 +130,12 @@ public class ColorDetector : MonoBehaviour {
                     //BlobAccumulationN = 40;
                     GlobalRepo.setLearningCount(-1);
                     DebugIteration++;
-                    createPrototypeFromColorBlobs();
+              
+
+                createPrototypeFromColorBlobs();
+
+               
+                
                     /*if (DebugIteration > 2) createPrototypeFromColorBlobs();
                     else colorblobImage.ForEach(p => p.Zero());*/
                 }
@@ -232,9 +238,7 @@ public class ColorDetector : MonoBehaviour {
                 tmpImage.Add(t2);
             }
        
-        }
-       // Debug.Log(colorblobImage[0].GetSize());
-        //Debug.Log(regionImg.GetSize());
+        }      
         if(!colorblobImage[0].GetSize().Equals(regionImgHSV.GetSize()))
         {
             colorblobImage.Clear();
@@ -248,20 +252,25 @@ public class ColorDetector : MonoBehaviour {
                 tmpImage.Add(t2);
             }
          
-        }      
-        FindColorBlosandAccumulate(regionImgHSV);    
+        }
+
+        
+        
+        FindColorBlosandAccumulate(regionImgHSV);
+
         
     }
     private void createPrototypeFromColorBlobs()
     {
+      
         prototypeDef newPrototype = this.createPrototypeDescription();
+        
         colorblobImage.ForEach(p => p.Zero());
         //behavioral marker
         List<UserDescriptionInfo> markerList=new List<UserDescriptionInfo>();
         List<UserDescriptionInfo> behaviorList = new List<UserDescriptionInfo>();
         List<UserDescriptionInfo> BVList = new List<UserDescriptionInfo>();
-        List<UserDescriptionInfo> ConnList = new List<UserDescriptionInfo>();
-        CvMat avgRegionImg = new CvMat(regionImgHSV.Rows, regionImgHSV.Cols, MatrixType.U8C4);
+        List<UserDescriptionInfo> ConnList = new List<UserDescriptionInfo>();        
         designARManager m = this.GetComponentInParent<designARManager>();
       
         //***FOR deployment 2017-10-17. Ignore behavior and connection.
@@ -283,13 +292,14 @@ public class ColorDetector : MonoBehaviour {
         {
             newPrototype.addConnectivity(t);
         }
-
-
+       
         GameObject.FindGameObjectWithTag("SystemControl").GetComponent<ApplicationControl>().Reset();
+       
         if (m != null && newPrototype != null)
         {
             m.addPrototype(newPrototype);
         }
+       
     }
     
     private void debugSignMarkers(List<UserDescriptionInfo> listM)
@@ -402,26 +412,37 @@ public class ColorDetector : MonoBehaviour {
         proto.mModels[ModelCategory.Chain].Clear();
     }
 
-    private void FindColorBlosandAccumulate(CvMat srcImg)
+    private void FindColorBlosandAccumulate(CvMat srcImgHSV)
     {
-        PointerAccessor1D_Int32 p = srcImg.DataArrayInt32;
-        int length = srcImg.Height * srcImg.Width;        
+        PointerAccessor1D_Int32 p = srcImgHSV.DataArrayInt32;
+        int length = srcImgHSV.Height * srcImgHSV.Width;        
         CvScalar in_, out_;        
         float hue_temp;
         float sat_val;
         float canvasMaxSaturation = GlobalRepo.getParamInt("CanvasSaturationValueMax");
         int validColorN = 0;
         ModelCategory[] colorObjectMap = Content.loadColorObjectMap(out validColorN);
-        
-        for(int i=0;i<colorObjectMap.Length;i++)
-            if(colorObjectMap[i]==ModelCategory.None)
-            {
-                validColorN = i;
-                break;
-            }
+        CvMat srcImgH = GlobalRepo.GetRepo(RepoDataType.dRawRegionH);
+        CvMat srcImgH2 = GlobalRepo.GetRepo(RepoDataType.dRawRegionH2);
+        CvMat srcImgS = GlobalRepo.GetRepo(RepoDataType.dRawRegionS);
+        CvMat srcImgV = GlobalRepo.GetRepo(RepoDataType.dRawRegionV);
+
+        srcImgHSV.Split(srcImgH, srcImgS, srcImgV,null);
+
+        srcImgS.InRangeS(new CvScalar(canvasMaxSaturation), new CvScalar(255), srcImgS);
+       
+        for (int j = 0; j < validColorN; j++)
+        {
+            srcImgH.InRangeS(new CvScalar(mCP.mProfileList[j].HueClass1- hueFilterThreshold), 
+                new CvScalar(mCP.mProfileList[j].HueClass1 + hueFilterThreshold), srcImgH2);
+            srcImgH2.And(srcImgS, srcImgH2);
+            colorblobImage[j].Add(srcImgH2, colorblobImage[j]);
+            
+        }
+        /*
         for (int i = 0; i < length; i++)
         {
-            in_ = srcImg.Get1D(i);
+            in_ = srcImgHSV.Get1D(i);
             //hue_temp = colorModel.getHue1(in_.Val2, in_.Val1, in_.Val0);
             
             for(int j = 0; j < validColorN; j++)
@@ -443,7 +464,7 @@ public class ColorDetector : MonoBehaviour {
      //       Cv.Dilate(tmpImage[j], tmpImage[j]);
             colorblobImage[j].Add(tmpImage[j], colorblobImage[j]);
             
-        }
+        }*/
 
     }
     //DEPRECATED

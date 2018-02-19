@@ -6,7 +6,7 @@ public class SoundControl : MonoBehaviour {
     public GameObject sChange;
     public GameObject sStop;
     public GameObject sRoll;
-    public GameObject sRun;
+    public GameObject sShutter;
     public GameObject sGood;
 	// Use this for initialization
 	void Start () {
@@ -32,6 +32,10 @@ public class SoundControl : MonoBehaviour {
           public void onRoll()
     {
         sRoll.GetComponent<AudioSource>().Play();
+    }
+    public void onShutter()
+    {
+        sShutter.GetComponent<AudioSource>().Play();
     }
 
 }

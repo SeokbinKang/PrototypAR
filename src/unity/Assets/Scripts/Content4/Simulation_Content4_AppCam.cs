@@ -59,7 +59,7 @@ public class Simulation_Content4_AppCam : MonoBehaviour {
     {
         //intput fov level 1-100
         //size range 10-1
-        float camSize = CVProc.linearMap(fov100, 1, 100, 10, 1);
+        float camSize = CVProc.linearMap(fov100, 1, 100, 10, 2);
         Camera cam = this.GetComponentInParent<Camera>();
         cam.orthographicSize = camSize;
     }

@@ -35,8 +35,7 @@ public class SystemModeControl : MonoBehaviour {
         bool need = GlobalRepo.readyForRecognition(UserActivityThreshold);
         if (need)
         {
-            //should clean up prototype model, color detector, and BV detector, ..., simulation 
-            Debug.Log("Frame " + warmupFrame + "\t" + GlobalRepo.getLearningCount());
+            //should clean up prototype model, color detector, and BV detector, ..., simulation             
             this.GetComponentInParent<ApplicationControl>().StartLearning();
             AvailableFeedbacks = 0;
         }

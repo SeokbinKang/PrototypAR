@@ -137,6 +137,8 @@
     <Compile Include="Assets\Scripts\CommonUI\CheckingUI.cs" />
     <Compile Include="Assets\Scripts\CommonUI\CommonUI.cs" />
     <Compile Include="Assets\Scripts\CommonUI\DebugUI.cs" />
+    <Compile Include="Assets\Scripts\CommonUI\HorizontalLevelBar.cs" />
+    <Compile Include="Assets\Scripts\CommonUI\PrototypeInstanceManager.cs" />
     <Compile Include="Assets\Scripts\CommonUI\PrototypeInventoryInfo.cs" />
     <Compile Include="Assets\Scripts\CommonUI\PrototypeInventoryPane.cs" />
     <Compile Include="Assets\Scripts\CommonUI\PrototypeInventoryParam.cs" />
@@ -177,7 +179,6 @@
     <Compile Include="Assets\Scripts\LayerControl.cs" />
     <Compile Include="Assets\Scripts\MyExampleScriptableObjectClass.cs" />
     <Compile Include="Assets\Scripts\ObjectShape2DBuilder.cs" />
-    <Compile Include="Assets\Scripts\PrototypeInstanceManager.cs" />
     <Compile Include="Assets\Scripts\Recognizer\LogicalRecog.cs" />
     <Compile Include="Assets\Scripts\SceneObjectManager.cs" />
     <Compile Include="Assets\Scripts\SignDetector.cs" />
