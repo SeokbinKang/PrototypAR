@@ -30,7 +30,7 @@ public class HorizontalLevelBar : MonoBehaviour {
         SetLevelBar(val, low, high);
         if (val < 0)
         {
-            textLabel.GetComponent<Text>().text = "unspecified";
+            textLabel.GetComponent<Text>().text = "?";
 
         }
         else
@@ -49,7 +49,7 @@ public class HorizontalLevelBar : MonoBehaviour {
         if (valString == "none")
         {
             SetLevelBar(0, 0, 100);
-            textLabel.GetComponent<Text>().text = "unspecified";
+            textLabel.GetComponent<Text>().text = "?";
         } else
         {
             SetLevelBar(100, 0, 100);

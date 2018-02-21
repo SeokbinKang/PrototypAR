@@ -53,6 +53,16 @@ public class Visual2DModelManager : MonoBehaviour
             p.ProduceScaffoldingFeedback();
         }
     }
+    public int GetNumberofScaffoldingFeedback()
+    {
+        int ret = 0;
+
+        foreach (var p in mPrototypeVisual2DList)
+        {
+            ret += p.GetNumberofScaffoldingFeedback();
+        }
+        return ret;
+    }
     private void tickVisual2DModels()
     {
         if (GlobalRepo.GetRepo(RepoDataType.dRawRegionBGR) == null) return;
@@ -118,7 +128,7 @@ public class Visual2DModel
             if (GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().BackgroundProcessing)
             {
                 mFeedbackList = feedbacklist;
-                GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().NotifyScaffoldingFeedback(feedbacklist.Count);
+                //GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().NotifyScaffoldingFeedback(feedbacklist.Count);
             }
             else
             {
@@ -181,6 +191,14 @@ public class Visual2DModel
             return;
         }
         ProduceScaffoldingFeedback(mRefConceptModel, mFeedbackList[0]);
+    }
+    public int GetNumberofScaffoldingFeedback()
+    {
+        if (mRefConceptModel == null || mFeedbackList == null || mFeedbackList.Count == 0)
+        {           
+            return 0;
+        }
+        return mFeedbackList.Count;
     }
     private void ProduceScaffoldingFeedback(prototypeDef proto, FeedbackToken feedback)
     {
@@ -300,7 +318,13 @@ public class Visual2DModel
                    
 
             SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
-            if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BL_missing, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+            if (SOMgr != null)
+            {
+                if(feedback.behaviorType==BehaviorCategory.C4_FOCUS) SOMgr.activateObject(PreLoadedObjects.BEH_BL_missing_focus, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+                else if (feedback.behaviorType == BehaviorCategory.C4_ALLOW) SOMgr.activateObject(PreLoadedObjects.BEH_BL_missing_allow, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+                else if (feedback.behaviorType == BehaviorCategory.C4_CAPTURE) SOMgr.activateObject(PreLoadedObjects.BEH_BL_missing_capture, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+                else SOMgr.activateObject(PreLoadedObjects.BEH_BL_missing, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+            }
         }
         //##########################################################
         //##########################################################
@@ -342,21 +366,27 @@ public class Visual2DModel
                 CvPoint BVPoint = feedback.behavior.marker.center;
                 BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
                 if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_missing_contract, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
-            }
-            if (feedback.behaviorType == BehaviorCategory.PEDAL)
+            } else if (feedback.behaviorType == BehaviorCategory.PEDAL)
             {
                 SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
                 CvPoint BVPoint = feedback.behavior.marker.center;
                 BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
                 if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_missing_pedal, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
-            }
-            if (feedback.behaviorType == BehaviorCategory.REDUCE)
+            } else if (feedback.behaviorType == BehaviorCategory.REDUCE)
             {
                 SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
                 CvPoint BVPoint = feedback.behavior.marker.center;
                 BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
                 if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_missing_reduce, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
             }
+            else if (feedback.behaviorType == BehaviorCategory.C4_FOCUS)
+            {
+                SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+                CvPoint BVPoint = feedback.behavior.marker.center;
+                BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
+                if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_unspecified_focus, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
+            }
+
         }
 
     }

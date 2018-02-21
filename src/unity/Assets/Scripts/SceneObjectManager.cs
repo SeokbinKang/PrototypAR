@@ -36,6 +36,7 @@ public class SceneObjectManager : MonoBehaviour {
         if (SceneObjectPool == null)
         {
             SceneObjectPool = new Dictionary<PreLoadedObjects, GameObject>();
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BV_unspecified_focus, GameObject.Find("BV_Unspecified_Focus"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_contract, GameObject.Find("BV_Missing_Contract_0"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_pedal, GameObject.Find("BV_missing_Pedal"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_reduce, GameObject.Find("BV_missing_Reduce"));
@@ -60,7 +61,10 @@ public class SceneObjectManager : MonoBehaviour {
             SceneObjectPool.Add(PreLoadedObjects.STR_POS_dialog, GameObject.Find("STR_POS"));
             SceneObjectPool.Add(PreLoadedObjects.STR_CONN_missing_Dialogue, GameObject.Find("STR_CONN_missing"));
             SceneObjectPool.Add(PreLoadedObjects.STR_CONN_incorrect_Dialogue, GameObject.Find("STR_CONN_incorrect"));
-            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_missing, GameObject.Find("BEH_BL_missing"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_missing, GameObject.Find("BEH_BL_missingVer2"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_missing_focus, GameObject.Find("BEH_BL_missing_focus"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_missing_allow, GameObject.Find("BEH_BL_missing_allow"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_missing_capture, GameObject.Find("BEH_BL_missing_capture"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_down, GameObject.Find("BEH_BL_unneces_down"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_left, GameObject.Find("BEH_BL_unneces_left"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_right, GameObject.Find("BEH_BL_unneces_right"));
@@ -388,6 +392,9 @@ public enum PreLoadedObjects
     STR_CONN_missing_Dialogue,
     STR_CONN_incorrect_Dialogue,
     BEH_BL_missing,
+    BEH_BL_missing_focus,
+    BEH_BL_missing_allow,
+    BEH_BL_missing_capture,
     BEH_BL_unnecessary_down,
     BEH_BL_unnecessary_left,
     BEH_BL_unnecessary_right,
@@ -396,6 +403,7 @@ public enum PreLoadedObjects
     BEH_BV_missing_contract,
     BEH_BV_missing_pedal,
     BEH_BV_missing_reduce,
+    BEH_BV_unspecified_focus,
     Content1_BGPartial,
     Content1_BGFull,
     Content2_BGPartial,

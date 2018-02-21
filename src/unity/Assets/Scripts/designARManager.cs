@@ -265,7 +265,7 @@ public class designARManager : MonoBehaviour {
             BehaviorEntity be;
             be = new BehaviorEntity(BehaviorCategory.C4_FOCUS, lens, new BehaviorVariableEntity(BehaviorVariableType.Numeric, new KeyValuePair<float, float>(10, 200)));
             mDesignContentModel.AddBehaviorEntity(be);
-            be = new BehaviorEntity(BehaviorCategory.C4_EXPOSE, shutter, new BehaviorVariableEntity(BehaviorVariableType.Numeric, new KeyValuePair<float, float>(1, 1000)));
+            be = new BehaviorEntity(BehaviorCategory.C4_ALLOW, shutter, new BehaviorVariableEntity(BehaviorVariableType.Numeric, new KeyValuePair<float, float>(1, 1000)));
             mDesignContentModel.AddBehaviorEntity(be);
             List<string> sensorBVdef = Content.getCategoricalBVdefinition(BehaviorCategory.C4_CAPTURE);
             if (sensorBVdef == null || sensorBVdef.Count==0) Debug.Log("sensor BV def is empty");

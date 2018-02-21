@@ -13,7 +13,7 @@ using System;
 using System.Runtime.InteropServices;
 public class FBSModel {
 
-	
+
 
     public string underlyingImageResName;
 
@@ -21,7 +21,7 @@ public class FBSModel {
     //structure layer
     List<StructureEntity> mStructureList;
     List<BehaviorEntity> mBehaviorList;
-    int[,] connectivityMetric=null;
+    int[,] connectivityMetric = null;
     public static DesignContent ContentType;
     private ShapeEvalType[] ShapeEvaluationMapTable;
     private StrEntityEvalType[] StrEntityEvalMapTalbe;
@@ -34,26 +34,44 @@ public class FBSModel {
         List<FeedbackToken> ret = new List<FeedbackToken>();
         List<FeedbackToken> feedbacklist;
         //phase 3 check existence
-        feedbacklist = EvaluateStrExistence(userPrototype);
+        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_Missing_objects)
+            || SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_Extra_objects))
+        {
+            feedbacklist = EvaluateStrExistence(userPrototype);
 
-        ret.AddRange(feedbacklist);  //DEBUG
+            ret.AddRange(feedbacklist);  //DEBUG
+        }
+        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_shape))
+        {
+            feedbacklist = EvaluateStrShape(userPrototype);
+            ret.AddRange(feedbacklist);
+        }
+        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_position))
+        {
+            feedbacklist = EvaluateStrPosition(userPrototype);
+            ret.AddRange(feedbacklist);
+        }
+        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_connectivity))
+        {
+            feedbacklist = EvaluateStrConnectivity(userPrototype);
+            ret.AddRange(feedbacklist);
+        }
+        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Missing_labels)
+            || SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Move_labels)
+            || SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Extra_labels))
+        {
+            feedbacklist = EvaluateBehavior(userPrototype);
 
-        debugFeedback(feedbacklist);        
+            ret.AddRange(feedbacklist);  //DEBUG
+        }
+        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Unmarked_labels))
+        {
+            feedbacklist = EvaluateBehaviorVariables(userPrototype);
 
-        //       feedbacklist = EvaluateStrShape(userPrototype);
-        // ret.AddRange(feedbacklist);
+            ret.AddRange(feedbacklist);  //DEBUG
+        }
 
-      //   feedbacklist = EvaluateStrPosition(userPrototype);
-      //  ret.AddRange(feedbacklist);
 
-      //   feedbacklist = EvaluateStrConnectivity(userPrototype);
-     //    ret.AddRange(feedbacklist);
-
-       //   feedbacklist = EvaluateBehavior(userPrototype);
-      //    ret.AddRange(feedbacklist);
-
-      //  feedbacklist = EvaluateBehaviorVariables(userPrototype);
-     //   ret.AddRange(feedbacklist);
         //phase 1 check shape
 
 
@@ -69,6 +87,8 @@ public class FBSModel {
         //userPrototype.mModels[ModelCategory.Lung]
         //if(feedbacklist!=null) ret.AddRange(feedbacklist);
         //   debugFeedback(feedbacklist);
+
+        debugFeedback(ret);
         return ret;
     }
     public FBSModel()
@@ -226,7 +246,7 @@ public class FBSModel {
                 {
                     if(str.v1_ModelType==modelInstance.modelType)
                     {
-                        Debug.Log("[DEBUG] exmaining userStrObject id =" + modelInstance.instanceID+" type :"+Content.getOrganName(modelInstance.modelType) + " FBS str's behavior ");
+                        Debug.Log("[DEBUG] examining userStrObject id =" + modelInstance.instanceID+" type :"+Content.getOrganName(modelInstance.modelType) + " FBS str's behavior ");
                         if(str.v5_BehaviorEntity!=null && (modelInstance.behaviors==null || modelInstance.behaviors.Count==0))
                         {
                             //missing behavior
@@ -244,14 +264,21 @@ public class FBSModel {
                                 ModelDef candidateModel = findUnmappedStrModelforBehavior(userPrototype, modelInstance.behaviors[0].behaviorType);
                                 if(candidateModel==null)
                                 { //unnecessary behavior
-                                    FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Behavior_Unnecessary,null, modelInstance.behaviors[0].behaviorType, modelInstance.behaviors[0]);
-                                    ret.Add(token);
+
+                                    if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Extra_labels))
+                                    {
+                                        FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Behavior_Unnecessary, null, modelInstance.behaviors[0].behaviorType, modelInstance.behaviors[0]);
+                                        ret.Add(token);
+                                    }
                                     break;
                                 }
                                 else
                                 { //remap required
-                                    FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Behavior_relocate, candidateModel, modelInstance.behaviors[0].behaviorType, modelInstance.behaviors[0]);
-                                    ret.Add(token);
+                                    if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Move_labels))
+                                    {
+                                        FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Behavior_relocate, candidateModel, modelInstance.behaviors[0].behaviorType, modelInstance.behaviors[0]);
+                                        ret.Add(token);
+                                    }
                                     break;
                                 }
 
@@ -594,25 +621,31 @@ public class FBSModel {
 
                 modelarr.OrderByDescending(x => x.tmpInt);
                 int NofRedundantObjs = (objCounter[(int)designItem.Key] * -1);
-                for(int i= 0;i < NofRedundantObjs; i++)
+                if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_Extra_objects))
                 {
-                    FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Shape_existence_redundant, modelarr[i].modelType, modelarr[i].instanceID, modelarr[i]);
-                    ret.Add(token);
-                }                
+                    for (int i = 0; i < NofRedundantObjs; i++)
+                    {
+                        FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Shape_existence_redundant, modelarr[i].modelType, modelarr[i].instanceID, modelarr[i]);
+                        ret.Add(token);
+                    }
+                }               
             }
 
         }
         //evaluate excessive object
-        for(int i=0;i< (int)ModelCategory.TotalNumberOfModels; i++)
+        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_Missing_objects))
         {
-            if (objCounter[i] == 0) continue;
-            if (objCounter[i] >0 )
+            for (int i = 0; i < (int)ModelCategory.TotalNumberOfModels; i++)
             {
-                //missing object
-                FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Shape_existence_missing, (ModelCategory)i, -1,null);
-                ret.Add(token);
+                if (objCounter[i] == 0) continue;
+                if (objCounter[i] > 0)
+                {
+                    //missing object
+                    FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Shape_existence_missing, (ModelCategory)i, -1, null);
+                    ret.Add(token);
+                }
+
             }
-           
         }
 
         return ret;

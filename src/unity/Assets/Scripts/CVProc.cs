@@ -394,20 +394,30 @@ public class CVProc {
     }
     public static void findRectangularMarkers(CvMat GrayImage, ref List<UserDescriptionInfo> rectMarkerList)
     {
-        CvMat inputImageUC8 = GrayImage;
-
+        //CvMat inputImageUC8 = GrayImage;
+        CvMat inputImageUC8 = GlobalRepo.GetRepo(RepoDataType.dRawRegionTemp1);
         if (inputImageUC8 == null) return;
-        if (inputImageUC8.ElemType != MatrixType.U8C1)
+        if (GrayImage.ElemType != MatrixType.U8C1)
         {
-            inputImageUC8 = new CvMat(GrayImage.Rows, GrayImage.Cols, MatrixType.U8C1);
+           // inputImageUC8 = new CvMat(GrayImage.Rows, GrayImage.Cols, MatrixType.U8C1);
             GrayImage.CvtColor(inputImageUC8, ColorConversion.BgraToGray);
 
         } else
         {
-            inputImageUC8 = GrayImage.Clone();
+            GrayImage.Copy(inputImageUC8);            
         }
-
+        CvMat saturatedMask = GlobalRepo.GetRepo(RepoDataType.dRawRegionSaturated);
+        CvMat saturatedMaskExpanded = GlobalRepo.GetRepo(RepoDataType.dRawRegionTemp2);
+        if (saturatedMask != null)
+        {
+            saturatedMask.Dilate(saturatedMaskExpanded);
+            saturatedMaskExpanded.Dilate(saturatedMaskExpanded);
+        }
         inputImageUC8.Threshold(inputImageUC8, 160, 255, ThresholdType.BinaryInv);
+        //exclude saturated region
+
+        inputImageUC8.Sub(saturatedMask, inputImageUC8);
+        GlobalRepo.showDebugImage("binary BV image", inputImageUC8);
         CvSeq<CvPoint> contoursRaw;
 
         int id = 0;

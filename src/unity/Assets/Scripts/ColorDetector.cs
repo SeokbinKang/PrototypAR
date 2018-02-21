@@ -424,13 +424,13 @@ public class ColorDetector : MonoBehaviour {
         ModelCategory[] colorObjectMap = Content.loadColorObjectMap(out validColorN);
         CvMat srcImgH = GlobalRepo.GetRepo(RepoDataType.dRawRegionH);
         CvMat srcImgH2 = GlobalRepo.GetRepo(RepoDataType.dRawRegionH2);
-        CvMat srcImgS = GlobalRepo.GetRepo(RepoDataType.dRawRegionS);
-        CvMat srcImgV = GlobalRepo.GetRepo(RepoDataType.dRawRegionV);
+        CvMat srcImgS = GlobalRepo.GetRepo(RepoDataType.dRawRegionSaturated);
+        
 
-        srcImgHSV.Split(srcImgH, srcImgS, srcImgV,null);
+       // srcImgHSV.Split(srcImgH, srcImgS, srcImgV,null);
 
         srcImgS.InRangeS(new CvScalar(canvasMaxSaturation), new CvScalar(255), srcImgS);
-       
+         
         for (int j = 0; j < validColorN; j++)
         {
             srcImgH.InRangeS(new CvScalar(mCP.mProfileList[j].HueClass1- hueFilterThreshold), 

@@ -401,7 +401,7 @@ public class BehaviorDef
     }
     public float getNumericalBV()
     {
-        if (marker == null) return 0;
+        if (marker == null) return -1;
         return marker.InfoNumericalBVValue;        
     }
     public BehaviorDef(UserDescriptionInfo pMarker)

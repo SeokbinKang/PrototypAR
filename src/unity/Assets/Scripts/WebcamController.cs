@@ -99,8 +99,8 @@ public class WebcamController : MonoBehaviour {
 	// Update is called once per frame
 	void Update()
     {
-
-        if (counter++ % 1000 == 0) Debug.Log("FPS"+1.0f / Time.deltaTime);
+        
+        if (counter++ % 1000== 0) Debug.Log("FPS"+1.0f / Time.deltaTime);
 
         /*
         if (m_cvCap != null && AR2DImageProc.NeedLiveStream()) {

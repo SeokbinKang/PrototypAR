@@ -190,9 +190,10 @@ public class BehaviorDetector : MonoBehaviour {
             float measureLevel = measureBV(BVImg, be.VariableType);
             if (be.VariableType == BehaviorVariableType.Numeric)
             {
-                bdesc.InfoNumericalBVPercent = measureLevel;
+                bdesc.InfoNumericalBVPercent = measureLevel;  //-1:unmarked
                 bdesc.InfoNumericalBVValue = (float)be.numericalValueRange.Key;
                 if (measureLevel != -1) bdesc.InfoNumericalBVValue += (be.numericalValueRange.Value - be.numericalValueRange.Key) * measureLevel / 100.0f;
+                else bdesc.InfoNumericalBVValue = -1;
                 Debug.Log("[DEBUG]BV type=" + be.VariableType + "Measure BV %=" + bdesc.InfoNumericalBVPercent);
             }
             if (be.VariableType == BehaviorVariableType.Categorical)

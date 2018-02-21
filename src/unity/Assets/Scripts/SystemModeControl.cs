@@ -21,15 +21,12 @@ public class SystemModeControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if(warmupFrame--<0 && GlobalRepo.UserMode==GlobalRepo.UserStep.design) CheckRecognition();
-        UpdateCommonUI();
+       
 
         //DEBUG
 
     }
-    private void UpdateCommonUI()
-    {
-        DesignUIGO.GetComponent<CommonUI>().UpdateFeedbackButton(this.AvailableFeedbacks);
-    }
+    
     private void CheckRecognition()
     {
         bool need = GlobalRepo.readyForRecognition(UserActivityThreshold);
@@ -37,7 +34,7 @@ public class SystemModeControl : MonoBehaviour {
         {
             //should clean up prototype model, color detector, and BV detector, ..., simulation             
             this.GetComponentInParent<ApplicationControl>().StartLearning();
-            AvailableFeedbacks = 0;
+        
         }
 
         //logic
@@ -48,13 +45,10 @@ public class SystemModeControl : MonoBehaviour {
     }
     private void ResetData()
     {
-        this.AvailableFeedbacks = 0;
+       
         this.GetComponentInParent<ApplicationControl>().Reset();
     }
-    public void NotifyScaffoldingFeedback(int NofFeedbacks)
-    {
-        this.AvailableFeedbacks = NofFeedbacks;
-    }
+    
     
     public void switchToDesign()
     {

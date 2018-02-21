@@ -185,6 +185,7 @@
     <Compile Include="Assets\Scripts\Simulation.cs" />
     <Compile Include="Assets\Scripts\Simulation_Artifact_Chain.cs" />
     <Compile Include="Assets\Scripts\Simulation_Content_Aqua.cs" />
+    <Compile Include="Assets\Scripts\SystemConfig.cs" />
     <Compile Include="Assets\Scripts\SystemModeControl.cs" />
     <Compile Include="Assets\Scripts\Visual2DModelManager.cs" />
     <Compile Include="Assets\Scripts\Visual3DModelManager.cs" />

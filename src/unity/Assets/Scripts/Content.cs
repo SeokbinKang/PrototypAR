@@ -59,7 +59,7 @@ public class Content {
         if (bc == BehaviorCategory.TRANSFER) return "TRANSFER";
         if (bc == BehaviorCategory.CLEAN) return "CLEAN";
         if (bc == BehaviorCategory.C4_FOCUS) return "FOCUS";
-        if (bc == BehaviorCategory.C4_EXPOSE) return "EXPOSE";
+        if (bc == BehaviorCategory.C4_ALLOW) return "ALLOW";
         if (bc == BehaviorCategory.C4_CAPTURE) return "CAPTURE";
         return "undefined";
 
@@ -255,7 +255,7 @@ public class Content {
             BehaviorDef be = null;
             if(lensModel!=null) be = lensModel.getBehaviorDef(BehaviorCategory.C4_FOCUS);
             if (be != null) ret.C4_focalLength = be.getNumericalBV();            
-            if (shutterModel != null) be = shutterModel.getBehaviorDef(BehaviorCategory.C4_EXPOSE);
+            if (shutterModel != null) be = shutterModel.getBehaviorDef(BehaviorCategory.C4_ALLOW);
             if(be!=null) ret.C4_shutterSpeed = be.getNumericalBV();
                 
             if(sensor!=null) be = sensor.getBehaviorDef(BehaviorCategory.C4_CAPTURE);
@@ -394,7 +394,7 @@ public enum BehaviorCategory
     PRODUCE,    
     CLEAN,
     C4_FOCUS,
-    C4_EXPOSE,
+    C4_ALLOW,
     C4_CAPTURE,
     TotalNumberofBahaviors
 

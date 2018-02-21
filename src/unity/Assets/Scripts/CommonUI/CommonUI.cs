@@ -14,7 +14,7 @@ public class CommonUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    
+        UpdateFeedbackButton(ARSystem.GetComponent<Visual2DModelManager>().GetNumberofScaffoldingFeedback());
 	}
     public void UpdateFeedbackButton(int NumberofFeedbacks)
     {

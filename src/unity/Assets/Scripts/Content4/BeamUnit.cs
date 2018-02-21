@@ -24,7 +24,7 @@ public class BeamUnit : MonoBehaviour {
 	void Update () {
         checkIfDead();
         UpdateDecay();
-        changeColor();
+      //  changeColor();
     }
    /* void OnCollisionEnter2D(Collision2D col)
     {
@@ -97,6 +97,7 @@ public class BeamUnit : MonoBehaviour {
         Color c = this.GetComponent<SpriteRenderer>().color;
         c.a =1f;
         this.GetComponent<SpriteRenderer>().color = c;
+        
     }
     public void Decay()
     {
@@ -109,6 +110,7 @@ public class BeamUnit : MonoBehaviour {
             Color c = this.GetComponent<SpriteRenderer>().color;
             c.a = c.a - 0.2f;
             this.GetComponent<SpriteRenderer>().color = c;
+            if (c.a <= 0) dead();
         }
     }
     private void TargetTo()
@@ -125,6 +127,7 @@ public class BeamUnit : MonoBehaviour {
         this.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         this.transform.rotation = Quaternion.identity;
         this.transform.localPosition = InactivePos;
+        this.GetComponent<TrailRenderer>().enabled = false;
         Revive();
     }
 

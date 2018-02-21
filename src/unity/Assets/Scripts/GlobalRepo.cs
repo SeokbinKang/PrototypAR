@@ -54,13 +54,17 @@ public class GlobalRepo
         repoDict.Add(RepoDataType.dRawRegionHSV, null);
         repoDict.Add(RepoDataType.dRawRegionH, null);
         repoDict.Add(RepoDataType.dRawRegionH2, null);
+        repoDict.Add(RepoDataType.dRawRegionH3, null);
         repoDict.Add(RepoDataType.dRawRegionS, null);
+        repoDict.Add(RepoDataType.dRawRegionSaturated, null);
         repoDict.Add(RepoDataType.dRawRegionV, null);
         repoDict.Add(RepoDataType.dRawRegionLAB, null);
         repoDict.Add(RepoDataType.dRawRegionGray, null);
         repoDict.Add(RepoDataType.dRawRegionGrayLast, null);
         repoDict.Add(RepoDataType.dRawRegionGrayDiff, null);
-        
+        repoDict.Add(RepoDataType.dRawRegionTemp1, null);
+        repoDict.Add(RepoDataType.dRawRegionTemp2, null);
+
         repoDictByteStream = new Dictionary<RepoDataType, byte[]>();
         repoDictByteStream.Add(RepoDataType.dRealityARRegionRGBAByte, null);
         
@@ -435,10 +439,16 @@ public class GlobalRepo
                 repoDict[RepoDataType.dRawRegionHSV] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C3);
                 repoDict[RepoDataType.dRawRegionH] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
                 repoDict[RepoDataType.dRawRegionH2] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
+                repoDict[RepoDataType.dRawRegionH3] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
                 repoDict[RepoDataType.dRawRegionS] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
+                repoDict[RepoDataType.dRawRegionSaturated] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
                 repoDict[RepoDataType.dRawRegionV] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
+                repoDict[RepoDataType.dRawRegionTemp1] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
+                repoDict[RepoDataType.dRawRegionTemp2] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
             }
               repoDict[RepoDataType.dRawRegionBGR].CvtColor(repoDict[RepoDataType.dRawRegionHSV], ColorConversion.BgrToHsv);
+              repoDict[RepoDataType.dRawRegionHSV].Split(repoDict[RepoDataType.dRawRegionH], repoDict[RepoDataType.dRawRegionS], repoDict[RepoDataType.dRawRegionV], null);
+              repoDict[RepoDataType.dRawRegionS].InRangeS(new CvScalar(GlobalRepo.getParamInt("CanvasSaturationValueMax")), new CvScalar(255), repoDict[RepoDataType.dRawRegionSaturated]);
 
 
             if (!repoDict.ContainsKey(RepoDataType.dRawRegionLAB) || repoDict[RepoDataType.dRawRegionLAB] == null || repoDict[RepoDataType.dRawRegionLAB].GetSize() != repoDict[RepoDataType.dRawRegionRGBA].GetSize())
@@ -561,15 +571,20 @@ public enum RepoDataType
     dRawRegionLAB, 
     dRawRegionGray,
     dRawRegionH,
+    
     dRawRegionH2,
+    dRawRegionH3,
     dRawRegionS,
+    dRawRegionSaturated,
     dRawRegionV,
     dRawRegionRGBAByte,
     dRealityARRegionRGBAByte,
     dContentBGRGBA,
     dContentBGRGBAByte,
     dRawRegionGrayLast,
-    dRawRegionGrayDiff
+    dRawRegionGrayDiff,
+    dRawRegionTemp1,
+    dRawRegionTemp2,
 
 }
 

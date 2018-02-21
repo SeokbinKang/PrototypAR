@@ -129,7 +129,7 @@ public class PrototypeInstanceManager : MonoBehaviour {
         //mPrototypes.Add(new prototypeInstance(prototypeImgTxt, simParam, null));
         UpdateMultiveUI();
         Debug.Log("[DEBUG PrototypeInstanceManager] Adding new prototype instance...");
-        Debug.Log("[DEBUG PrototypeInstanceManager] rearGear: " + simParam.C2_rearGearSize + "  frontGear: " + simParam.C2_frontGearSize);
+       // Debug.Log("[DEBUG PrototypeInstanceManager] rearGear: " + simParam.C2_rearGearSize + "  frontGear: " + simParam.C2_frontGearSize);
     }
     public bool isPrototypeinQueue()
     {
