@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HorizontalLevelBar : MonoBehaviour {
     public GameObject levelBarFill;
     public GameObject textLabel;
-
+    public GameObject textName;
     private float numericalVal;
     private float finalLevel;  // 0 ~ 1f
     private float currentLevel; // 0 ~ 1f;
@@ -23,6 +23,19 @@ public class HorizontalLevelBar : MonoBehaviour {
     void onEnable()
     {
         // start animation;
+    }
+    public void SetValueName(string name)
+    {
+        if (textName != null) textName.GetComponent<Text>().text = name;
+    }
+    public void SetColor(Color c)
+    {
+        if(levelBarFill!=null)
+        {
+            levelBarFill.GetComponent<Image>().color = c;
+        }
+        if (textName != null)
+            textName.GetComponent<Text>().color = c;
     }
     public void SetNumericalValue(float val, float low, float high, string valString)
     {

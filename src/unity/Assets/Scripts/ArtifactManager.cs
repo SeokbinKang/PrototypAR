@@ -55,9 +55,20 @@ public class ConceptModelManager {
         }
 
         // evaulate the prototype model
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+        
+
         List<FeedbackToken> feedback = pFBSModel.EvaluatePrototype(proto);
+        feedback = QuarantineFeedback(feedback);
+        sw.Stop();
+        SystemLogger.activeInstance.AddPerformance(1, sw.ElapsedMilliseconds);
+        if (feedback.Count > 2) feedback.RemoveRange(2, feedback.Count - 2);
+       
+        
 
         pVisual2DMgr.createVisual2DModel(proto, feedback);
+        
         // generate 2d feedback
 
         // or genera 2d simulated visualization
@@ -65,7 +76,56 @@ public class ConceptModelManager {
 
         //construct 2d visualization model
     }
-
+    private List<FeedbackToken> QuarantineFeedback(List<FeedbackToken> flist)
+    {
+        List<FeedbackToken> ret = new List<FeedbackToken>();
+        if (ApplicationControl.ActiveInstance.ContentType == DesignContent.CameraSystem)
+        {
+            int ScaffoldingStep = WorkSpaceUI.mInstance.GetCurrentStep();
+            if (ScaffoldingStep == 0)
+            {
+                foreach (var t in flist)
+                {
+                    if (t.modelType == ModelCategory.C4_sensor || t.modelType == ModelCategory.C4_shutter) continue;
+                    if (t.behaviorType == BehaviorCategory.C4_CAPTURE || t.behaviorType == BehaviorCategory.C4_ALLOW) continue;
+                    if (t.model != null && (t.model.modelType == ModelCategory.C4_sensor || t.model.modelType == ModelCategory.C4_shutter)) continue;
+                    if (t.behavior != null && (t.behavior.behaviorType != BehaviorCategory.C4_CAPTURE || t.behavior.behaviorType == BehaviorCategory.C4_ALLOW)) continue;
+                    ret.Add(t);
+                }
+            }
+            else if (ScaffoldingStep == 1)
+            {
+                foreach (var t in flist)
+                {
+                    if (t.modelType == ModelCategory.C4_sensor || t.modelType == ModelCategory.C4_lens) continue;
+                    if (t.behaviorType == BehaviorCategory.C4_CAPTURE || t.behaviorType == BehaviorCategory.C4_FOCUS) continue;
+                    if (t.model != null && (t.model.modelType == ModelCategory.C4_sensor || t.model.modelType == ModelCategory.C4_lens)) continue;
+                    if (t.behavior != null && (t.behavior.behaviorType != BehaviorCategory.C4_CAPTURE || t.behavior.behaviorType == BehaviorCategory.C4_FOCUS)) continue;
+                    ret.Add(t);
+                }
+            }
+            else if (ScaffoldingStep == 2)
+            {
+                foreach (var t in flist)
+                {
+                    if (t.modelType == ModelCategory.C4_lens || t.modelType == ModelCategory.C4_shutter) continue;
+                    if (t.behaviorType == BehaviorCategory.C4_FOCUS || t.behaviorType == BehaviorCategory.C4_ALLOW) continue;
+                    if (t.model != null && (t.model.modelType == ModelCategory.C4_lens || t.model.modelType == ModelCategory.C4_shutter)) continue;
+                    if (t.behavior != null && (t.behavior.behaviorType != BehaviorCategory.C4_FOCUS || t.behavior.behaviorType == BehaviorCategory.C4_ALLOW)) continue;
+                    ret.Add(t);
+                }
+            }
+            else
+            {
+                foreach (var t in flist)
+                {
+                    ret.Add(t);
+                }
+            }
+        } else  return flist;
+        
+        return ret;
+    }
     public bool isModelRefined()
     {
         bool isDone = true; 
@@ -135,7 +195,12 @@ public class ConceptModelManager {
     }
 
 }
+public class prototypeDefPseudo
+{
+    //this contains minimal info without image data
+    public Dictionary<ModelCategory, List<ModelDef>> mModels;
 
+}
 public class prototypeDef
 {
     public Dictionary<ModelCategory, List<ModelDef>> mModels;        
@@ -227,6 +292,30 @@ public class prototypeDef
             }
         }
         return largestModel;
+    }
+    public ModelDef getClosestModeltoRegionPoint(CvPoint regionP)
+    {
+        ModelDef pClosestModel = null;
+        float distanceMin = float.MaxValue;
+        foreach (ModelCategory val in System.Enum.GetValues(typeof(ModelCategory)))
+        {
+            for (int i = 0; i < mModels[val].Count; i++)
+            {
+                float dist = (float)mModels[val][i].DistantTo(regionP);                    
+                if (dist < distanceMin)
+                {
+                    distanceMin = dist;
+                    pClosestModel = mModels[val][i];
+                }
+
+            }
+        }
+        if (pClosestModel != null)
+        {
+            return pClosestModel;           
+            
+        }
+        return null;
     }
     public bool RefinePrototypeModels()
     {
@@ -418,6 +507,20 @@ public class BehaviorDef
         int dist;
         if (pMarker.InfoTextLabelstring == "") this.behaviorType = BehaviorCategory.None;
         else this.behaviorType = Content.DetermineBehaviorType(pMarker.InfoTextLabelstring,out dist);
+       if (ApplicationControl.ActiveInstance.ContentType == DesignContent.CameraSystem)
+        {
+            //this behavior marker has to be either focus,allow,capture
+            if(this.behaviorType==BehaviorCategory.C4_FOCUS || this.behaviorType==BehaviorCategory.C4_CAPTURE || this.behaviorType==BehaviorCategory.C4_ALLOW)
+            {
+                //do nothing
+            } else
+            {
+                //rectify the recognition result
+                if (pModel.modelType == ModelCategory.C4_lens) this.behaviorType = BehaviorCategory.C4_FOCUS;
+                else if (pModel.modelType == ModelCategory.C4_shutter) this.behaviorType = BehaviorCategory.C4_ALLOW;
+                else if (pModel.modelType == ModelCategory.C4_sensor) this.behaviorType = BehaviorCategory.C4_CAPTURE;
+            }
+        }
         this.marker = pMarker;
         this.baseStrcuture = pModel;
         instanceID = prototypeDef.globalInstanceId++;
@@ -481,6 +584,20 @@ public class ModelDef
     {
         if (mShapeBuilder.isFinished()) return mShapeBuilder;
            else return null;
+    }
+    public float DistantTo(CvPoint p)
+    {
+        float dist = 0;
+        Point truthPos = p;
+        if(this.getShapeBuilder().ReducedContour!=null)
+            dist = (float) Cv2.PointPolygonTest(this.getShapeBuilder().ReducedContour, truthPos, true);
+        else
+        {
+            dist = (float ) this.getShapeBuilder().center.DistanceTo(p);
+        }
+        dist = dist * -1;
+        return dist;
+
     }
     public void initShapeBuilder()
     {

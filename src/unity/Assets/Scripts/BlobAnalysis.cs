@@ -67,6 +67,52 @@ public class BlobAnalysis {
 
         return ret;
     }
+    public static double GetInclusionRatio(ObjectBlobInfo virtualObjInfo, ObjectBlobInfo userObjInfo, double transX, double transY, ref double[] distanceResult)
+    {
+
+        double param_inclusion_margin = 2;
+        Point[] tmpContour = (Point[])virtualObjInfo.scaledContour.Clone();
+        Mat inMat = new Mat(1, virtualObjInfo.scaledContour.Length, MatType.CV_32SC2);
+        Mat outMat = new Mat(1, virtualObjInfo.scaledContour.Length, MatType.CV_32SC2);
+        /* Debug.Log("virtualobj"+virtualObjInfo.scaledContour.Length);
+         Debug.Log("virtualobj" + inMat.Size());
+         Debug.Log("userobj" + userObjInfo.contour.Length);*/
+
+        inMat.SetArray(0, 0, virtualObjInfo.scaledContour);
+        double maxRet = 0;
+        double maxRot = 0;
+        double[] distanceResult_temp = new double[tmpContour.Length];
+        distanceResult = null;
+       
+            double ret = 0;
+           
+          //  Cv2.Transform(inMat, outMat, rotMat);
+            inMat.GetArray(0, 0, tmpContour);
+
+            Point CMTransitionVector = userObjInfo.center - virtualObjInfo.scaledCenter;
+            CMTransitionVector.X = CMTransitionVector.X + (int)transX;
+            CMTransitionVector.Y = CMTransitionVector.Y + (int)transY;
+
+            for (int i = 0; i < tmpContour.Length; i++)
+            {
+                Point trans_p = CMTransitionVector + tmpContour[i];
+                double dist;
+                if (trans_p.X < 0 || trans_p.X >= userObjInfo.width || trans_p.Y < 0 || trans_p.Y >= userObjInfo.height) continue;
+                distanceResult_temp[i] = Cv2.PointPolygonTest(userObjInfo.contour, trans_p, true);
+                if (distanceResult_temp[i] >= 0) ret++;
+            }
+            if (ret > maxRet)
+            {
+                maxRet = ret;                
+                distanceResult = distanceResult_temp;
+                distanceResult_temp = new double[tmpContour.Length];
+
+            }
+       
+        
+        return maxRet / ((double)virtualObjInfo.scaledContour.Length);
+
+    }
     public static double GetInclusionRatio(ObjectBlobInfo virtualObjInfo, ObjectBlobInfo userObjInfo, double transX, double transY, out double rotate, ref double[] distanceResult)
     {
         
@@ -276,7 +322,7 @@ public class BlobAnalysis {
         }
         if (reducedContour.Count % 2 == 1) reducedContour.RemoveAt(0); //has to be even number?
         Point[] ret = reducedContour.ToArray(typeof(Point)) as Point[];
-        Debug.Log("[DEBUG] contour reduced from " + contour.Length + " to " + ret.Length);
+        //Debug.Log("[DEBUG] contour reduced from " + contour.Length + " to " + ret.Length);
         return ret;
         
 
@@ -334,8 +380,56 @@ public class BlobAnalysis {
 
         return ret;
     }
+    public static CvRect ExtractLargestBoundingBox(CvMat inputMat)
+    {
+        CvMat GrayImage = inputMat;
+
+        if (inputMat.ElemChannels == 4)
+        {
+            GrayImage = new CvMat(inputMat.Rows, inputMat.Cols, MatrixType.U8C1);
+            inputMat.CvtColor(GrayImage, ColorConversion.RgbaToGray);
+
+        }
+        else if (inputMat.ElemChannels == 3)
+        {
+            GrayImage = new CvMat(inputMat.Rows, inputMat.Cols, MatrixType.U8C1);
+            inputMat.CvtColor(GrayImage, ColorConversion.RgbToGray);
+        } else
+        {
+            GrayImage = inputMat.Clone();
+        }
+        CvSeq<CvPoint> contoursRaw;
+        double maxArea = 0;
+        CvRect maxRect = new CvRect();
+        using (CvMemStorage storage = new CvMemStorage())
+        {
+            //find contours
+            Cv.FindContours(GrayImage, storage, out contoursRaw, CvContour.SizeOf, ContourRetrieval.External, ContourChain.ApproxSimple);
+            //Taken straight from one of the OpenCvSharp samples
+            using (CvContourScanner scanner = new CvContourScanner(GrayImage, storage, CvContour.SizeOf, ContourRetrieval.External, ContourChain.ApproxSimple))
+            {
+                foreach (CvSeq<CvPoint> c in scanner)
+                {
+                    //Some contours are negative so make them all positive for easy comparison
+                    double area = System.Math.Abs(c.ContourArea());
+                    //Uncomment below to see the area of each contour
+                    //Console.WriteLine(area.ToString());
+        //            Debug.Log("ARAEREAR: " + area);
+                    if (area > maxArea)
+                    {
+                        maxRect = Cv.BoundingRect(c);
+                        maxArea = area;
+                      
+                    }
+                }
+            }
+
+        }
+        return maxRect;
+    }
     public static CvPoint ExtractBlobCenterfromBGRAImage(CvMat inputMat)
     {
+
         CvMat grayimg = new CvMat(inputMat.Rows, inputMat.Cols, MatrixType.U8C1);
         CvPoint ret = new CvPoint(0, 0);
         inputMat.CvtColor(grayimg, ColorConversion.BgraToGray);
@@ -377,12 +471,13 @@ public class BlobAnalysis {
         List<ModelDef> modelList = new List<ModelDef>();
         OpenCvSharp.CPlusPlus.Mat tInput = new Mat(GreyImgColorBlobLabeled);
         Point[][] contours; //vector<vector<Point>> contours;
-        HierarchyIndex[] hierarchyIndexes; //vector<Vec4i> hierarchy;        
+        HierarchyIndex[] hierarchyIndexes; //vector<Vec4i> hierarchy;      
+        CvMat t = GreyImgColorBlobLabeled.Clone();
         Cv2.FindContours(
                        tInput,
                        out contours,
                        out hierarchyIndexes,
-                       ContourRetrieval.CComp, ContourChain.ApproxSimple);
+                       ContourRetrieval.CComp, ContourChain.ApproxSimple);  //
 
         if (contours.Length == 0)
         {
@@ -394,6 +489,7 @@ public class BlobAnalysis {
         var contourIndex = 0;
         double wholeAreaSize = GreyImgColorBlobLabeled.Width * GreyImgColorBlobLabeled.Height;
         int minPixelSize = GlobalRepo.getParamInt("minBloxPixelSize");
+        
         while ((contourIndex >= 0))
         {            
             for(int i = 0; i < contours[contourIndex].Length; i++)
@@ -402,7 +498,15 @@ public class BlobAnalysis {
                 //debugImage.Set2D(contours[contourIndex][i].X, contours[contourIndex][i].Y, CvColor.Pink);                
                 
             }
-            Moments m = Cv2.Moments(contours[contourIndex]);
+            if (Cv2.BoundingRect(contours[contourIndex]).Width < minPixelSize || Cv2.BoundingRect(contours[contourIndex]).Height < minPixelSize)
+            {
+                contourIndex = hierarchyIndexes[contourIndex].Next;
+                continue;
+            }
+            Moments m;
+            Point[] reducedContour = reduceContourPoints(contours[contourIndex], 20);
+            if(contours[contourIndex].Length>40) m = Cv2.Moments(reducedContour);
+                else m = Cv2.Moments(contours[contourIndex]);
 
             ModelDef model = new ModelDef();
           
@@ -412,6 +516,8 @@ public class BlobAnalysis {
             model.bBox = Cv2.BoundingRect(contours[contourIndex]);
             model.modelType = (ModelCategory)modelType;
 
+            //DEBUG
+        
             if(model.modelType == ModelCategory.Lung)
             {
                 if (model.centeroidRelative.X < 0) model.modelType = ModelCategory.LungLeft;
@@ -422,7 +528,7 @@ public class BlobAnalysis {
             
             if ((model.bBox.Width >= minPixelSize || model.bBox.Height >= minPixelSize) && model.AreaSize >= 600)
             {
-                Debug.Log("New Model type = " + (int)model.modelType + "Area Size = " + model.AreaSize);
+               // Debug.Log("New Model type = " + (int)model.modelType + "Area Size = " + model.AreaSize);
                 modelList.Add(model);
                 int validColorN = 0;
                 ModelCategory[] colorTable = Content.loadColorObjectMap(out validColorN);
@@ -430,11 +536,19 @@ public class BlobAnalysis {
                 model.mBaseHueValue = ColorDetector.mCP.mProfileList[colorIdx].HueClass1;
                 if (config_byspass_buildgshape) model.initShapeBuilder(contours[contourIndex], model.bBox, model.centeroidAbsolute);
                     else model.initShapeBuilder();
+
+                if (modelType == ModelCategory.FrontChainring)
+                {
+
+                    t.DrawCircle(model.centeroidAbsolute, 5, CvColor.White);
+                    t.PutText(contours[contourIndex].Length.ToString() + " " + reducedContour.Length.ToString(), model.centeroidAbsolute, new CvFont(FontFace.HersheyTriplex, 1.0f, 1.0f),CvColor.White);
+
+                }
             }
             componentCount++;
             contourIndex = hierarchyIndexes[contourIndex].Next;
         }
-        
+        if (modelType == ModelCategory.FrontChainring)  GlobalRepo.showDebugImage("front gear"+contours.Length, t);
         return modelList;
 
 
@@ -460,7 +574,7 @@ public class ObjectBlobInfo
         if (refObj.areaSize <= 0 || this.areaSize<=0) return;
         
         ratio = this.GetScaleFactor(refObj) * ratio;
-        Debug.Log("Scale virtual : " + this.areaSize + " user :" + refObj.areaSize +" scale factor:"+ratio);
+     //   Debug.Log("Scale virtual : " + this.areaSize + " user :" + refObj.areaSize +" scale factor:"+ratio);
       //  if (this.areaSize < refObj.areaSize) ratio = 1;
         scaledContour = (Point[])contour.Clone();
         for(int i = 0; i < this.contour.Length; i++)

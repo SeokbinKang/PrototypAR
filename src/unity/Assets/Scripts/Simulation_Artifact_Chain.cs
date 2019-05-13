@@ -207,9 +207,9 @@ public class Simulation_Artifact_Chain : MonoBehaviour {
             mChainPath.Add(lastChainPoint);
             pathidx++;
             //4. update last position (approximate distance * direction vector);
-            Debug.Log("[DEBUG-SIMULATION] Chain point:" + lastChainPoint);
+         //   Debug.Log("[DEBUG-SIMULATION] Chain point:" + lastChainPoint);
             lastChainPoint = lastChainPoint + forwardVector * chainLength;
-            Debug.Log("[DEBUG-SIMULATION] Chain point:" + lastChainPoint);
+           // Debug.Log("[DEBUG-SIMULATION] Chain point:" + lastChainPoint);
             Vector3 newForwardVector = (endPointWorldCoord - lastChainPoint);
 
             if (newForwardVector.x * forwardVector.x < 0 || newForwardVector.y * forwardVector.y < 0)

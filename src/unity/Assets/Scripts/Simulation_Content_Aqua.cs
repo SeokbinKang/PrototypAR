@@ -62,23 +62,35 @@ public class Simulation_Content_Aqua : MonoBehaviour {
         float nitrateGenerated = 0;
         float oxygenSupplied = 0;
         float nitratedConsumed = 0;
-        foreach(var f in mFish)
+        if (mFish != null)
         {
-            ammoniaGenerated += f.simulatonAmount;
-            oxygenConsumed += f.simulatonAmount;
+            foreach (var f in mFish)
+            {
+                ammoniaGenerated += f.simulatonAmount;
+                oxygenConsumed += f.simulatonAmount;
+            }
         }
-        foreach(var b in mBacteria)
+        if (mBacteria != null)
         {
-            ammoniaReduce += b.simulatonAmount;
-            nitrateGenerated += b.simulatonAmount * 3.0f;
+            foreach (var b in mBacteria)
+            {
+                ammoniaReduce += b.simulatonAmount;
+                nitrateGenerated += b.simulatonAmount * 3.0f;
+            }
         }
-        foreach(var p in mPlant)
+        if (mPlant != null)
         {
-            nitratedConsumed += p.simulatonAmount;
+            foreach (var p in mPlant)
+            {
+                nitratedConsumed += p.simulatonAmount;
+            }
         }
-        foreach(var a in mAirPump)
+        if (mAirPump != null)
         {
-            oxygenSupplied = a.simulatonAmount * 10;
+            foreach (var a in mAirPump)
+            {
+                oxygenSupplied = a.simulatonAmount * 10;
+            }
         }
         Debug.Log("Oxygen Supply:" + oxygenSupplied + "\t ammonia +:" + ammoniaGenerated + "\t ammonia -:" + ammoniaReduce + "\t nitrated +:" + nitrateGenerated + "\t nitrate -:" + nitratedConsumed);
         this.Oxygen += (oxygenSupplied - oxygenConsumed)*Time.deltaTime;

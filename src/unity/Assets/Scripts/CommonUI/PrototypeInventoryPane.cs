@@ -37,15 +37,20 @@ public class PrototypeInventoryPane : MonoBehaviour {
             this.SetName("");
             return;
         }
-        this.SetName(p.prototypeName);
+        this.SetName("Taken by "+p.prototypeName);
         //udpate parameters
         if (ApplicationControl.ActiveInstance.ContentType == DesignContent.CameraSystem)
         {
-            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(0, "focal length", p.parameter.C4_focalLength + " mm");
-            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(1, "shutter speed", p.parameter.C4_shutterSpeed + " ms");
-            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(2, "sensor type", p.parameter.C4_sensorType);
+            
+            if(p.parameter.C4_focalLength<0) PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(0, "focal length",  "?");
+                else PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(0, "focal length", p.parameter.C4_focalLength + " mm");
+            if(p.parameter.C4_shutterSpeed<0) PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(1, "shutter speed", "?");
+                else PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(1, "shutter speed", p.parameter.C4_shutterSpeed+" ms");
+            if (p.parameter.C4_sensorType=="none") PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(2, "sensor type", "?");
+                else PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(2, "sensor type", p.parameter.C4_sensorType);
         }
     }
+    
     public void UpdateInfo(prototypeInstance p)
     {
         if (p == null)
@@ -55,11 +60,23 @@ public class PrototypeInventoryPane : MonoBehaviour {
         }
         this.SetName(p.name);
         //udpate parameters
+        if (ApplicationControl.ActiveInstance.ContentType == DesignContent.BicycleGearSystem)
+        {
+            if (p.mSimulationParam.C2_GearRatio < 0) PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(0, "Gear Ratio", "?");
+            else PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(0, "Gear Ratio", p.mSimulationParam.C2_GearRatio.ToString("n2"));
+            if (p.mSimulationParam.C2_frontGearSize < 0) PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(1, "front gear size", "?");
+            else PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(1, "Front Gear Size",  (int)p.mSimulationParam.C2_frontGearSize/6 + " mm");
+            if (p.mSimulationParam.C2_rearGearSize <0) PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(2, "rear gear suze", "?");
+            else PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(2, "Rear Gear Size", (int)p.mSimulationParam.C2_rearGearSize/6 +" mm");
+        }
         if (ApplicationControl.ActiveInstance.ContentType == DesignContent.CameraSystem)
         {
-            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(0, "focal length", p.mSimulationParam.C4_focalLength + " mm");
-            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(1, "shutter speed", p.mSimulationParam.C4_shutterSpeed + " ms");
-            PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(2, "sensor type", p.mSimulationParam.C4_sensorType);
+            if (p.mSimulationParam.C4_focalLength < 0) PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(0, "focal length", "?");
+            else PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(0, "focal length", (int)p.mSimulationParam.C4_focalLength + " mm");
+            if (p.mSimulationParam.C4_shutterSpeed < 0) PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(1, "shutter speed", "?");
+            else PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(1, "shutter speed", (int)p.mSimulationParam.C4_shutterSpeed + " ms");
+            if (p.mSimulationParam.C4_sensorType == "none") PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(2, "sensor type", "?");
+            else PanelInfo.GetComponent<PrototypeInventoryInfo>().SetParam(2, "sensor type", p.mSimulationParam.C4_sensorType);       
         }
             
     }
@@ -106,7 +123,7 @@ public class PrototypeInventoryPane : MonoBehaviour {
             PanelInfo.SetActive(false);
         } else
         {
-            Debug.Log("[DEBUG] Loding texture...");
+           // Debug.Log("[DEBUG] Loding texture...");
             EnableImageView();
             EnableButtons();
             PanelInfo.SetActive(true);

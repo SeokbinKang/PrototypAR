@@ -40,6 +40,7 @@ public class UserActiveStatus : MonoBehaviour {
             s.x = scaleFactor;
             s.y = scaleFactor;
             inactive.GetComponent<RectTransform>().localScale = s;
+            PromptUI.ActiveInstance.OnNoHands();
             return;
         }
     }

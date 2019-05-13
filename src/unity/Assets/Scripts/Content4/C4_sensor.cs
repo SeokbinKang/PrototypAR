@@ -41,14 +41,14 @@ public class C4_sensor : MonoBehaviour {
                 //Debug.Log("DISTTTT" + dist);
             }
         }
-        if (sensorType == "color")
+        if (sensorType == "Full Color" || sensorType == "Red & Green")
         {
             imagePanel.GetComponent<SpriteRenderer>().sprite = ColorFrames[frameIndx];
             imagePanel.GetComponent<Animator>().Play("show");
         }
-        if (sensorType == "mono")
+        if (sensorType == "GRAYSCALE" || sensorType == "Black & White")
         {
-            Debug.Log("Animate Mono sensor");
+           // Debug.Log("Animate Mono sensor");
             imagePanel.GetComponent<SpriteRenderer>().sprite = MonoFrames[frameIndx];
             imagePanel.GetComponent<Animator>().Play("show");
         }

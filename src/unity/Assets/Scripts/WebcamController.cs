@@ -83,6 +83,7 @@ public class WebcamController : MonoBehaviour {
         {
             Debug.Log(t.name);
             if (t.name.IndexOf("IPEVO") >= 0) cameraDeviceName = t.name;
+            
         }
         if (cameraDeviceName == "") return;
         webcamTexture_ = new WebCamTexture(cameraDeviceName,imageWidth, imageHeight, 30);

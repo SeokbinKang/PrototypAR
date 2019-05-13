@@ -82,10 +82,10 @@ public class Content {
         CategoricalBVDefs = new List<KeyValuePair<BehaviorCategory, List<string>>>();
 
         List<string> cameraSensorBVs = new List<string>();
-        cameraSensorBVs.Add("color");
-        cameraSensorBVs.Add("mono");
-        cameraSensorBVs.Add("infrared");
-        cameraSensorBVs.Add("thermal");
+        cameraSensorBVs.Add("Black & White");
+        cameraSensorBVs.Add("GRAYSCALE");
+        cameraSensorBVs.Add("Red & Green");
+        cameraSensorBVs.Add("Full Color");
         CategoricalBVDefs.Add(new KeyValuePair<BehaviorCategory, List<string>>(BehaviorCategory.C4_CAPTURE, cameraSensorBVs));
     }
     public static List<string> getCategoricalBVdefinition(BehaviorCategory t)
@@ -158,10 +158,10 @@ public class Content {
         }
         if (FBSModel.ContentType == DesignContent.BicycleGearSystem)
         {
-            ret[0] = ModelCategory.RearSprocket;
-            ret[1] = ModelCategory.FrontChainring;
+            ret[0] = ModelCategory.PedalCrank;
+            ret[1] = ModelCategory.RearSprocket;
             ret[2] = ModelCategory.Chain;
-            ret[3] = ModelCategory.PedalCrank;
+            ret[3] = ModelCategory.FrontChainring;
             ret[4] = ModelCategory.None;
             NColors = 4;
         }
@@ -188,7 +188,7 @@ public class Content {
 
     public static bool ForceConvexShape(ModelCategory mc)
     {
-        if (mc == ModelCategory.FrontChainring) return true;
+       // if (mc == ModelCategory.FrontChainring) return true;
         return false;
     }
     public static void ExtractSimulationParameters(prototypeDef proto, DesignContent cType, ref SimulationParam ret)
@@ -232,17 +232,38 @@ public class Content {
         }
         if (cType == DesignContent.BicycleGearSystem)
         {
-            ret.C2_rearGearSize = 200;
-            ret.C2_frontGearSize = 200;
+            ret.C2_rearGearSize = -1;
+            ret.C2_frontGearSize = -1;
+            ret.C2_GearRatio = -1;
             ret.C2_pedallingRate = 30;  //test
             ModelDef frontGearModel = proto.getModelDefbyType(ModelCategory.FrontChainring);
             ModelDef rearGearModel = proto.getModelDefbyType(ModelCategory.RearSprocket);
-            if (frontGearModel != null && rearGearModel != null)
+            ModelDef pedalModel = proto.getModelDefbyType(ModelCategory.PedalCrank);
+            ModelDef ChainUpperModel = proto.getModelDefbyType(ModelCategory.UpperChain);
+            ModelDef ChainLowerModel = proto.getModelDefbyType(ModelCategory.LowerChain);
+            if (pedalModel == null) ret.C2_pedallingRate = 0;
+            ret.C2_pedalAnimSpeed = ret.C2_pedallingRate / 12.0f;
+
+            if (frontGearModel != null)
+            {
+                ret.C2_frontGearSize = Mathf.Sqrt((float)frontGearModel.AreaSize);
+                ret.C2_frontGearAnimSpeed = ret.C2_pedalAnimSpeed;
+            }
+            else ret.C2_frontGearAnimSpeed = 0;
+            if (ChainUpperModel != null && ChainLowerModel != null) ret.C2_chainAnimSpeed = ret.C2_frontGearAnimSpeed;
+            else ret.C2_chainAnimSpeed = 0;
+            if (rearGearModel != null)
             {
                 ret.C2_rearGearSize = Mathf.Sqrt((float)rearGearModel.AreaSize);
-                ret.C2_frontGearSize = Mathf.Sqrt((float)frontGearModel.AreaSize);
-            }
-            
+          
+            } else ret.C2_rearGearAnimSpeed = 0;
+            if (frontGearModel != null && rearGearModel != null)
+            {
+                ret.C2_GearRatio = ret.C2_rearGearSize / ret.C2_frontGearSize;
+                if (ret.C2_GearRatio > 0) ret.C2_rearGearAnimSpeed = ret.C2_chainAnimSpeed / ret.C2_GearRatio;
+                else ret.C2_rearGearAnimSpeed = 0;
+            } else ret.C2_rearGearAnimSpeed = 0;
+            Debug.Log("Chain SPEED" + ret.C2_chainAnimSpeed+"READ SPEED"+ret.C2_rearGearAnimSpeed);
         }
         if (cType == DesignContent.CameraSystem)
         { //TODO
@@ -252,14 +273,48 @@ public class Content {
             ret.C4_focalLength = -1;
             ret.C4_shutterSpeed = -1;
             ret.C4_sensorType = "none";
+            ret.C4_missingLens = false;
+            ret.C4_missingSensor = false;
+            ret.C4_missingShutter = false;
             BehaviorDef be = null;
-            if(lensModel!=null) be = lensModel.getBehaviorDef(BehaviorCategory.C4_FOCUS);
-            if (be != null) ret.C4_focalLength = be.getNumericalBV();            
+            int ws = WorkSpaceUI.mInstance.GetCurrentStep(); 
+            if (lensModel != null) be = lensModel.getBehaviorDef(BehaviorCategory.C4_FOCUS);
+            else if(ws ==-1 || ws == 0) ret.C4_missingLens = true;
+            if (be != null)
+            {
+                ret.C4_focalLength = be.getNumericalBV();
+                if(be.marker!=null) ret.C4_focusLabelPos = be.marker.center;
+
+            }
+
             if (shutterModel != null) be = shutterModel.getBehaviorDef(BehaviorCategory.C4_ALLOW);
-            if(be!=null) ret.C4_shutterSpeed = be.getNumericalBV();
-                
-            if(sensor!=null) be = sensor.getBehaviorDef(BehaviorCategory.C4_CAPTURE);
-            if(be!=null) ret.C4_sensorType = be.getCategoricalBV();
+            else 
+            {
+                be = null;
+                if (ws == -1 || ws == 1) ret.C4_missingShutter = true;
+            }
+            if (be != null)
+            {
+               // GlobalRepo.showDebugImage("mm",be.marker.BVImage);
+                ret.C4_shutterSpeed = be.getNumericalBV();
+                if (be.marker != null) ret.C4_shutterspeedLabelPos = be.marker.center;
+            }
+
+
+            if (sensor != null) be = sensor.getBehaviorDef(BehaviorCategory.C4_CAPTURE);
+            else
+            {
+                be = null;
+                if (ws == -1 || ws == 2) ret.C4_missingSensor = true;
+            }
+            if (be != null)
+            {
+                ret.C4_sensorType = be.getCategoricalBV();
+                if (be.marker != null) ret.C4_sensortypeLabelPos = be.marker.center;
+            }
+
+            //check WS and compensate
+            
             
         }
 
@@ -274,20 +329,106 @@ public class SimulationParam : ICloneable
 
     public int C2_pedallingRate;
     public float C2_GearRatio;
-    public int C2_Torque;
+    
     public float C2_frontGearSize;
     public float C2_rearGearSize;
+    public float C2_frontGearAnimSpeed;
+    public float C2_rearGearAnimSpeed;
+    public float C2_chainAnimSpeed;
+    public float C2_pedalAnimSpeed;
 
     public float C4_focalLength;
     public float C4_shutterSpeed;
     public string C4_sensorType;
+    public bool C4_missingLens;
+    public bool C4_missingShutter;
+    public bool C4_missingSensor;
+
+    public CvPoint C4_focusLabelPos;
+    public CvPoint C4_shutterspeedLabelPos;
+    public CvPoint C4_sensortypeLabelPos;
+
+    public int NumberOfFeedback;
+
     public object Clone()
     {
         return this.MemberwiseClone();
     }
     public void DebugPrint()
     {
-        Debug.Log("[DEBUG] Simulation Param C4: " + C4_focalLength + "\t" + C4_shutterSpeed + "\t" + C4_sensorType);
+        Debug.Log("[DEBUG] Simulation Param C4: " + C4_focalLength + "\t" + C4_shutterSpeed + "\t" + C4_sensorType+"\t feedback N: " +NumberOfFeedback);
+    }
+
+    public int DistanceTo(SimulationParam sp)
+
+    {
+        int dist = 0;
+        
+        if (ApplicationControl.ActiveInstance.ContentType == DesignContent.BicycleGearSystem)
+        {
+            if (sp == null) return 3;
+            if (Math.Abs(C2_GearRatio - sp.C2_GearRatio) >= 0.05) dist++;
+            if (Math.Abs(C2_frontGearSize - sp.C2_frontGearSize) >= 30) dist++;
+            if (Math.Abs(C2_rearGearSize - sp.C2_rearGearSize) >= 30) dist++;
+        }
+        if (ApplicationControl.ActiveInstance.ContentType == DesignContent.CameraSystem)
+        {
+            if (sp == null) return 3;
+            if (Math.Abs(C4_focalLength - sp.C4_focalLength) >= 10) dist++;
+            if (Math.Abs(this.C4_shutterSpeed - sp.C4_shutterSpeed) >= 50) dist++;
+            if (this.C4_sensorType!=sp.C4_sensorType) dist++;
+        }
+        return dist;
+    }
+    public int DistanceTo(SimulationParam sp, ref List<string> parameterNames, out float diffLevel)
+
+    {
+        int dist = 0;
+        parameterNames.Clear();
+        diffLevel = 0;
+        if (ApplicationControl.ActiveInstance.ContentType == DesignContent.BicycleGearSystem)
+        {
+            if (sp == null) return 3;
+            if (Math.Abs(C2_GearRatio - sp.C2_GearRatio) >= 0.05) dist++;
+            if (Math.Abs(C2_frontGearSize - sp.C2_frontGearSize) >= 30) dist++;
+            if (Math.Abs(C2_rearGearSize - sp.C2_rearGearSize) >= 30) dist++;
+        }
+
+        if (ApplicationControl.ActiveInstance.ContentType == DesignContent.CameraSystem)
+        {
+            if (sp == null) return 99;
+            if (Math.Abs(C4_focalLength - sp.C4_focalLength) >= 10)
+            {
+                dist++;
+                parameterNames.Add("focallength");
+                diffLevel = Math.Abs(C4_focalLength - sp.C4_focalLength);
+            }
+            if (Math.Abs(this.C4_shutterSpeed - sp.C4_shutterSpeed) >= 50)
+            {
+                dist++;
+                parameterNames.Add("shutterspeed");
+                diffLevel = Math.Abs(this.C4_shutterSpeed - sp.C4_shutterSpeed);
+            }
+            if (this.C4_sensorType != sp.C4_sensorType)
+            {
+                dist++;
+                parameterNames.Add("sensortype");
+                diffLevel = 1;         
+            }
+        }
+        return dist;
+    }
+    public bool HasAllParameters(DesignContent content)
+    {
+        if (content == DesignContent.BicycleGearSystem)
+        {
+            if (C2_frontGearSize > 0 && C2_rearGearSize > 0 && C2_GearRatio > 0) return true;
+        }
+        if (content == DesignContent.CameraSystem)
+        {
+            if (C4_focalLength>0 && C4_sensorType!="none" && C4_shutterSpeed>0) return true;
+        }
+        return false;
     }
 }
 public enum DesignContent

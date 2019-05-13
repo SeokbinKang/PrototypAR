@@ -25,7 +25,7 @@ TagManager:
   - AR foreground
   - AR foreground2
   - AR foreground3
-  - 
+  - AR foreground4
   - 
   - 
   - 
@@ -62,4 +62,10 @@ TagManager:
     locked: 0
   - name: AR foreground3
     uniqueID: 1470788229
+    locked: 0
+  - name: UI
+    uniqueID: 3087476375
+    locked: 0
+  - name: AR foreground4
+    uniqueID: 2876171713
     locked: 0

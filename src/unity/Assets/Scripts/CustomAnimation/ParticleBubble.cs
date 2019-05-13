@@ -17,7 +17,7 @@ public class ParticleBubble : MonoBehaviour {
         {
 
             this.particle = new ParticleSystem.Particle();
-            this.particle.lifetime = 0.0f;
+            this.particle.remainingLifetime = 0.0f;
 
         }
 
@@ -29,7 +29,7 @@ public class ParticleBubble : MonoBehaviour {
             
             this.particle.position =  new Vector3(Random.Range(WorldTankLB.x,WorldTankRT.x ), Random.Range(WorldTankLB.y, WorldTankRT.y), 0);
             this.particle.startLifetime = systemRef.startLifetime;
-            this.particle.lifetime = this.particle.startLifetime;
+            this.particle.remainingLifetime = this.particle.startLifetime;
             this.particle.startColor = systemRef.startColor;
             this.particle.startSize = systemRef.startSize;
             this.particle.rotation = systemRef.startRotation;
@@ -112,7 +112,7 @@ public class ParticleBubble : MonoBehaviour {
     {
 
         for (int i = 0; i < _particle_trackerArray.Length; i++)
-            if (_particle_trackerArray[i].particle.lifetime <= 0.0f)
+            if (_particle_trackerArray[i].particle.remainingLifetime <= 0.0f)
             {
                 _particle_trackerArray[i].Revive(_particle_system);
                 break;
@@ -148,9 +148,9 @@ public class ParticleBubble : MonoBehaviour {
 
         // age them
         foreach (PathParticleTracker tracker in _particle_trackerArray)
-            if (tracker.particle.lifetime > 0.0f)
+            if (tracker.particle.remainingLifetime > 0.0f)
             {
-                tracker.particle.lifetime = Mathf.Max(tracker.particle.lifetime - (Application.isPlaying ? Time.deltaTime : (float)_editorTimeDelta), 0.0f);
+                tracker.particle.remainingLifetime = Mathf.Max(tracker.particle.remainingLifetime - (Application.isPlaying ? Time.deltaTime : (float)_editorTimeDelta), 0.0f);
             }
 
 
@@ -159,10 +159,10 @@ public class ParticleBubble : MonoBehaviour {
 
         // move them
         foreach (PathParticleTracker tracker in _particle_trackerArray)
-            if (tracker.particle.lifetime > 0.0f)
+            if (tracker.particle.remainingLifetime > 0.0f)
             {
 
-                normLifetime = tracker.particle.lifetime / tracker.particle.startLifetime;
+                normLifetime = tracker.particle.remainingLifetime / tracker.particle.startLifetime;
                 normLifetime = 1.0f - normLifetime;
                 //  Rpoint = _path_comp.GetPathPoint(normLifetime * _path_comp.TotalDistance);
 
@@ -185,7 +185,7 @@ public class ParticleBubble : MonoBehaviour {
 
         // set the given array
         foreach (PathParticleTracker tracker in _particle_trackerArray)
-            if (tracker.particle.lifetime > 0.0f)
+            if (tracker.particle.remainingLifetime > 0.0f)
             { // it's alive
                 _particle_array[_particle_count] = tracker.particle;
                 _particle_count++;

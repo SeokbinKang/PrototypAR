@@ -179,13 +179,30 @@ public class Simulation : MonoBehaviour {
                     Animator animc = SimulationActiveObject[i].GetComponent<Animator>();
                     if (animc != null)
                     {
-                        animc.SetFloat("speedparam", animationSpeedParam);
+                        if (SimulationActiveObject[i].name.Contains("rearchainring"))
+                        {
+                            animc.SetFloat("speedparam", sp.C2_rearGearAnimSpeed);
+                            Debug.Log("rearchainring speed" + sp.C2_rearGearAnimSpeed);
+                        } else if (SimulationActiveObject[i].name.Contains("frontchainring"))
+                        {
+                            animc.SetFloat("speedparam", sp.C2_frontGearAnimSpeed);
+                        } else if (SimulationActiveObject[i].name.Contains("Pedal"))
+                        {
+                            animc.SetFloat("speedparam", sp.C2_pedalAnimSpeed);
+                        } else {
+                            animc.SetFloat("speedparam", animationSpeedParam);
+                            Debug.Log("should not reach here! objname : " + SimulationActiveObject[i].name);
+                        }
+                        //Debug.Log("Animation GOGOGOGO:" + SimulationActiveObject[i].name);
+                        if (SimulationActiveObject[i].name == "c2_PedalCrank") animc.Play("go");
+                            else animc.Play("Entry");
                         continue;
                     }
                     Simulation_Artifact_Chain chainController = SimulationActiveObject[i].GetComponent<Simulation_Artifact_Chain>();
                     if (chainController != null)
                     {
-                        chainController.speedparam = animationSpeedParam;
+                        // chainController.speedparam = animationSpeedParam;
+                        chainController.speedparam = sp.C2_chainAnimSpeed;
                     }
 
                     //control animation speed
@@ -194,7 +211,7 @@ public class Simulation : MonoBehaviour {
                 }
             }
             SimulationControlDone = true;
-
+            /*
             //add the prototype to prototypeInstanceManager
             GameObject go_multiview = GameObject.Find("InventoryUI");
             PrototypeInstanceManager t = go_multiview.GetComponent<PrototypeInstanceManager>();
@@ -209,13 +226,14 @@ public class Simulation : MonoBehaviour {
             temporaryTexture.Apply();
             if (temporaryTexture != null) {
                 t.AddcompletePrototypeInstance(temporaryTexture, sp);
-            }
+            }*/
         }
     }
 
     private void DestroySimulationContent_2()
     {
-        if (userPrototypeInstance == null || SimulationActiveObject.Count == 0 || ApplicationControl.ActiveInstance.ContentType!=DesignContent.BicycleGearSystem) return;
+      //  Debug.Log("RESETTTTINNG SIM 222222222!!!!!!!!!!!!!!!!!!!");
+        if (SimulationActiveObject.Count == 0 || ApplicationControl.ActiveInstance.ContentType!=DesignContent.BicycleGearSystem) return;
         //calculate Breathing rate and Amount
 
         float animationSpeedParam = 0;
@@ -227,6 +245,8 @@ public class Simulation : MonoBehaviour {
                 Animator animc = SimulationActiveObject[i].GetComponent<Animator>();
                 if (animc != null)
                 {
+                //animc.playbackTime = 0;
+                if (SimulationActiveObject[i].name != "c2_PedalCrank") animc.Stop();
                     animc.SetFloat("speedparam", animationSpeedParam);
                     continue;
                 }
@@ -240,15 +260,46 @@ public class Simulation : MonoBehaviour {
                 //control animation speed
                 //activate animtions
             }
+        if (InactiveGameObjectDict[ModelCategory.FrontChainring] != null)
+        {
+            
+            SetActiveRecursively(InactiveGameObjectDict[ModelCategory.FrontChainring], true);
+           // Debug.Log("FrontChainring rotation chaing!!!!RESETTTTINGGG!!!!!!!!!!!!!!!!!!!!"+ InactiveGameObjectDict[ModelCategory.FrontChainring].transform.childCount);
+            InactiveGameObjectDict[ModelCategory.FrontChainring].transform.position = new Vector3(5.19f, 1, 1);
+            for (int i = 0; i < InactiveGameObjectDict[ModelCategory.FrontChainring].transform.childCount; i++)
+            {
+             //   Debug.Log("FrontChainring rotation chaing!!!!!!!!!!!!!!!!!!!!!!!!");
+                GameObject ch = InactiveGameObjectDict[ModelCategory.FrontChainring].transform.GetChild(i).gameObject;
+                
+                ch.transform.rotation = Quaternion.identity;
+
+            }
+            InactiveGameObjectDict[ModelCategory.FrontChainring].transform.localScale = new Vector3(0.1f, 0.1f, 1);
+        }
+        if (InactiveGameObjectDict[ModelCategory.RearSprocket] != null)
+        {
+            SetActiveRecursively(InactiveGameObjectDict[ModelCategory.RearSprocket], true);
+            InactiveGameObjectDict[ModelCategory.RearSprocket].transform.position = new Vector3(-5.19f, 1, 1);
+            for (int i = 0; i < InactiveGameObjectDict[ModelCategory.RearSprocket].transform.childCount; i++)
+            {
+                GameObject ch = InactiveGameObjectDict[ModelCategory.RearSprocket].transform.GetChild(i).gameObject;
+                ch.transform.localRotation = Quaternion.identity;
+
+            }
+            InactiveGameObjectDict[ModelCategory.RearSprocket].transform.localScale = new Vector3(0.1f, 0.1f, 1);
+        }
         
-        if(InactiveGameObjectDict[ModelCategory.PedalCrank]!=null) InactiveGameObjectDict[ModelCategory.PedalCrank].transform.position = new Vector3(6, 2, 1);
-        if (InactiveGameObjectDict[ModelCategory.RearSprocket] != null) InactiveGameObjectDict[ModelCategory.RearSprocket].transform.position = new Vector3(6, 2, 1);
-        if (InactiveGameObjectDict[ModelCategory.FrontChainring] != null) InactiveGameObjectDict[ModelCategory.FrontChainring].transform.position = new Vector3(6, 2, 1);
-        if (InactiveGameObjectDict[ModelCategory.RearSprocket] != null) InactiveGameObjectDict[ModelCategory.RearSprocket].transform.localScale= new Vector3(0.1f, 0.1f, 1);
-        if (InactiveGameObjectDict[ModelCategory.FrontChainring] != null) InactiveGameObjectDict[ModelCategory.FrontChainring].transform.localScale = new Vector3(0.1f, 0.1f, 1);
-        if (InactiveGameObjectDict[ModelCategory.PedalCrank] != null) InactiveGameObjectDict[ModelCategory.PedalCrank].transform.localScale = new Vector3(0.1f, 0.1f, 1);
-        if (InactiveGameObjectDict[ModelCategory.FrontChainring] != null) SetActiveRecursively(InactiveGameObjectDict[ModelCategory.FrontChainring], true);
-        if (InactiveGameObjectDict[ModelCategory.RearSprocket] != null) SetActiveRecursively(InactiveGameObjectDict[ModelCategory.RearSprocket], true);
+        if (InactiveGameObjectDict[ModelCategory.PedalCrank] != null)
+        {
+            SetActiveRecursively(InactiveGameObjectDict[ModelCategory.PedalCrank], true);
+            InactiveGameObjectDict[ModelCategory.PedalCrank].transform.position = new Vector3(6, 1, 1);
+            GameObject ch = InactiveGameObjectDict[ModelCategory.PedalCrank];
+            ch.transform.localRotation = Quaternion.identity;
+            InactiveGameObjectDict[ModelCategory.PedalCrank].transform.localScale = new Vector3(0.1f, 0.1f, 1);
+        }
+        
+        
+      
 
 
     }
@@ -268,7 +319,7 @@ public class Simulation : MonoBehaviour {
             }
             SimulationControlDone = true;
 
-
+            /*
             //add the prototype to prototypeInstanceManager
             GameObject go_multiview = GameObject.Find("InventoryUI");
             PrototypeInstanceManager t = go_multiview.GetComponent<PrototypeInstanceManager>();
@@ -284,23 +335,24 @@ public class Simulation : MonoBehaviour {
             if (temporaryTexture != null)
             {
                 t.AddcompletePrototypeInstance(temporaryTexture, sp);
-            }
+            }*/
         }
     }
-
+    
     private void DestroySimulationContent_4()
     {
         if (userPrototypeInstance == null || SimulationActiveObject.Count == 0) return;
         //calculate Breathing rate and Amount
 
         SimulationParam sp = new SimulationParam();
-        sp.C4_focalLength = 0;
+        sp.C4_focalLength = -1;
         sp.C4_sensorType = "none";
-        sp.C4_shutterSpeed = 0;        
+        sp.C4_shutterSpeed = -1;        
         this.Simulation4_Camera.GetComponent<Simulation_Content4_Camera>().reset();
         this.Simulation4_Camera.GetComponent<Simulation_Content4_Camera>().UpdateCameraParams(sp);
 
     }
+    
     private void RevealSimulationObject()
     {
         for(int i=0;i<SimulationActiveObject.Count;i++)
@@ -531,9 +583,9 @@ public class Simulation : MonoBehaviour {
         
         Vector3 p3 = getGameObject(ModelCategory.LungRight, true).transform.position;
         GameObject psystem = getGameObject(ModelCategory.AirParticleRight,true);
-        GameObject go_p1 = psystem.transform.FindChild("point 0").gameObject;
-        GameObject go_p2 = psystem.transform.FindChild("point 1").gameObject;
-        GameObject go_p3 = psystem.transform.FindChild("point 2").gameObject;
+        GameObject go_p1 = psystem.transform.Find("point 0").gameObject;
+        GameObject go_p2 = psystem.transform.Find("point 1").gameObject;
+        GameObject go_p3 = psystem.transform.Find("point 2").gameObject;
 
         go_p1.transform.position = p1;
         go_p2.transform.position = p2;
@@ -545,9 +597,9 @@ public class Simulation : MonoBehaviour {
         //left lung
         p3 = getGameObject(ModelCategory.LungLeft, true).transform.position;
         psystem = getGameObject(ModelCategory.AirParticleLeft, true);
-        go_p1 = psystem.transform.FindChild("point 0").gameObject;
-        go_p2 = psystem.transform.FindChild("point 1").gameObject;
-        go_p3 = psystem.transform.FindChild("point 2").gameObject;
+        go_p1 = psystem.transform.Find("point 0").gameObject;
+        go_p2 = psystem.transform.Find("point 1").gameObject;
+        go_p3 = psystem.transform.Find("point 2").gameObject;
 
         go_p1.transform.position = p1;
         go_p2.transform.position = p2;
@@ -636,9 +688,25 @@ public class Simulation : MonoBehaviour {
         float minSizeGap = float.MaxValue;
         float sizeGap_iter;
 
-        if (GlobalRepo.Setting_ShowDebugImgs()) Debug.Log("[DEBUG-SIMULATION] looking for most similar preloaded object");
-        for (int i=0;i<go.transform.childCount;i++)
+        /*
+        if (model.modelType == ModelCategory.FrontChainring)
         {
+            for (int i = 0; i < go.transform.childCount; i++)
+
+            {
+                go_child_iter = go.transform.GetChild(i).gameObject;
+                if (go_child_iter == null) continue;
+
+
+                SceneObjectManager.MeasureObjectInfoinScreenCoord(go_child_iter, ref goCenter_iter, ref goSize_iter);
+             //   Debug.Log("[DEBUG-SIMULATION] child object #" + i + "size in Screen " + goSize_iter);
+            }
+         //   Debug.Log(go.transform.localScale);
+        }*/
+
+        for (int i=0;i<go.transform.childCount;i++)
+            
+            {
             go_child_iter = go.transform.GetChild(i).gameObject;
             if (go_child_iter == null) continue;
             
@@ -647,10 +715,10 @@ public class Simulation : MonoBehaviour {
             sizeGap_iter = Mathf.Abs(goSize_iter.x * goSize_iter.y - userobjSize.x * userobjSize.y);
             if (GlobalRepo.Setting_ShowDebugImgs())
             {
-    //              Debug.Log("[DEBUG-SIMULATION] child object #" + i + " size gap: " + sizeGap_iter);
-       //         Debug.Log("[DEBUG-SIMULATION] child object size in Screen " + goSize_iter);
             }
-            if (sizeGap_iter< minSizeGap)
+
+         
+            if (sizeGap_iter< minSizeGap && i==0)
             {
                 minSizeGap = sizeGap_iter;
                 go_child = go_child_iter;
@@ -664,7 +732,7 @@ public class Simulation : MonoBehaviour {
        // go = go_child;
         //find game object
         //find bounding rect size
-        Debug.Log("[DEBUG simulation] type : "+Content.getOrganName(model.modelType)+" go size " + goSize + "\t use size" + userobjSize);
+      //  Debug.Log("[DEBUG simulation] type : "+Content.getOrganName(model.modelType)+" go size " + goSize + "\t use size" + userobjSize);
         SpriteRenderer sr = go_child.GetComponent<SpriteRenderer>();
         float sc = 0;
         Vector3 scaleRatio = new Vector3();
@@ -717,18 +785,14 @@ public class Simulation : MonoBehaviour {
         }
         if (FBSModel.activeFBSInstance.getModelsVirtualPosType(model) == VirtualPosType.AlignWithVirtualBG)
         {
-            userobjPivotinScreen = FBSModel.activeFBSInstance.getClosestModelsTruthScreenPos(model);
+           // userobjPivotinScreen = FBSModel.activeFBSInstance.getClosestModelsTruthScreenPos(model);
         }
 
         Vector3 scale = go.transform.localScale;
-        //   Debug.Log("[DEBUG SIMULATION] BEFORE scale " + sc + "\t" + scaleRatio + "\t" + scale);
+        
         scale.x = scale.x * scaleRatio.x;
-        scale.y = scale.y * scaleRatio.y;
-        //   Debug.Log("[DEBUG SIMULATION] AFTER scale " + sc + "\t" + scaleRatio + "\t" + scale);
-        //   Debug.Log("[DEBUG SIMULATION] AFTER scale " + sc + "\t" + scaleRatio.y + "\t" + scale.y);
-        //    Debug.Log("[DEBUG simulation] type : " + Content.getOrganName(model.modelType) + " go size " + goSize + "\t use size" + userobjSize);
+        scale.y = scale.y * scaleRatio.y;        
         go.transform.localScale = scale;
-
 
         go.transform.position = Camera.main.ScreenToWorldPoint(userobjPivotinScreen);
         //scale and move using shape-evaluation result
@@ -901,7 +965,7 @@ public class Simulation : MonoBehaviour {
         spritePivot.y = spritePivot.y / spriteRect.height;
         Vector3 userobjPivotinScreen;
         Vector2 pivotChangeScreenCoord = new Vector2(0, 0);
-        Debug.Log("Model Conn point: " + model.ConnPoint);
+      //  Debug.Log("Model Conn point: " + model.ConnPoint);
         if (adjustPivottoConnect && (model.ConnPoint.X != 0 && model.ConnPoint.Y != 0))
         {
             CvPoint objBboxCenter = (model.getShapeBuilder().bBox.TopLeft + model.getShapeBuilder().bBox.BottomRight);
@@ -964,6 +1028,7 @@ public class Simulation : MonoBehaviour {
     private static GameObject getGameObject(ModelCategory type, bool activate)
     {
         if (!InactiveGameObjectDict.ContainsKey(type)) return null;
+        if (InactiveGameObjectDict[type] == null) return null;
         InactiveGameObjectDict[type].SetActive(activate);
         return InactiveGameObjectDict[type];
     }

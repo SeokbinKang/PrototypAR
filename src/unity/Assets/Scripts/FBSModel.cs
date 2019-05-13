@@ -24,6 +24,7 @@ public class FBSModel {
     int[,] connectivityMetric = null;
     public static DesignContent ContentType;
     private ShapeEvalType[] ShapeEvaluationMapTable;
+    private int[] ShapeEvaluationCntTable;
     private StrEntityEvalType[] StrEntityEvalMapTalbe;
     public static FBSModel activeFBSInstance = null;
 
@@ -34,6 +35,14 @@ public class FBSModel {
         List<FeedbackToken> ret = new List<FeedbackToken>();
         List<FeedbackToken> feedbacklist;
         //phase 3 check existence
+        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_shape) )
+        {
+            if (userPrototype.GetNumberofModels()>0 && userPrototype.GetNumberofModels() <= SystemConfig.ActiveInstnace.MaxNumberOfObjectsforShapeEval)
+            {
+                feedbacklist = EvaluateStrShape(userPrototype);
+                ret.AddRange(feedbacklist);
+            }
+        }
         if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_Missing_objects)
             || SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_Extra_objects))
         {
@@ -41,24 +50,20 @@ public class FBSModel {
 
             ret.AddRange(feedbacklist);  //DEBUG
         }
-        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_shape))
-        {
-            feedbacklist = EvaluateStrShape(userPrototype);
-            ret.AddRange(feedbacklist);
-        }
-        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_position))
+        
+        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_position)  )
         {
             feedbacklist = EvaluateStrPosition(userPrototype);
             ret.AddRange(feedbacklist);
         }
-        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_connectivity))
+        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Structure_connectivity) )
         {
             feedbacklist = EvaluateStrConnectivity(userPrototype);
             ret.AddRange(feedbacklist);
         }
-        if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Missing_labels)
+        if ((SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Missing_labels)
             || SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Move_labels)
-            || SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Extra_labels))
+            || SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Extra_labels)) )
         {
             feedbacklist = EvaluateBehavior(userPrototype);
 
@@ -70,8 +75,7 @@ public class FBSModel {
 
             ret.AddRange(feedbacklist);  //DEBUG
         }
-
-
+       
         //phase 1 check shape
 
 
@@ -110,6 +114,7 @@ public class FBSModel {
     private void initFBSModel()
     {
         ShapeEvaluationMapTable = new ShapeEvalType[(int)ModelCategory.TotalNumberOfModels+1];
+        ShapeEvaluationCntTable = new int[(int)ModelCategory.TotalNumberOfModels + 1];
         ShapeEvaluationMapTable[(int)ModelCategory.LungLeft] = ShapeEvalType.ActualShape;
         ShapeEvaluationMapTable[(int)ModelCategory.LungRight] = ShapeEvalType.ActualShape;
         ShapeEvaluationMapTable[(int)ModelCategory.Lung] = ShapeEvalType.ActualShape;
@@ -121,7 +126,13 @@ public class FBSModel {
         ShapeEvaluationMapTable[(int)ModelCategory.RearSprocket] = ShapeEvalType.ActualShape;
         ShapeEvaluationMapTable[(int)ModelCategory.Chain] = ShapeEvalType.DoNot;
         ShapeEvaluationMapTable[(int)ModelCategory.PedalCrank] = ShapeEvalType.DoNot;
+
+        ShapeEvaluationCntTable[(int)ModelCategory.FrontChainring] = 2;
+        ShapeEvaluationCntTable[(int)ModelCategory.RearSprocket] = 2;
+        ShapeEvaluationCntTable[(int)ModelCategory.Chain] = 0;
+        ShapeEvaluationCntTable[(int)ModelCategory.PedalCrank] = 0;
         
+
         ShapeEvaluationMapTable[(int)ModelCategory.Fish] = ShapeEvalType.DoNot;
         ShapeEvaluationMapTable[(int)ModelCategory.Plant] = ShapeEvalType.DoNot;
         ShapeEvaluationMapTable[(int)ModelCategory.Bacteria] = ShapeEvalType.DoNot;
@@ -129,7 +140,11 @@ public class FBSModel {
 
         ShapeEvaluationMapTable[(int)ModelCategory.C4_lens] = ShapeEvalType.ActualShape;
         ShapeEvaluationMapTable[(int)ModelCategory.C4_shutter] = ShapeEvalType.ActualShape;
-        ShapeEvaluationMapTable[(int)ModelCategory.C4_sensor] = ShapeEvalType.DoNot;        
+        ShapeEvaluationMapTable[(int)ModelCategory.C4_sensor] = ShapeEvalType.ActualShape;
+
+        ShapeEvaluationCntTable[(int)ModelCategory.C4_lens] = 2;
+        ShapeEvaluationCntTable[(int)ModelCategory.C4_shutter] = 2;
+        ShapeEvaluationCntTable[(int)ModelCategory.C4_sensor] =2;
 
         //set color pallete accordingly
         StrEntityEvalMapTalbe = new StrEntityEvalType[(int)ModelCategory.TotalNumberOfModels + 1];
@@ -212,6 +227,8 @@ public class FBSModel {
                     {
                         //generate feedback
                         FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Behavior_variableUnchecked,bdesign);
+                        token.RegionPosition = bdesign.marker.center;
+                        
                         ret.Add(token);
                         break;
                     }
@@ -223,6 +240,7 @@ public class FBSModel {
                     {
                         //generate feedback
                         FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Behavior_variableUnchecked, bdesign);
+                        token.RegionPosition = bdesign.marker.center;
                         ret.Add(token);
                         break;
                     }
@@ -250,7 +268,9 @@ public class FBSModel {
                         if(str.v5_BehaviorEntity!=null && (modelInstance.behaviors==null || modelInstance.behaviors.Count==0))
                         {
                             //missing behavior
-                            FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Behavior_missing, modelInstance, str.v5_BehaviorEntity.behaviorType, null); 
+                            FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Behavior_missing, modelInstance, str.v5_BehaviorEntity.behaviorType, null);
+                            token.RegionPosition = modelInstance.getShapeBuilder().center;
+                            token.RegionBoundingBox = modelInstance.getShapeBuilder().bBox;
                             ret.Add(token);
                             break;
                         }  else
@@ -389,14 +409,20 @@ public class FBSModel {
                 foreach (var model in designItem.Value)
                 {
                     //find most close and same-type object in FBS model
-                    Vector3 suggestedDirection = getPositionSuggestion(model);
+                    Vector3 suggestedDirection = EvaluatePosandGetSuggestion(model);
                     if (suggestedDirection.magnitude == 0) continue;
                 Debug.Log(suggestedDirection);
                     //compute direction
 
                     //create feedback token.                    
-                    FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Position_direction, model.instanceID,suggestedDirection);
-                    ret.Add(token);
+                FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Position_direction, model.instanceID,suggestedDirection);
+                token.model = model;
+                token.modelType = model.modelType;
+                token.RegionPosition = model.getShapeBuilder().center;
+                token.RegionBoundingBox = model.getShapeBuilder().bBox;
+
+
+                ret.Add(token);
                 }
        
         }
@@ -413,7 +439,7 @@ public class FBSModel {
         int dbg = 0;
         foreach (var designItem in userPrototype.mModels)
         {
-            if (ShapeEvaluationMapTable[(int)designItem.Key] == ShapeEvalType.ActualShape)
+            if (ShapeEvaluationMapTable[(int)designItem.Key] == ShapeEvalType.ActualShape && ShapeEvaluationCntTable[(int)designItem.Key] >0)
             {
                 for(int i=0;i< designItem.Value.Count; i++) 
                 {
@@ -426,7 +452,12 @@ public class FBSModel {
                     Point[] suggestedShapeOutline = IP_ObjectShape.IPMatchObjectShapes(objectImgRGBA, virtualObj.txtBGRAImg,forceConvextoUserObject);
                     if (suggestedShapeOutline == null) continue; //the shape is good!
                     FeedbackToken token = new FeedbackToken(EvaluationResultCategory.Shape_suggestion, model.instanceID, suggestedShapeOutline);
+                    token.model = model;
+                    token.modelType = model.modelType;
+                    token.RegionPosition = model.getShapeBuilder().center;
+                    token.RegionBoundingBox = model.getShapeBuilder().bBox;
                     ret.Add(token);
+                    ShapeEvaluationCntTable[(int)designItem.Key]--;
 
                     //update truthshape for final simulation
                     model.TruthShapeContourinRegionCoord = new CvPoint[suggestedShapeOutline.Length];
@@ -513,7 +544,7 @@ public class FBSModel {
         return closestStructure.v3_position;
         
     }
-    private Vector3 getPositionSuggestion(ModelDef model)
+    private Vector3 EvaluatePosandGetSuggestion(ModelDef model)
     {
         Vector3 direction = new Vector3(0,0,0);
         double minDistance = 9999999999;
@@ -543,8 +574,12 @@ public class FBSModel {
             }
             else if (modelItem.v3_position.v3_posType == PosEvalType.CentralProximitytoPoint)
             {
-
+                if (model.modelType == ModelCategory.FrontChainring) {
+                    Debug.Log("EvalPos:      " + model.centeroidAbsolute + " -->" + truthPos);
+                }
+                //double distContour = Cv2.PointPolygonTest(model.getShapeBuilder().ReducedContour, truthPos, true);
                 dist = Math.Sqrt(diff.X * diff.X + diff.Y * diff.Y);
+                //if (distContour > -15) dist = 0;
                 direction.x = diff.X;
                 direction.y = diff.Y;
                 direction.z = 0;
@@ -739,8 +774,8 @@ public class StructurePosVariable
 {
     public PosEvalType v3_posType;
     public CvPoint v3_refPosition2D_Relative;
+    public Vector2 v3_Position2D_RelativeinRegion; //[0,0]-[1,1];
     private CvPoint v3_refPosition2D_AbsoluteinRegion;
-
     public Vector2 v3_refPosition2D_BGFrame;
     private PreLoadedObjects v3_BGFrameObj=PreLoadedObjects.None;
     public float v3_param_refPosition2DRange = 50;
@@ -750,6 +785,13 @@ public class StructurePosVariable
     {
         v3_refPosition2D_AbsoluteinRegion = new CvPoint(-1,-1);
 
+    }
+    public StructurePosVariable(PosEvalType v3a_type, Vector2 relativeinRegion, float v3c_range)
+    {
+        this.v3_posType = v3a_type;
+        this.v3_Position2D_RelativeinRegion = relativeinRegion;
+        this.v3_param_refPosition2DRange = v3c_range;        
+        v3_refPosition2D_AbsoluteinRegion = new CvPoint(-1, -1);
     }
     public StructurePosVariable(PosEvalType v3a_type, PreLoadedObjects frameObj,Vector2 pivotinBGFrame, float v3c_range)
     {
@@ -762,11 +804,15 @@ public class StructurePosVariable
   
     public CvPoint getRegionPosition()
     {
-        CvPoint ret = new CvPoint();
-        if (v3_BGFrameObj == PreLoadedObjects.None) return ret;
+        CvPoint ret = new CvPoint();        
+      
+        /*
         Vector3 screenPos = new Vector3();
         SceneObjectManager.MeasureObjectPointinScreen(v3_BGFrameObj, v3_refPosition2D_BGFrame, ref screenPos);
-        ret = SceneObjectManager.ScreentoRegion(screenPos);
+        ret = SceneObjectManager.ScreentoRegion(screenPos);*/
+        CvRect RBox = GlobalRepo.GetRegionBox(false);
+        ret.X = (int)(((float)RBox.Width) * v3_Position2D_RelativeinRegion.x);
+        ret.Y = (int)(((float)RBox.Height) * v3_Position2D_RelativeinRegion.y);
         return ret;
     }
     public Vector3 getScreenPosition()

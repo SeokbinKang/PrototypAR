@@ -165,7 +165,7 @@ public class BehaviorDetector : MonoBehaviour {
           
         }
     }
-    public void recognizeBehaviorVariables(FBSModel pFBSModel)
+    public void recognizeBehaviorVariables(FBSModel pFBSModel,prototypeDef proto)
     {
         Debug.Log("BV RECOG!!!!!!!!");
         if (pFBSModel == null || this.mBehaviorList == null) return;
@@ -173,11 +173,25 @@ public class BehaviorDetector : MonoBehaviour {
         for(int i = 0; i < mBehaviorList.Count; i++)
         {
             UserDescriptionInfo bdesc = mBehaviorList[i];
+            
             BehaviorVariableEntity be = pFBSModel.GetBehaviorEntity(bdesc.InfoBehaviorCategory);
             if (be == null)
             {
                 Debug.Log("[DEBUG BV] could not find a corresponding BV entity in the FBS model");
-                continue;
+                Debug.Log("[DEBUG BV] correcting...");
+                if (ApplicationControl.ActiveInstance.ContentType == DesignContent.CameraSystem)
+                {
+                    ModelDef pModel = proto.getClosestModeltoRegionPoint(bdesc.center);
+                    //this behavior marker has to be either focus,allow,capture
+
+                    //rectify the recognition result
+                    if (pModel.modelType == ModelCategory.C4_lens) bdesc.InfoBehaviorCategory = BehaviorCategory.C4_FOCUS;
+                    else if (pModel.modelType == ModelCategory.C4_shutter) bdesc.InfoBehaviorCategory = BehaviorCategory.C4_ALLOW;
+                    else if (pModel.modelType == ModelCategory.C4_sensor) bdesc.InfoBehaviorCategory = BehaviorCategory.C4_CAPTURE;
+                    else continue;
+                    be = pFBSModel.GetBehaviorEntity(bdesc.InfoBehaviorCategory);
+                }
+                
             }
             //int borderHorizontalPos = Content.getBVHorizontalBorder(bdesc.InfoBehaviorCategory);
             //if (be == null || borderHorizontalPos==0) continue;
@@ -186,7 +200,7 @@ public class BehaviorDetector : MonoBehaviour {
             //    CvMat BVImg = CVProc.getSubimgHorizontalBorder(bdesc.image, borderHorizontalPos).Clone();
             if (bdesc.BVImage == null) continue;
             CvMat BVImg = bdesc.BVImage.Clone();
-           
+            if (BVImg == null || be == null) return;
             float measureLevel = measureBV(BVImg, be.VariableType);
             if (be.VariableType == BehaviorVariableType.Numeric)
             {
@@ -217,7 +231,7 @@ public class BehaviorDetector : MonoBehaviour {
         if (bvt==BehaviorVariableType.Numeric)
         {
          
-            BVImg.Threshold(BVImg, 110, 255, ThresholdType.Binary);            
+            BVImg.Threshold(BVImg, SystemConfig.ActiveInstnace.Get(CVConfigItem._Image_WhiteThreshold), 255, ThresholdType.Binary);            
             ret = (int)CVProc.measureHorizontalLevelLeftAlign(BVImg);
             if (ret < 8) ret = -1;
         }

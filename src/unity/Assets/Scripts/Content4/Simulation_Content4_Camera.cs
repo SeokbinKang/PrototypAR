@@ -53,11 +53,14 @@ public class Simulation_Content4_Camera : MonoBehaviour {
         if (!initialized)
         {            
             initialized = true;
-        }       
-    //    PhotoDict = new Dictionary<string, Asset2DTexture>();
-      //  loadPhotos();
+        }
+        //    PhotoDict = new Dictionary<string, Asset2DTexture>();
+        //  loadPhotos();
+        UIControl.SetActive(true);
+        PhotographyApp.SetActive(false);
         reset();
-      //  this.PhotoByteBuffer = null;
+        //  this.PhotoByteBuffer = null;
+        
 
     }
     private void hideLightRay()
@@ -69,7 +72,7 @@ public class Simulation_Content4_Camera : MonoBehaviour {
     {
         if (sp == null) return;
         param = (SimulationParam) sp.Clone();
-        param.DebugPrint();
+       // param.DebugPrint();
     }
     public void reset()
     {
@@ -85,7 +88,7 @@ public class Simulation_Content4_Camera : MonoBehaviour {
     {
         if (part_lens == null || !Simulation.IsActiveinSimulation(this.part_lens)) return;
         UIControl.GetComponent<Content4_UIControl>().SetUIMode(Content4_UIModes.SystemComponents);
-        this.UIComponentsControl.GetComponent<Content4_UI_Components>().updateLensUI(part_lens, param.C4_focalLength);
+        this.UIComponentsControl.GetComponent<Content4_UI_Components>().updateLensUI(part_lens, param.C4_focalLength,param.C4_focusLabelPos);
         //set the X scale of light ray
       
         part_lens.GetComponent<C4_lens>().SetFocalLength(param.C4_focalLength);
@@ -98,7 +101,7 @@ public class Simulation_Content4_Camera : MonoBehaviour {
 
     }
     private void SimulateLensLightRayOBSOLTE()
-    {
+    {/*
         if (part_lens == null || !Simulation.IsActiveinSimulation(this.part_lens)) return;
         UIControl.GetComponent<Content4_UIControl>().SetUIMode(Content4_UIModes.SystemComponents);
         //set the X scale of light ray
@@ -117,7 +120,7 @@ public class Simulation_Content4_Camera : MonoBehaviour {
         part_lightray.transform.localPosition = pos;
         Simulation.SetSpriteAlphato(part_lightray, 250);
 
-        this.UIComponentsControl.GetComponent<Content4_UI_Components>().updateLensUI(part_lens, param.C4_focalLength);
+        this.UIComponentsControl.GetComponent<Content4_UI_Components>().updateLensUI(part_lens, param.C4_focalLength);*/
        
         //animate light ray
         
@@ -127,7 +130,7 @@ public class Simulation_Content4_Camera : MonoBehaviour {
     {
         if (part_shutter == null || !Simulation.IsActiveinSimulation(this.part_shutter)) return;
         UIControl.GetComponent<Content4_UIControl>().SetUIMode(Content4_UIModes.SystemComponents);
-        this.UIComponentsControl.GetComponent<Content4_UI_Components>().updateShutterUI(part_shutter, param.C4_shutterSpeed);
+        this.UIComponentsControl.GetComponent<Content4_UI_Components>().updateShutterUI(part_shutter, param.C4_shutterSpeed,param.C4_shutterspeedLabelPos);
     }
     private void loadPhotos()
     {
@@ -138,7 +141,7 @@ public class Simulation_Content4_Camera : MonoBehaviour {
         if (part_sensor == null || !Simulation.IsActiveinSimulation(this.part_sensor)) return;
         if (Txt2D != null) return;
         UIControl.GetComponent<Content4_UIControl>().SetUIMode(Content4_UIModes.SystemComponents);
-        this.UIComponentsControl.GetComponent<Content4_UI_Components>().updateSensorUI(part_sensor, param.C4_sensorType);
+        this.UIComponentsControl.GetComponent<Content4_UI_Components>().updateSensorUI(part_sensor, param.C4_sensorType,param.C4_sensortypeLabelPos);
         //
         part_sensor.GetComponent<C4_sensor>().SetType(param.C4_sensorType);
         

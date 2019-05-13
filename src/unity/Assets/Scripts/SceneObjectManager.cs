@@ -15,7 +15,7 @@ public class SceneObjectManager : MonoBehaviour {
 
     private static SceneObjectManager activeSOMgr = null;
     private Dictionary<PreLoadedObjects, GameObject> SceneObjectPool=null;
-    
+    private List<GameObject> ActiveObject;
     // Use this for initialization
     void Start () {
         activeSOMgr = this;
@@ -37,6 +37,8 @@ public class SceneObjectManager : MonoBehaviour {
         {
             SceneObjectPool = new Dictionary<PreLoadedObjects, GameObject>();
             SceneObjectPool.Add(PreLoadedObjects.BEH_BV_unspecified_focus, GameObject.Find("BV_Unspecified_Focus"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BV_unspecified_allow, GameObject.Find("BV_Unspecified_Allow"));
+            SceneObjectPool.Add(PreLoadedObjects.BEH_BV_unspecified_capture, GameObject.Find("BV_Unspecified_Capture"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_contract, GameObject.Find("BV_Missing_Contract_0"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_pedal, GameObject.Find("BV_missing_Pedal"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BV_missing_reduce, GameObject.Find("BV_missing_Reduce"));
@@ -62,9 +64,9 @@ public class SceneObjectManager : MonoBehaviour {
             SceneObjectPool.Add(PreLoadedObjects.STR_CONN_missing_Dialogue, GameObject.Find("STR_CONN_missing"));
             SceneObjectPool.Add(PreLoadedObjects.STR_CONN_incorrect_Dialogue, GameObject.Find("STR_CONN_incorrect"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BL_missing, GameObject.Find("BEH_BL_missingVer2"));
-            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_missing_focus, GameObject.Find("BEH_BL_missing_focus"));
-            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_missing_allow, GameObject.Find("BEH_BL_missing_allow"));
-            SceneObjectPool.Add(PreLoadedObjects.BEH_BL_missing_capture, GameObject.Find("BEH_BL_missing_capture"));
+            SceneObjectPool.Add(PreLoadedObjects.BL_missing_focus, GameObject.Find("BEH_BL_missing_focus"));
+            SceneObjectPool.Add(PreLoadedObjects.BL_missing_allow, GameObject.Find("BEH_BL_missing_allow"));
+            SceneObjectPool.Add(PreLoadedObjects.BL_missing_capture, GameObject.Find("BEH_BL_missing_capture"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_down, GameObject.Find("BEH_BL_unneces_down"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_left, GameObject.Find("BEH_BL_unneces_left"));
             SceneObjectPool.Add(PreLoadedObjects.BEH_BL_unnecessary_right, GameObject.Find("BEH_BL_unneces_right"));
@@ -80,7 +82,7 @@ public class SceneObjectManager : MonoBehaviour {
         }
 
 
-
+        
         foreach (var item in SceneObjectPool)
         { 
             if(item.Value!=null)  item.Value.SetActive(false);
@@ -89,7 +91,7 @@ public class SceneObjectManager : MonoBehaviour {
                 Debug.Log("[DEBUG SceneObjectManager object is null: " + item.Key);
             }
         }
-
+        ActiveObject = new List<GameObject>();
 
         /*  GameObject obj = GameObject.Find("test2d");
             Vector3 pos = Camera.main.ScreenToWorldPoint(new Vector3(x*2*Screen.width/1920, y*2*Screen.height/1080,1));
@@ -100,11 +102,64 @@ public class SceneObjectManager : MonoBehaviour {
         if (!SceneObjectPool.ContainsKey(objType)) return;
 
         GameObject obj = SceneObjectPool[objType];
-        
-        
+
+        ActiveObject.Add(obj);
         obj.SetActive(activate);
         Debug.Log("[DEBUG] Scene Object activated:"+obj.name);
 
+    }
+    public void clearAllActiveObject()
+    {
+        if(ActiveObject!=null)
+        {
+            for(int i=0;i<ActiveObject.Count;i++)
+            {
+                if (ActiveObject[i] != null) ActiveObject[i].SetActive(false);
+            }
+            ActiveObject.Clear();
+        }
+        
+    }
+    public static void adjustAlphaSpriteRendereFadeIn(GameObject obj, float value)
+    {
+        if (obj == null) return;
+        obj.SetActive(true);
+        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+        if (sr == null) return;
+        
+        Color spriteColor = sr.color;
+        if (Mathf.Abs(value / 255f - spriteColor.a) > 0.005f)
+        {
+            //       Debug.Log("alpha : " + spriteColor.a + "---->" + value / 255f);
+            spriteColor.a = spriteColor.a + Math.Max(Mathf.Abs((value / 255f - spriteColor.a) * 0.003f), 0.003f) * Mathf.Sign(value / 255f - spriteColor.a);
+        }
+        else
+        {
+
+            spriteColor.a = value / 255f;
+        }
+        sr.color = spriteColor;
+        return;
+    }
+    public static void adjustAlphaSpriteRendere(GameObject obj, float value)
+    {
+        if (obj == null) return;
+        obj.SetActive(true);
+        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+        if (sr == null) return;
+        Color spriteColor = sr.color;
+        if (Mathf.Abs(spriteColor.a - value / 255f) > 0.005f)
+        {
+            //       Debug.Log("alpha : " + spriteColor.a + "---->" + value / 255f);
+            spriteColor.a = spriteColor.a + Math.Max(Mathf.Abs((value / 255f - spriteColor.a) * 0.003f), 0.003f) * Mathf.Sign(value / 255f - spriteColor.a);
+        }
+        else
+        {
+
+            spriteColor.a = value / 255f;
+        }
+        sr.color = spriteColor;
+        return;
     }
     public void adjustAlphaSpriteRendereFadeIn(PreLoadedObjects objType, float value)
     {
@@ -392,9 +447,9 @@ public enum PreLoadedObjects
     STR_CONN_missing_Dialogue,
     STR_CONN_incorrect_Dialogue,
     BEH_BL_missing,
-    BEH_BL_missing_focus,
-    BEH_BL_missing_allow,
-    BEH_BL_missing_capture,
+    BL_missing_focus,
+    BL_missing_allow,
+    BL_missing_capture,
     BEH_BL_unnecessary_down,
     BEH_BL_unnecessary_left,
     BEH_BL_unnecessary_right,
@@ -404,6 +459,8 @@ public enum PreLoadedObjects
     BEH_BV_missing_pedal,
     BEH_BV_missing_reduce,
     BEH_BV_unspecified_focus,
+    BEH_BV_unspecified_allow,
+    BEH_BV_unspecified_capture,
     Content1_BGPartial,
     Content1_BGFull,
     Content2_BGPartial,

@@ -29,6 +29,7 @@ public class ApplicationControl : MonoBehaviour
 
     public static ApplicationControl ActiveInstance = null;
     public GameObject ARDetector = null;
+    public GameObject FeedbackControl = null;
     private List<CvPoint> regionPoints;
     private CvMat scaledFrame = null;
     // Use this for initialization
@@ -41,6 +42,7 @@ public class ApplicationControl : MonoBehaviour
         }
         ActiveInstance = this;
         loadPref();
+        initScene();
         GlobalRepo.suppressCVWindows(SuppressCVWindows);
         GlobalRepo.Setting_ShowDebugImgs(ShowDebugImages);
     }
@@ -85,6 +87,11 @@ public class ApplicationControl : MonoBehaviour
     {
 
     }
+    private void initScene()
+    {
+        if (ContentType == DesignContent.BicycleGearSystem) this.gameObject.GetComponent<SystemModeControl>().switchTo(userAppMode.content2_design);
+        if (ContentType == DesignContent.CameraSystem) this.gameObject.GetComponent<SystemModeControl>().switchTo(userAppMode.content4_design);
+    }
     public void Reset()
     {
         var watch = System.Diagnostics.Stopwatch.StartNew();
@@ -93,24 +100,41 @@ public class ApplicationControl : MonoBehaviour
 
         watch.Stop();
         var elapsedMs = watch.ElapsedMilliseconds;
-        Debug.Log("[PERFORMANCE DEBUG]time #1: " + (elapsedMs) + "<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+    //    Debug.Log("[PERFORMANCE DEBUG]time #1: " + (elapsedMs) + "<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         
-
+        
         ResetDesignData();
 
         
         
     }
+    public void HintOpened()
+    {
+        ResetSimulationData();
+        this.GetComponent<SystemModeControl>().HaltRecognitionAfterScreenInteraction();
+    }
+    public void HaltRecognition5()
+    {
+        this.GetComponent<SystemModeControl>().HaltRecognition6sec();
+    }
     public void ResetSimulationData()
     {
         this.GetComponentInParent<Simulation>().reset();
     }
+    public void ResetFeedback()
+    {
+        FeedbackControl.GetComponent<FeedbackControl>().Reset();
+    }
     public void ResetDesignData()
     {
+        FeedbackControl.GetComponent<FeedbackControl>().Reset();
         ARDetector.GetComponent<designARManager>().resetScene();
         GlobalRepo.reset();
     }
-    
+    public void StopLearning()
+    {
+        GlobalRepo.setLearningCount(-1);
+    }
     public void StartLearning()
     {
         //if (GlobalRepo.UserMode != GlobalRepo.UserStep.design) Reset();
@@ -123,21 +147,13 @@ public class ApplicationControl : MonoBehaviour
     {
       /*  if (ApplicationMode == RunMod.Release)
             return;*/
-        if (Input.GetButtonUp("Fire1"))
-        {
-            if (GlobalRepo.UserMode != GlobalRepo.UserStep.design) Reset();
-            GlobalRepo.setLearningCount(3);
-        }
-        if (Input.GetButtonUp("Cancel"))
-        {
-            Reset();         
-        }
+       
       /*  if (Input.GetButtonUp("Fire2"))
         {
             this.GetComponent<CameraControl>().MainCameraFoV = 60;
             SceneObjectManager.getActiveInstance().adjustAlphaSpriteRenderInstant(PreLoadedObjects.Content1_BGFull, 255);
         }*/
-        if (Input.GetButtonUp("Fire3"))
+        //if (Input.GetButtonUp("Fire3"))
         {
        //     this.GetComponent<CameraControl>().MainCameraFoV = 120;
             

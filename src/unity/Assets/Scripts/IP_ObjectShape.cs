@@ -23,10 +23,10 @@ public class IP_ObjectShape : MonoBehaviour {
     private static double Param_MatchObject_ShrinkStep = 0.03f;
     private static double Param_MatchObject_ShrinkMin = 0.2f;
 
-    private static double Param_MatchObject_TransitionRange = 0.2f;
-    private static double Param_MatchObject_TransitionStep = 0.05f;
+    private static double Param_MatchObject_TransitionRange = 0.3f;
+    private static double Param_MatchObject_TransitionStep = 0.06f;
 
-    private static double Param_MatchObject_InclusionThreshold = 0.95f;
+    private static double Param_MatchObject_InclusionThreshold = 0.90f;
     public static Point[] IPMatchObjectShapes(CvMat userObject, CvMat virtualObject, bool convexUsrObj)
     {
         //we assume that both images are RGBA
@@ -48,7 +48,7 @@ public class IP_ObjectShape : MonoBehaviour {
         {
             debugI.DrawCircle(new CvPoint(t.X, t.Y), 2, CvColor.Red);
         }
-        GlobalRepo.showDebugImage("virtualobj", debugI);
+        if (GlobalRepo.Setting_ShowDebugImgs()) GlobalRepo.showDebugImage("virtualobj", debugI);
         float scalefactor = 1;
         if (virtualObjInfo.areaSize < userObjInfo.areaSize) scalefactor = (float)( userObjInfo.areaSize / virtualObjInfo.areaSize);
         virtualObjInfo.ScaletoObject(userObjInfo, scalefactor);
@@ -70,7 +70,11 @@ public class IP_ObjectShape : MonoBehaviour {
 
                     //  inclusionRatio = BlobAnalysis.GetInclusionRatio(virtualObjInfo, userObjInfo, transX, transY);
                     double[] distanceArray = null;
-                    inclusionRatioRotate = BlobAnalysis.GetInclusionRatio(virtualObjInfo, userObjInfo, transX, transY,out rotatevalue,ref distanceArray);
+                    //do not rotate
+                    inclusionRatioRotate = BlobAnalysis.GetInclusionRatio(virtualObjInfo, userObjInfo, transX, transY, ref distanceArray);
+
+                    //rotate
+                    //inclusionRatioRotate = BlobAnalysis.GetInclusionRatio(virtualObjInfo, userObjInfo, transX, transY,out rotatevalue,ref distanceArray);
               //      Debug.Log("inc :" + inclusionRatioRotate + "rot :" + rotatevalue + "size: "+sizeRatio);
                     if (inclusionRatioRotate > maxInclusionRatio)
                     {
@@ -88,7 +92,9 @@ public class IP_ObjectShape : MonoBehaviour {
             {
                 if(GlobalRepo.Setting_ShowDebugImgs())
                     Debug.Log("Max Inclusion Ratio : " + maxInclusionRatio + "size ratio : " + sizeRatio + "transition : (" + transitionVector.X + " , " + transitionVector.Y + ")");
-
+                //  CvMat t = new CvMat(700, 700, MatrixType.U8C3);
+                // t.Zero();
+              
                 //examine distanceArray to see if the shape is good enough 
                 bool shapeQuality = ExamineShapeQuality(maxDistanceArray,userObjInfo);
                 if (shapeQuality) return null;
@@ -100,7 +106,8 @@ public class IP_ObjectShape : MonoBehaviour {
             else
             {
                 if (maxInclusionRatio < 0.8f) sizeRatio -= Param_MatchObject_ShrinkStep;
-               Debug.Log("Inclusion Ratio : " + maxInclusionRatio + "size ratio : " + sizeRatio + "transition : (" + transitionVector.X + " , " + transitionVector.Y + ")");
+                if (GlobalRepo.Setting_ShowDebugImgs())
+                    Debug.Log("Inclusion Ratio : " + maxInclusionRatio + " size ratio : " + sizeRatio + "transition : (" + transitionVector.X + " , " + transitionVector.Y + ")");
             }
 
         }
@@ -115,8 +122,9 @@ public class IP_ObjectShape : MonoBehaviour {
         double[] quality_threshold = new double[5] { 10, 20, 30, 40, 50 };
         double[] count = new double[quality_threshold.Length];
         double[] percent = new double[quality_threshold.Length];
-        double proportional_threshold = Mathf.Min(userobj.width, userobj.height) * 0.05f;
 
+        // double proportional_threshold = Mathf.Min(userobj.width, userobj.height) * 0.05f;
+        double proportional_threshold = Mathf.Min(userobj.width + userobj.height) * 0.025f;
         for (int i = 0; i < quality_threshold.Length; i++)
             quality_threshold[i] = proportional_threshold * (i + 1);
 
@@ -136,10 +144,10 @@ public class IP_ObjectShape : MonoBehaviour {
             Debug.Log("Shape Examination Result");
             for (int i = 0; i < quality_threshold.Length; i++)
             {
-                Debug.Log("% of distance over " + quality_threshold[i] + " : " + percent[i] + "\t count:" + count[i]);
+                Debug.Log("% of distance over " + quality_threshold[i] + " : " + percent[i] + "\t count:" + count[i] +"percent: "+percent[i]+" \t total: "+distanceArray.Length);
             }
         }
-        if (percent[1] > 10) ret = false;       //the distance over the 1/10 of width/height is more than 10% of points. then rejest the shape.
+        if (percent[2] > 8) ret = false;       //the distance over the 1/10 of width/height is more than 10% of points. then rejest the shape.
         else ret = true;    
             return ret;
     }

@@ -15,24 +15,21 @@ using UnityEngine.UI;
 public class PrototypeInventoryInfo : MonoBehaviour {
     public GameObject NameObject;
     public GameObject[] ParamObjects;
+    public GameObject[] GraphicParamObjects;
 
-    public int NofParams;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         //if (ApplicationControl.ActiveInstance.getContentType() == DesignContent.CameraSystem)
-        {
-            NofParams = 3;
-        }
-        NofParams = 3;
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    // Update is called once per frame
+    void Update() {
+
+    }
     public void SetName(string name)
     {
-        NameObject.GetComponent<Text>().text = name;
+        if (NameObject != null) NameObject.GetComponent<Text>().text = name;
     }
     public string GetName()
     {
@@ -42,6 +39,26 @@ public class PrototypeInventoryInfo : MonoBehaviour {
     public void SetParam(int idx, string name, string value)
     {
         if (idx >= ParamObjects.Length) return;
+
+
         ParamObjects[idx].GetComponent<PrototypeInventoryParam>().SetParam(name, value);
+    }
+    public void SetParamBar_Numerical(int idx, string name, float val, float low, float high, string valueString, Color c)
+    {
+        if (idx >= GraphicParamObjects.Length) return;
+
+        GraphicParamObjects[idx].GetComponent<HorizontalLevelBar>().SetValueName(name);
+        GraphicParamObjects[idx].GetComponent<HorizontalLevelBar>().SetNumericalValue(val, low, high, valueString);
+        GraphicParamObjects[idx].GetComponent<HorizontalLevelBar>().SetColor(c);
+
+    }
+    public void SetParamBar_Categorical(int idx, string name,string valueString, Color c)
+    {
+        if (idx >= GraphicParamObjects.Length) return;
+
+        GraphicParamObjects[idx].GetComponent<HorizontalLevelBar>().SetValueName(name);
+        GraphicParamObjects[idx].GetComponent<HorizontalLevelBar>().SetCategoricalValue(valueString);            
+        GraphicParamObjects[idx].GetComponent<HorizontalLevelBar>().SetColor(c);
+
     }
 }

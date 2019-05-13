@@ -18,7 +18,7 @@ public class FeedbackToken
     public EvaluationResultCategory type;
     public int feedbackInstanceID;
     public ModelCategory modelType;
-    public int modelInstanceID;
+    public int modelInstanceID;    
     public ModelDef model;
     public BehaviorDef behavior;
     public Point[] ShapeSuggestedOutline;
@@ -26,6 +26,8 @@ public class FeedbackToken
     public UserDescriptionInfo connectivity_wrongDesc;
     public KeyValuePair<ModelDef, ModelDef> connectivity_missingConn;
     public BehaviorCategory behaviorType;
+    public CvPoint RegionPosition;
+    public CvRect RegionBoundingBox;
     //structure existence feedback
 
     public FeedbackToken(EvaluationResultCategory type_, ModelCategory modeltype_, int modelID,ModelDef model_)
@@ -94,6 +96,14 @@ public class FeedbackToken
         {
             Debug.Log("[FeedbackToken] Extra Object id = " + modelInstanceID + "type :"+this.model.modelType);
         }
+        if (type == EvaluationResultCategory.Shape_suggestion)
+        {
+            Debug.Log("[FeedbackToken] Incorrect shape object id = " + modelInstanceID + "type :" + this.model.modelType);
+        }
+        if (type == EvaluationResultCategory.Position_direction)
+        {
+            Debug.Log("[FeedbackToken] Move object to = " + modelInstanceID + "type :" + this.model.modelType);
+        }
         if (type == EvaluationResultCategory.Behavior_missing)
         {
             Debug.Log("[FeedbackToken] Behavior missing for str object = " + model.instanceID);
@@ -138,7 +148,6 @@ public class FeedbackToken
                 ret = PreLoadedObjects.STR_missing_c2_chain;
             if (this.modelType == ModelCategory.UpperChain)
                 ret = PreLoadedObjects.STR_missing_c2_chain;
-
             if (this.modelType == ModelCategory.C4_lens)
                 ret = PreLoadedObjects.STR_missing_c4_lens;
             if (this.modelType == ModelCategory.C4_sensor)
@@ -146,8 +155,30 @@ public class FeedbackToken
             if (this.modelType == ModelCategory.C4_shutter)
                 ret = PreLoadedObjects.STR_missing_c4_shutter;
 
-
+            return ret;
+        } 
+        if(this.type == EvaluationResultCategory.Behavior_missing)
+        {
+            if (this.behaviorType == BehaviorCategory.C4_FOCUS)
+                ret = PreLoadedObjects.BL_missing_focus;
+            if (this.behaviorType == BehaviorCategory.C4_ALLOW)
+                ret = PreLoadedObjects.BL_missing_allow;
+            if (this.behaviorType == BehaviorCategory.C4_CAPTURE)
+                ret = PreLoadedObjects.BL_missing_capture;
+            return ret;
         }
+        if (this.type == EvaluationResultCategory.Behavior_variableUnchecked)
+        {            
+            if (this.behaviorType == BehaviorCategory.C4_FOCUS)
+                ret = PreLoadedObjects.BEH_BV_unspecified_focus;
+            if (this.behaviorType == BehaviorCategory.C4_ALLOW)
+                ret = PreLoadedObjects.BEH_BV_unspecified_allow;
+            if (this.behaviorType == BehaviorCategory.C4_CAPTURE)
+                ret = PreLoadedObjects.BEH_BV_unspecified_capture;
+            
+            return ret;
+        }
+
         return ret;
     }
 }

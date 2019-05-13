@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 using System.IO;
 using System.Text;
-
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
 //using System.Configuration;
@@ -96,7 +96,7 @@ public class ColorDetector : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(Time.deltaTime>0.1f) Debug.Log("delta time: " + Time.deltaTime);
+        //if(Time.deltaTime>0.1f) Debug.Log("delta time: " + Time.deltaTime);
         regionImgHSV = GlobalRepo.GetRepo(RepoDataType.dRawRegionHSV);
         if(regionImgHSV==null || mCP.mProfileList ==null || mCP.mProfileList.Count == 0)
         {
@@ -108,17 +108,21 @@ public class ColorDetector : MonoBehaviour {
             //check if the image is stable
             if (GlobalRepo.getLearningCount() > 0)
             {
-              
+                System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+                sw.Start();
                 processColorBlobs();
-                Debug.Log("Color Processing..." + GlobalRepo.getLearningCount() + " frames remain");
+
+                UnityEngine.Debug.Log("Color Processing..." + GlobalRepo.getLearningCount() + " frames remain");
                 GlobalRepo.tickLearningCount();
                 if (GlobalRepo.getLearningCount() == 0)
                 {                    //learning finished
                                      //  GlobalRepo.setLearningCount(-1);     
-                   
+                    
                     createPrototypeFromColorBlobs();
-                   
-                }
+                    
+                } else { }
+                sw.Stop();
+                SystemLogger.activeInstance.AddPerformance(0, sw.ElapsedMilliseconds);
             }
 
         } else if (GlobalRepo.getLearningCount()> 0)
@@ -277,11 +281,17 @@ public class ColorDetector : MonoBehaviour {
         
         CvMat regionImgClone = GlobalRepo.GetRepo(RepoDataType.dRawRegionGray);
         {
-            //SignDetector.ConnectivityandBehaviorRecognition(regionImgClone, ref newPrototype, ref markerList, ref behaviorList, ref BVList,ref ConnList);            
-            this.GetComponentInParent<BehaviorDetector>().recognizeBehaviorVariables(m.pConceptModelManager.pFBSModel);
-            behaviorList = this.GetComponentInParent<BehaviorDetector>().exportBehaviorList();
+            // SignDetector.ConnectivityandBehaviorRecognition(regionImgClone, ref newPrototype, ref markerList, ref behaviorList, ref BVList,ref ConnList);            
+            if (SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Missing_labels)
+            || SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Move_labels)
+            || SystemConfig.ActiveInstnace.Get(EvaluationConfigItem._Behavior_Extra_labels))
+            {
+                this.GetComponentInParent<BehaviorDetector>().recognizeBehaviorVariables(m.pConceptModelManager.pFBSModel, newPrototype);
+                behaviorList = this.GetComponentInParent<BehaviorDetector>().exportBehaviorList();
+                debugTextLabels(behaviorList);
+            }
             //   debugSignMarkers(markerList);
-            debugTextLabels(behaviorList);
+           // debugTextLabels(behaviorList);
             //function label
         } 
         foreach (var t in behaviorList)
@@ -373,9 +383,34 @@ public class ColorDetector : MonoBehaviour {
             }
         }
         for (int i = 0; i < validColorsN; i++)
-        {            
+        {
             List<ModelDef> extractedModels = BlobAnalysis.ExtractStrcutureInfoFromImageBlob(colorblobImage[i], regionImgHSV, colorObjectMap[i]);
-         
+            if (extractedModels!=null && (colorObjectMap[i] == ModelCategory.FrontChainring ||
+                colorObjectMap[i] == ModelCategory.RearSprocket ||
+                colorObjectMap[i] == ModelCategory.PedalCrank ||
+                colorObjectMap[i] == ModelCategory.C4_lens ||
+                colorObjectMap[i] == ModelCategory.C4_shutter ||
+                colorObjectMap[i] == ModelCategory.C4_sensor) 
+                ) {
+                int maxIdx = -1;
+                double maxSize = 0;
+                for (int j = 0; j < extractedModels.Count; j++)
+                {
+                    if (extractedModels[j].AreaSize > maxSize)
+                    {
+                        maxSize = extractedModels[j].AreaSize;
+                        maxIdx = j;
+                    }
+                }
+                if (maxIdx >= 0)
+                {
+                    ModelDef t = extractedModels[maxIdx];
+                    extractedModels.Clear();
+                    extractedModels.Add(t);
+                }
+            }
+        
+        
             pProto.addModels(extractedModels);
         }
         //debug
@@ -425,7 +460,7 @@ public class ColorDetector : MonoBehaviour {
         CvMat srcImgH = GlobalRepo.GetRepo(RepoDataType.dRawRegionH);
         CvMat srcImgH2 = GlobalRepo.GetRepo(RepoDataType.dRawRegionH2);
         CvMat srcImgS = GlobalRepo.GetRepo(RepoDataType.dRawRegionSaturated);
-        
+        CvMat srcImgH3 = srcImgH2.EmptyClone();
 
        // srcImgHSV.Split(srcImgH, srcImgS, srcImgV,null);
 
@@ -435,6 +470,27 @@ public class ColorDetector : MonoBehaviour {
         {
             srcImgH.InRangeS(new CvScalar(mCP.mProfileList[j].HueClass1- hueFilterThreshold), 
                 new CvScalar(mCP.mProfileList[j].HueClass1 + hueFilterThreshold), srcImgH2);
+
+            if (j == 2)
+            {
+                srcImgH.InRangeS(new CvScalar(0),new CvScalar(5), srcImgH3);
+                srcImgH2.Or(srcImgH3, srcImgH2);
+                srcImgH.InRangeS(new CvScalar(175), new CvScalar(180), srcImgH3);
+                srcImgH2.Or(srcImgH3, srcImgH2);
+                /*   if (mCP.mProfileList[j].HueClass1 - hueFilterThreshold < 0)
+                   {
+                       srcImgH.InRangeS(new CvScalar(360 + mCP.mProfileList[j].HueClass1 - hueFilterThreshold),
+                       new CvScalar(360), srcImgH3);
+                       srcImgH2.Or(srcImgH3, srcImgH2);
+                   }
+                   if (mCP.mProfileList[j].HueClass1 + hueFilterThreshold > 360)
+                   {
+                       srcImgH.InRangeS(new CvScalar(0),
+                       new CvScalar(mCP.mProfileList[j].HueClass1 + hueFilterThreshold - 360), srcImgH3);
+                       srcImgH2.Or(srcImgH3, srcImgH2);
+                   }
+                   */
+            }
             srcImgH2.And(srcImgS, srcImgH2);
             colorblobImage[j].Add(srcImgH2, colorblobImage[j]);
             

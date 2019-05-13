@@ -12,7 +12,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System;
 public class Visual2DModelManager : MonoBehaviour
 {
-
+    public GameObject FeedbackControl;
     public Vector2 testFramePosition;
     public bool testFramePos = false;
     public GameObject appcontrol;
@@ -48,7 +48,9 @@ public class Visual2DModelManager : MonoBehaviour
     }
     public void ShowScaffoldingFeedback()
     {
-        foreach(var p in mPrototypeVisual2DList)
+        SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+        SOMgr.clearAllActiveObject();
+        foreach (var p in mPrototypeVisual2DList)
         {
             p.ProduceScaffoldingFeedback();
         }
@@ -99,7 +101,8 @@ public class Visual2DModelManager : MonoBehaviour
             Vector3 screenPos = new Vector3();
         SceneObjectManager.MeasureObjectPointinScreen(PreLoadedObjects.Content1_BGPartial, testFramePosition, ref screenPos);
         CvPoint regionPos = SceneObjectManager.ScreentoRegion(screenPos);
-        underlay.DrawCircle(regionPos, 6, new CvScalar(255, 0, 0, 255), -1); }
+        underlay.DrawCircle(regionPos, 6, new CvScalar(255, 0, 0, 255), -1);
+        }
 
 
         //  GlobalRepo.showDebugImage("export model vis", underlay);
@@ -121,29 +124,43 @@ public class Visual2DModel
         mRefConceptModel = conceptModel;
         mObjectList = new List<Visual2DObject>();
         Debug.Log("!!!receving feedback " + feedbacklist.Count);
-        
-        //for (int i = 0; i < feedbacklist.Count; i++)
-        for (int i = 0; i < 1; i++)
-        {
-            if (GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().BackgroundProcessing)
-            {
-                mFeedbackList = feedbacklist;
-                //GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().NotifyScaffoldingFeedback(feedbacklist.Count);
-            }
-            else
-            {
-                ProduceScaffoldingFeedback(conceptModel, feedbacklist[i]);
-                if (feedbacklist[i].type == EvaluationResultCategory.Shape_existence_missing) break;
-                GlobalRepo.SetUserPhas(GlobalRepo.UserStep.feedback);
-            }
-        }
 
+        List<FeedbackToken> mFeedbackListNew = new List<FeedbackToken>();
+        //for (int i = 0; i < feedbacklist.Count; i++)
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
+        if (GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().BackgroundProcessing)
+        {
+         //   mFeedbackList = feedbacklist;
+            
+            for (int i = 0; i < feedbacklist.Count; i++)
+            {                
+                GameObject fo = FeedbackControl.mActiveInstance.AddFeedback(feedbacklist[i]);
+                if (fo!=null && (feedbacklist[i].type == EvaluationResultCategory.Position_direction || feedbacklist[i].type == EvaluationResultCategory.Shape_suggestion))
+                {
+                    Hint h = fo.GetComponent<Hint>();
+                    if(h!=null) h.SetARTxt2D(CreateARTexture2DVisualizationforFeedback(conceptModel, feedbacklist[i]));
+                }
+                if (fo != null) mFeedbackListNew.Add(feedbacklist[i]);
+            }
+                
+
+            //GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().NotifyScaffoldingFeedback(feedbacklist.Count);
+        }
+        else
+        {
+            CreateARTexture2DVisualizationforFeedback(conceptModel, feedbacklist[0]);
+            if (feedbacklist[0].type == EvaluationResultCategory.Shape_existence_missing) ;
+                else GlobalRepo.SetUserPhas(GlobalRepo.UserStep.feedback);
+        }
+        sw.Stop();
+        SystemLogger.activeInstance.AddPerformance(2, sw.ElapsedMilliseconds);
 
         if (GameObject.FindGameObjectWithTag("SystemControl").GetComponent<SystemModeControl>().BackgroundProcessing)
         {
             
             CreateVisualSimulation(conceptModel);
-            if(feedbacklist.Count == 0) GlobalRepo.SetUserPhas(GlobalRepo.UserStep.simulation);
+          //  if(feedbacklist.Count == 0) GlobalRepo.SetUserPhas(GlobalRepo.UserStep.simulation);
                // else GlobalRepo.SetUserPhas(GlobalRepo.UserStep.feedback);
         }
         else if (feedbacklist.Count == 0)
@@ -152,24 +169,40 @@ public class Visual2DModel
                 GlobalRepo.SetUserPhas(GlobalRepo.UserStep.simulation);
                 return;
             }
-
+        
+        
         //add the prototype to prototypeInstanceManager
         GameObject go_multiview = GameObject.Find("InventoryUI");
         PrototypeInstanceManager t = go_multiview.GetComponent<PrototypeInstanceManager>();
         CvRect regionBox = GlobalRepo.GetRegionBox(false);
         Texture2D temporaryTexture = null;
+         
         if (temporaryTexture == null || temporaryTexture.width != regionBox.Width || temporaryTexture.height != regionBox.Height)
         {
             temporaryTexture = new Texture2D(regionBox.Width, regionBox.Height, TextureFormat.RGBA32, false);
+            
         }
-        temporaryTexture.LoadRawTextureData(GlobalRepo.getByteStream(RepoDataType.dRawRegionRGBAByte));
-        temporaryTexture.Apply();
+        //temporaryTexture.LoadRawTextureData(GlobalRepo.getByteStream(RepoDataType.dRawRegionRGBAByte));  
+        //temporaryTexture.Apply();
         if (temporaryTexture != null)
         {
             DesignContent mDesignContent = ApplicationControl.ActiveInstance.getContentType();
             SimulationParam sp = new SimulationParam();
             Content.ExtractSimulationParameters(conceptModel, mDesignContent, ref sp);
-            t.AddIncompletePrototypeInstance(temporaryTexture,feedbacklist,sp);
+            sp.NumberOfFeedback = mFeedbackListNew.Count;
+            //supply dafault sim parameters for workspace limit.
+            WorkSpaceUI.mInstance.AddDefaultParams(ref sp);
+            Byte[] tt = new Byte[regionBox.Height * regionBox.Width * 4];
+            CvMat temporaryImg = new CvMat(regionBox.Height, regionBox.Width, MatrixType.U8C4, tt);
+            GlobalRepo.GetRepo(RepoDataType.dRawRegionRGBA).Copy(temporaryImg);
+            //temporaryImg.CvtColor(temporaryImg, ColorConversion.BgraToRgba);
+            WorkSpaceUI.mInstance.AddDefaultModels(temporaryImg);
+       
+            temporaryTexture.LoadRawTextureData(tt);
+            //temporaryTexture.LoadRawTextureData(temporaryImg.Data, temporaryImg.Width * temporaryImg.Height/4);
+            temporaryTexture.Apply();
+            if (sp.HasAllParameters(mDesignContent)) t.AddcompletePrototypeInstance(temporaryTexture, mFeedbackListNew, sp);
+             else  t.AddIncompletePrototypeInstance(temporaryTexture, mFeedbackListNew, sp);
         }
 
         
@@ -190,7 +223,9 @@ public class Visual2DModel
             Debug.Log("[DEBUG] No data to produce scaffoldign feedback");
             return;
         }
-        ProduceScaffoldingFeedback(mRefConceptModel, mFeedbackList[0]);
+
+        CreateARTexture2DVisualizationforFeedback(mRefConceptModel, mFeedbackList[0]);
+        mFeedbackList.RemoveAt(0);
     }
     public int GetNumberofScaffoldingFeedback()
     {
@@ -200,9 +235,226 @@ public class Visual2DModel
         }
         return mFeedbackList.Count;
     }
-    private void ProduceScaffoldingFeedback(prototypeDef proto, FeedbackToken feedback)
+
+    //this implementation uses feedback control
+    private Visual2DObject CreateARTexture2DVisualizationforFeedback(prototypeDef proto, FeedbackToken feedback)
     {
         feedback.DebugPrint();
+
+        //##########################################################
+        //##########################################################
+        if (feedback.type == EvaluationResultCategory.Shape_existence_missing)
+        {
+          //  FeedbackControl.mActiveInstance.CreateFeedback(feedback);
+            /* PreLoadedObjects feedbackObj = feedback.getFeedbackObjectID();
+             if (feedbackObj == PreLoadedObjects.None) return;
+             SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+             if (SOMgr != null) SOMgr.activateObject(feedbackObj,true);*/
+
+        }
+        //##########################################################
+        //##########################################################
+        if (feedback.type == EvaluationResultCategory.Shape_existence_redundant)
+        {
+            //just display preset
+            SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+            CvPoint BVPoint = feedback.model.getShapeBuilder().center;
+            Direction4Way getTakeawayDirection = CVProc.ClosestBorderofRegionBox(BVPoint, false);
+            PreLoadedObjects sceneObjType = PreLoadedObjects.None;
+            if (getTakeawayDirection == Direction4Way.Down) sceneObjType = PreLoadedObjects.STR_EXTRA_down;
+            if (getTakeawayDirection == Direction4Way.Right) sceneObjType = PreLoadedObjects.STR_EXTRA_right;
+            if (getTakeawayDirection == Direction4Way.Up) sceneObjType = PreLoadedObjects.STR_EXTRA_up;
+            if (getTakeawayDirection == Direction4Way.Left) sceneObjType = PreLoadedObjects.STR_EXTRA_left;
+            if (SOMgr != null) SOMgr.activateObject(sceneObjType, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
+
+        }
+        //##########################################################
+        //##########################################################
+        if (feedback.type == EvaluationResultCategory.Shape_suggestion)
+        {
+            {
+                ModelDef m = proto.getModelDefbyID(feedback.modelInstanceID);
+                if (m == null)
+                {
+                    Debug.Log("[ERROR] Can't create feedback visulization for object id=" + feedback.modelInstanceID);
+                    return null;
+                }
+                Visual2DObject vObj = new Visual2DObject(m, false);
+                if (feedback.ShapeSuggestedOutline == null || feedback.ShapeSuggestedOutline.Length < 10) return null;
+                vObj.addFeedback_ShapeSuggestion(feedback.ShapeSuggestedOutline);
+                mObjectList.Add(vObj);
+                return vObj;
+                //display preset
+                SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+                CvPoint BVPoint = m.getShapeBuilder().center;
+                BVPoint.Y = m.getShapeBuilder().bBox.TopLeft.Y;
+                Direction4Way getTakeawayDirection = CVProc.ClosestBorderofRegionBox(BVPoint, true);
+                PreLoadedObjects sceneObjType = PreLoadedObjects.STR_SHAPE_left;
+                if (getTakeawayDirection == Direction4Way.Right)
+                {
+                    sceneObjType = PreLoadedObjects.STR_SHAPE_right;
+
+                }
+                if (getTakeawayDirection == Direction4Way.Left)
+                {
+                    sceneObjType = PreLoadedObjects.STR_SHAPE_left;
+                }
+                if (SOMgr != null) SOMgr.activateObject(sceneObjType, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
+            }
+        }
+        //##########################################################
+        //##########################################################
+        if (feedback.type == EvaluationResultCategory.Position_direction)
+        {            
+            
+            ModelDef m = proto.getModelDefbyID(feedback.modelInstanceID);
+            if (m == null)
+            {
+                Debug.Log("[ERROR] Can't create feedback visulization for object id=" + feedback.modelInstanceID);
+                return null;
+            }
+            Visual2DObject vObj = new Visual2DObject(m, false);
+            vObj.addFeedback_PositionSuggestion(feedback.PositionSuggestedDirectiontoMove);
+            mObjectList.Add(vObj);
+            return vObj;
+            /*
+            SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+            CvPoint BVPoint = m.getShapeBuilder().bBox.TopLeft;
+            BVPoint.X = BVPoint.X + m.getShapeBuilder().bBox.Width / 2;
+            if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.STR_POS_dialog, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));*/
+
+        }
+        //##########################################################
+        //##########################################################
+        if (feedback.type == EvaluationResultCategory.Connectivity_wrong)
+        {
+            Visual2DObject vObj = new Visual2DObject();
+            CvPoint msgPoint = vObj.addFeedback_WrongConnection(feedback);
+            mObjectList.Add(vObj);
+
+            SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+            if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.STR_CONN_incorrect_Dialogue, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+        }
+        //##########################################################
+        //##########################################################
+        if (feedback.type == EvaluationResultCategory.Connectivity_missing)
+        {
+            Visual2DObject vObj = new Visual2DObject();
+            /*CvPoint msgPoint = vObj.addFeedback_MissingConnection(feedback.connectivity_missingConn);
+               mObjectList.Add(vObj);*/
+            CvPoint msgPoint = feedback.connectivity_missingConn.Key.getShapeBuilder().center;
+
+            SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+            if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.STR_CONN_missing_Dialogue, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+
+        }
+        //##########################################################
+        //##########################################################
+        if (feedback.type == EvaluationResultCategory.Behavior_missing)
+        {
+            /*   Visual2DObject vObj = new Visual2DObject(feedback.model, false);
+               vObj.addFeedback_MissingBehavior(feedback);
+               mObjectList.Add(vObj);*/
+
+            CvPoint msgPoint = feedback.model.getShapeBuilder().center;
+
+
+            SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+            if (SOMgr != null)
+            {
+                if (feedback.behaviorType == BehaviorCategory.C4_FOCUS) SOMgr.activateObject(PreLoadedObjects.BL_missing_focus, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+                else if (feedback.behaviorType == BehaviorCategory.C4_ALLOW) SOMgr.activateObject(PreLoadedObjects.BL_missing_allow, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+                else if (feedback.behaviorType == BehaviorCategory.C4_CAPTURE) SOMgr.activateObject(PreLoadedObjects.BL_missing_capture, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+                else SOMgr.activateObject(PreLoadedObjects.BEH_BL_missing, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+            }
+        }
+        //##########################################################
+        //##########################################################
+        if (feedback.type == EvaluationResultCategory.Behavior_Unnecessary)
+        {
+            //Visual2DObject vObj = new Visual2DObject();
+            //vObj.addFeedback_UnnecessaryBehavior(feedback);
+            //mObjectList.Add(vObj);
+            CvPoint msgPoint = feedback.behavior.marker.center;
+            PreLoadedObjects sceneObjType = PreLoadedObjects.None;
+            Direction4Way getTakeawayDirection = CVProc.ClosestBorderofRegionBox(msgPoint, false);
+            if (getTakeawayDirection == Direction4Way.Down) sceneObjType = PreLoadedObjects.BEH_BL_unnecessary_down;
+            if (getTakeawayDirection == Direction4Way.Right) sceneObjType = PreLoadedObjects.BEH_BL_unnecessary_right;
+            if (getTakeawayDirection == Direction4Way.Up) sceneObjType = PreLoadedObjects.BEH_BL_unnecessary_up;
+            if (getTakeawayDirection == Direction4Way.Left) sceneObjType = PreLoadedObjects.BEH_BL_unnecessary_left;
+            SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+            if (SOMgr != null) SOMgr.activateObject(sceneObjType, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+        }
+        //##########################################################
+        //##########################################################
+        if (feedback.type == EvaluationResultCategory.Behavior_relocate)
+        {
+            Visual2DObject vObj = new Visual2DObject();
+            vObj.addFeedback_RelocateBehavior(feedback);
+            mObjectList.Add(vObj);
+            CvPoint msgPoint = feedback.behavior.marker.center;
+            SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+            PreLoadedObjects sceneObjType = PreLoadedObjects.BEH_BL_remap;
+            if (SOMgr != null) SOMgr.activateObject(sceneObjType, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+        }
+        //##########################################################
+        //##########################################################
+        if (feedback.type == EvaluationResultCategory.Behavior_variableUnchecked)
+        {
+            //just display preset
+            if (feedback.behaviorType == BehaviorCategory.CONTRACT)
+            {
+                SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+                CvPoint BVPoint = feedback.behavior.marker.center;
+                BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
+                if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_missing_contract, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
+            }
+            else if (feedback.behaviorType == BehaviorCategory.PEDAL)
+            {
+                SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+                CvPoint BVPoint = feedback.behavior.marker.center;
+                BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
+                if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_missing_pedal, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
+            }
+            else if (feedback.behaviorType == BehaviorCategory.REDUCE)
+            {
+                SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+                CvPoint BVPoint = feedback.behavior.marker.center;
+                BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
+                if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_missing_reduce, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
+            }
+            else if (feedback.behaviorType == BehaviorCategory.C4_FOCUS)
+            {
+                SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+                CvPoint BVPoint = feedback.behavior.marker.center;
+                BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
+                if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_unspecified_focus, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
+            }
+            else if (feedback.behaviorType == BehaviorCategory.C4_ALLOW)
+            {
+                SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+                CvPoint BVPoint = feedback.behavior.marker.center;
+                BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
+                if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_unspecified_allow, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
+            }
+            else if (feedback.behaviorType == BehaviorCategory.C4_CAPTURE)
+            {
+                SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+                CvPoint BVPoint = feedback.behavior.marker.center;
+                BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
+                if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_unspecified_capture, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
+            }
+
+        }
+        return null;
+
+    }
+
+    //this function use DEPRECATED SCENEOBJMANAGER
+    private void ProduceScaffoldingFeedbackDEPRECATED(prototypeDef proto, FeedbackToken feedback)
+    {
+        feedback.DebugPrint();
+       
         //##########################################################
         //##########################################################
         if (feedback.type == EvaluationResultCategory.Shape_existence_missing)
@@ -320,9 +572,9 @@ public class Visual2DModel
             SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
             if (SOMgr != null)
             {
-                if(feedback.behaviorType==BehaviorCategory.C4_FOCUS) SOMgr.activateObject(PreLoadedObjects.BEH_BL_missing_focus, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
-                else if (feedback.behaviorType == BehaviorCategory.C4_ALLOW) SOMgr.activateObject(PreLoadedObjects.BEH_BL_missing_allow, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
-                else if (feedback.behaviorType == BehaviorCategory.C4_CAPTURE) SOMgr.activateObject(PreLoadedObjects.BEH_BL_missing_capture, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+                if(feedback.behaviorType==BehaviorCategory.C4_FOCUS) SOMgr.activateObject(PreLoadedObjects.BL_missing_focus, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+                else if (feedback.behaviorType == BehaviorCategory.C4_ALLOW) SOMgr.activateObject(PreLoadedObjects.BL_missing_allow, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
+                else if (feedback.behaviorType == BehaviorCategory.C4_CAPTURE) SOMgr.activateObject(PreLoadedObjects.BL_missing_capture, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
                 else SOMgr.activateObject(PreLoadedObjects.BEH_BL_missing, GlobalRepo.TransformRegionPointtoGlobalPoint(msgPoint));
             }
         }
@@ -386,6 +638,20 @@ public class Visual2DModel
                 BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
                 if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_unspecified_focus, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
             }
+            else if (feedback.behaviorType == BehaviorCategory.C4_ALLOW)
+            {
+                SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+                CvPoint BVPoint = feedback.behavior.marker.center;
+                BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
+                if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_unspecified_allow, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
+            }
+            else if (feedback.behaviorType == BehaviorCategory.C4_CAPTURE)
+            {
+                SceneObjectManager SOMgr = SceneObjectManager.getActiveInstance();
+                CvPoint BVPoint = feedback.behavior.marker.center;
+                BVPoint.X += feedback.behavior.marker.boundingBox.Width * 3 / 10;
+                if (SOMgr != null) SOMgr.activateObject(PreLoadedObjects.BEH_BV_unspecified_capture, GlobalRepo.TransformRegionPointtoGlobalPoint(BVPoint));
+            }
 
         }
 
@@ -408,7 +674,10 @@ public class Visual2DModel
         bool debugBuildingCheck = true;
         foreach (Visual2DObject vobj in mObjectList)
         {
-            vobj.tick(objectOverlayDst);
+            {
+              //  Debug.Log(Time.time + " "+mObjectList.Count+" visual object Enabled==============" + vobj.enabled);
+                if (vobj.enabled) vobj.tick(objectOverlayDst);
+            }
             if (!vobj.isBuildingDone()) debugBuildingCheck = false;
         }
         if (debugBuildingCheck)
@@ -422,6 +691,7 @@ public class Visual2DModel
 
 public class Visual2DObject
 {
+    public bool enabled;
     private CvMat objectImgRGBA;
 
     public CvPoint localAnchorPoint; //normalized
@@ -441,6 +711,7 @@ public class Visual2DObject
         objectImgRGBA = null;
         pModelDef = null;
         anim = null;
+        enabled = false;
     }
     ~Visual2DObject()
     {
@@ -452,6 +723,7 @@ public class Visual2DObject
     public Visual2DObject(ModelDef concepModel, bool loadTexture)
     { //initializing model        
         objectImgRGBA = null;
+        enabled = false;
         //caculate seed point in the region
         CvPoint Yflipped = concepModel.centeroidAbsolute;
         //CvPoint seedPoint = GlobalRepo.YFlip2DinROI(Yflipped);
@@ -716,7 +988,9 @@ public class Visual2DObject
         if (fd == null) return;
         CvPoint leftTopPosinCanvas = new CvPoint(fd.GlobalAnchor.X - fd.LocalAnchor.X * fd.frameImage.Width / 100, fd.GlobalAnchor.Y - fd.LocalAnchor.Y * fd.frameImage.Height / 100);
         // ImageBlender2D.overlayImgRGBA(dst, fd.frameImage, leftTopPosinCanvas);
+       // Debug.Log("frame alpha: " + fd.frameAlpha);
         ImageBlender2D.overlayImgFrameAlphaImgRGBA(dst, fd.frameImage, leftTopPosinCanvas, fd.frameAlpha);
+        GlobalRepo.showDebugImage("frame", fd.frameImage);
 
     }
 

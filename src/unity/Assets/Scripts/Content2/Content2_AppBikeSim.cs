@@ -20,6 +20,7 @@ public class Content2_AppBikeSim : MonoBehaviour {
     public GameObject part_rearGear;
     public GameObject part_pedal;
     public GameObject part_rider;
+    public GameObject msg_bikeproblems;
     public Vector3 minitialGearScale;
 
 
@@ -27,6 +28,8 @@ public class Content2_AppBikeSim : MonoBehaviour {
     public float referenceGearSize = 430;    
     public float mFrontGearSize;
     public float mRearGearSize;
+    public float mGearRatio;
+    public bool mErrorStatus;
 
     private List<KeyValuePair<GameObject, TransformInstance>> initTransformProperties;
     private float initialDrag;
@@ -70,11 +73,22 @@ public class Content2_AppBikeSim : MonoBehaviour {
         //init the variables
         this.mFrontGearSize = 0;
         this.mRearGearSize = 0;
+        this.mGearRatio = 0;
+        mErrorStatus = false;
 
         //set rigidbody properties
         resetRigidProperties();
+        resetMsgs();
 
 
+    }
+    public void showMsgBikeProblems()
+    {
+        this.msg_bikeproblems.SetActive(true);
+    }
+    private void resetMsgs()
+    {
+        this.msg_bikeproblems.SetActive(false);
     }
     private void resetRigidProperties()
     {
@@ -121,12 +135,15 @@ public class Content2_AppBikeSim : MonoBehaviour {
     {
         Rigidbody2D rb = this.GetComponent<Rigidbody2D>();        
         if (rb == null) return;
-        float GearRatio_FtoR = mRearGearSize / mFrontGearSize;
+        float GearRatio_FtoR;
+        if (mFrontGearSize <= 0 || mRearGearSize <= 0) GearRatio_FtoR = 0;
+            else GearRatio_FtoR= mRearGearSize / mFrontGearSize;
         float xVelocity = rb.velocity.x;                
         float wheelAngularSpeed = xVelocity* config_baseXVelocityToAngularSpeed;
         float frontGearAngularSpeed = wheelAngularSpeed * GearRatio_FtoR;
 
-        
+       
+
         //rotate the wheels by controlling the animation speed
         Animator ani = part_frontWheel.GetComponent<Animator>();
         if (ani == null) return;        
@@ -149,7 +166,7 @@ public class Content2_AppBikeSim : MonoBehaviour {
 
         ani = part_rider.GetComponent<Animator>();
         if (ani == null) return;
-        Debug.Log("speed param" + frontGearAngularSpeed);
+      //  Debug.Log("speed param" + frontGearAngularSpeed);
         ani.SetFloat("speedparam", frontGearAngularSpeed);
 
 
@@ -163,9 +180,13 @@ public class Content2_AppBikeSim : MonoBehaviour {
             Debug.Log("[ERROR] the bike object's sub-objects are null");
             return;
         }
-       // Debug.Log("Set gear: " + front + " : " + rear);
+         Debug.Log("Set gear: " + front + " : " + rear);
+        if (front < 0) front = 0;
+        if (rear < 0) rear = 0;
         mFrontGearSize = front;
         mRearGearSize = rear;
+        if (front != 0) mGearRatio = mRearGearSize / mFrontGearSize;
+        else mGearRatio = 0;
         Vector3 newScale = minitialGearScale;
         newScale.x = newScale.x * (front / referenceGearSize);
         newScale.y = newScale.y * (front / referenceGearSize);

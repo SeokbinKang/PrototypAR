@@ -18,8 +18,9 @@ public class UI_ViewFinder : MonoBehaviour {
     public GameObject sspeedUI;
     public GameObject shutterUI;
     public GameObject albumUI;
-	// Use this for initialization
-	void Start () {
+    public GameObject prototypeimage;
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -27,13 +28,21 @@ public class UI_ViewFinder : MonoBehaviour {
 	void Update () {
 	
 	}
+    public void UpdatePrototypeImage(Texture2D txt)
+    {
+        RawImage txtdest = prototypeimage.GetComponent<RawImage>();
+        if (txtdest == null) return;
+        txtdest.texture = txt;
+    }
     public void UpdateFocusVal(float f)
     {
-        focusUI.GetComponentInChildren<Text>().text = f + "mm";
+        if(f<0) focusUI.GetComponentInChildren<Text>().text = "?";
+        else focusUI.GetComponentInChildren<Text>().text = (int) f + "mm";
     }
     public void UpdateSSpeedVal(float f)
     {
-        sspeedUI.GetComponentInChildren<Text>().text = f + "ms";
+        if(f<0) sspeedUI.GetComponentInChildren<Text>().text = "?";
+            else sspeedUI.GetComponentInChildren<Text>().text = (int)f + "ms";
     }
 
 }

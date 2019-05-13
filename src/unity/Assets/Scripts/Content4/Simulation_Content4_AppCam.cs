@@ -18,6 +18,9 @@ public class Simulation_Content4_AppCam : MonoBehaviour {
 
     public GameObject diffuseLight;
 
+    private int f;
+    private int s;
+    private string type;
     
 	// Use this for initialization
 	void Start () {
@@ -62,6 +65,7 @@ public class Simulation_Content4_AppCam : MonoBehaviour {
         float camSize = CVProc.linearMap(fov100, 1, 100, 10, 2);
         Camera cam = this.GetComponentInParent<Camera>();
         cam.orthographicSize = camSize;
+        f = (int) fov100;
     }
     public void setLightBrightnessLevel100(float light100)
     {
@@ -72,16 +76,33 @@ public class Simulation_Content4_AppCam : MonoBehaviour {
         
         Light l = diffuseLight.GetComponent<Light>();
         l.intensity = intensity;
+        s = (int)light100;
     }
     public void SetGrayscale(bool on)
     {
         this.GetComponent<Grayscale>().enabled = on;
+        
+    }
+    public void SetSensorType(string t)
+    {
+        this.type = t;
+    }
+    public void SetBlur(bool on, int intensity)
+    {
+        int defaultiteration=2;
+        this.GetComponent<Blur>().enabled = on;
+        if(on)
+        {
+            this.GetComponent<Blur>().iterations = defaultiteration+intensity;
+        }
     }
     public Texture2D Capture()
     {
         Simulation_Content4_AppCapture c = this.GetComponent<Simulation_Content4_AppCapture>();
         if (c == null) return null;
-        return c.Capture();
+        string camparam="f"+f+"s"+s+type;
+
+        return c.Capture(camparam);
     }
     
 }

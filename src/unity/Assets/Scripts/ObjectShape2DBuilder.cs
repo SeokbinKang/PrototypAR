@@ -90,7 +90,8 @@ public class ObjectShape2DBuilder
         for (int i = 0; i < pfullContour.Length; i++)
             fullContour_conv[i] = pfullContour[i];
         CvSeq<CvPoint> FullContour_seq = CvSeq<CvPoint>.FromArray(fullContour_conv, SeqType.Contour, storage);
-        maskImg.DrawContours(FullContour_seq, new CvScalar(255, 255, 255, 255), new CvScalar(255, 255, 255, 255), 0);
+       // maskImg.DrawContours(FullContour_seq, new CvScalar(255, 255, 255, 255), new CvScalar(255, 255, 255, 255), 0);
+        maskImg.DrawContours(FullContour_seq, new CvScalar(255, 255, 255, 255), new CvScalar(255, 255, 255, 255),0,3);
         this.center = pcenter;
         this.bBox = pBox;        
         pRawRegionImgRGBA.Copy(BuildingImg, maskImg);
@@ -149,7 +150,7 @@ public class ObjectShape2DBuilder
             GlobalRepo.showDebugImage("2DBuilder#" + debugbuilderID, BuildingImg);
             Debug.Log("[DEBUG-SHAPEBUILDER] #" + debugbuilderID + "   hue:" + dominantH);
         }
-        Cv.WaitKey(1);
+       // Cv.WaitKey(1);
     }
     public void BuildShapeFastFloodFill()
     {

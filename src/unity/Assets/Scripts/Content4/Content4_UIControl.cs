@@ -30,10 +30,12 @@ public class Content4_UIControl : MonoBehaviour {
     public void ModeApplication()
     {
         SetUIMode(Content4_UIModes.ApplicationPhotography);
+        WorkSpaceUI.mInstance.gameObject.SetActive(false);
     }
     public void ModeDesign()
     {
         SetUIMode(Content4_UIModes.Design);
+        WorkSpaceUI.mInstance.gameObject.SetActive(true);
     }
     public void SetUIMode(Content4_UIModes m)
     {

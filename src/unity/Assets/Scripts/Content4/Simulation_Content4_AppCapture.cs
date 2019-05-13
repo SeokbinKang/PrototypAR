@@ -43,7 +43,7 @@ public class Simulation_Content4_AppCapture : MonoBehaviour {
     // ffmpeg -i screen_3840x2160_%d.ppm -y test.avi
     
         // create a unique filename using a one-up variable
-        private string uniqueFilename(int width, int height)
+        private string uniqueFilename(int width, int height,string p)
         {
             // if folder not specified by now use a good default
             if (folder == null || folder.Length == 0)
@@ -55,7 +55,7 @@ public class Simulation_Content4_AppCapture : MonoBehaviour {
                     var stringPath = folder + "/..";
                     folder = Path.GetFullPath(stringPath);
                 }
-                folder += "/screenshots";
+                folder += "/log/result/content4_photoshots";
 
                 // make sure directoroy exists
                 System.IO.Directory.CreateDirectory(folder);
@@ -65,8 +65,9 @@ public class Simulation_Content4_AppCapture : MonoBehaviour {
                 counter = Directory.GetFiles(folder, mask, SearchOption.TopDirectoryOnly).Length;
             }
 
-            // use width, height, and counter for unique file name
-            var filename = string.Format("{0}/screen_{1}x{2}_{3}.{4}", folder, width, height, counter, format.ToString().ToLower());
+        // use width, height, and counter for unique file name
+        string timestring = System.DateTime.Now.ToString("dd_HH_mm_ss");
+            var filename = string.Format("{0}/photos_{1}_{2}.{3}", folder,p, timestring, format.ToString().ToLower());
 
             // up counter for next call
             ++counter;
@@ -118,7 +119,7 @@ public class Simulation_Content4_AppCapture : MonoBehaviour {
                 RenderTexture.active = null;
 
                 // get our unique filename
-                string filename = uniqueFilename((int)rect.width, (int)rect.height);
+                string filename = uniqueFilename((int)rect.width, (int)rect.height,"");
 
                 // pull in our file header/data bytes for the specified image format (has to be done from main thread)
                 byte[] fileHeader = null;
@@ -167,7 +168,7 @@ public class Simulation_Content4_AppCapture : MonoBehaviour {
             }
         }
 
-    public Texture2D Capture()
+    public Texture2D Capture(string camparam)
     {
         
         
@@ -195,7 +196,7 @@ public class Simulation_Content4_AppCapture : MonoBehaviour {
         RenderTexture.active = null;
 
         // get our unique filename
-        string filename = uniqueFilename((int)rect.width, (int)rect.height);
+        string filename = uniqueFilename((int)rect.width, (int)rect.height, camparam);
         // pull in our file header/data bytes for the specified image format (has to be done from main thread)
         byte[] fileHeader = null;
         byte[] fileData = null;

@@ -72,6 +72,7 @@ public class Animation2DClip
                 
                     int lineStep = suggestedShapeOutline.Length * (i+1)/ seqLength;
                     contours[0] = new CvPoint[Mathf.Min(lineStep,suggestedShapeOutline.Length)];
+                    Debug.Log("line step length=" + Mathf.Min(lineStep, suggestedShapeOutline.Length)+" contour length="+ suggestedShapeOutline.Length);
                     int j;
                     for (j = 0; j < lineStep && j<suggestedShapeOutline.Length; j++)
                     {
@@ -137,7 +138,7 @@ public class Animation2DClip
                 CvMat frame = new CvMat(frameHeight, frameWidth, MatrixType.U8C4);
                 CvMat targetRegion;
                 frame.Zero();
-                Debug.Log("[Creating Animation (" + frame.Width + " , " + frame.Height + ")] BaseModel (" + baseModelImg.Width + " , " + baseModelImg.Height + ")  Margin (" + marginPixel + ")");
+           //     Debug.Log("[Creating Animation (" + frame.Width + " , " + frame.Height + ")] BaseModel (" + baseModelImg.Width + " , " + baseModelImg.Height + ")  Margin (" + marginPixel + ")");
                 targetRegion = frame.GetSubRect(out targetRegion, new CvRect(marginPixel, marginPixel, baseModelImg.Width, baseModelImg.Height));
                 baseModelImg.Copy(targetRegion);
                 int iconSeqNum = animationSequence2.Count;

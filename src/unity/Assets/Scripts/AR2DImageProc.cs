@@ -429,9 +429,45 @@ public class ImageBlender2D{
         if (underlay == null || overlay == null || underlay.Width < overlay.Width || underlay.Height < overlay.Height) return;
 
 
+        
+        
+        
+
         CvPoint underlayPos = leftTopinUnderlay;
         CvScalar overlayPixel, underlayPixel;
-        Double scaledAlpha;
+        Double scaledAlpha = 255 / 255;
+        CvPoint LeftTopinOverlay = new CvPoint(0, 0);
+        int blendingWidth = overlay.Width;
+        int blendingHeight = overlay.Height;
+        if (leftTopinUnderlay.X < 0)
+        {
+            LeftTopinOverlay.X -= leftTopinUnderlay.X;
+            blendingWidth += leftTopinUnderlay.X;
+            leftTopinUnderlay.X = 0;
+
+        }
+        if (leftTopinUnderlay.Y < 0)
+        {
+            LeftTopinOverlay.Y -= leftTopinUnderlay.Y;
+            blendingHeight += leftTopinUnderlay.Y;
+            leftTopinUnderlay.Y = 0;
+        }
+
+        if (leftTopinUnderlay.X + blendingWidth - 1 > underlay.Width - 1)
+        {
+            blendingWidth = underlay.Width - leftTopinUnderlay.X;
+        }
+        if (leftTopinUnderlay.Y + blendingHeight - 1 > underlay.Height - 1)
+        {
+            blendingHeight = underlay.Height - leftTopinUnderlay.Y;
+        }
+        CvMat underlayROI, overlayROI, underlayROI2;
+        underlayROI = underlay.GetSubRect(out underlayROI, new CvRect(leftTopinUnderlay, new CvSize(blendingWidth, blendingHeight)));
+        overlayROI = overlay.GetSubRect(out overlayROI, new CvRect(LeftTopinOverlay, new CvSize(blendingWidth, blendingHeight)));
+        //Cv.AddWeighted(underlayROI, 0.5, overlayROI, 0.5, 0, underlayROI);
+       // Cv.Copy(underlayROI, overlayROI, underlayROI);
+        Cv.Add(underlayROI, overlayROI, underlayROI);
+        /*
         for (int over_y = 0; over_y < overlay.Height; over_y++)
         {
             underlayPos.X = leftTopinUnderlay.X;
@@ -461,7 +497,7 @@ public class ImageBlender2D{
                 underlayPos.X++;
             }
 
-        }
+        }*/
     }
     public static void AlphBlendingImgRGBA(CvMat underlay, CvMat overlay, CvPoint leftTopinUnderlay,double fixedAlpha)
     {
@@ -516,10 +552,64 @@ public class ImageBlender2D{
 
         if (underlay == null || overlay == null || underlay.Width < overlay.Width || underlay.Height < overlay.Height) return;
 
+        ////LOW performance
+
 
         CvPoint underlayPos = leftTopinUnderlay;
         CvScalar overlayPixel,underlayPixel;
-        Double scaledAlpha = overlayAlpha / 255;
+        Double scaledAlpha = overlayAlpha / 255f;
+        CvPoint LeftTopinOverlay = new CvPoint(0, 0);
+        int blendingWidth = overlay.Width;
+        int blendingHeight = overlay.Height;
+        if (leftTopinUnderlay.X<0)
+        {
+            LeftTopinOverlay.X -= leftTopinUnderlay.X;
+            blendingWidth += leftTopinUnderlay.X;
+            leftTopinUnderlay.X = 0;
+            
+        }
+        if (leftTopinUnderlay.Y < 0)
+        {
+            LeftTopinOverlay.Y -= leftTopinUnderlay.Y;
+            blendingHeight += leftTopinUnderlay.Y;
+            leftTopinUnderlay.Y = 0;
+        }
+        
+        if (leftTopinUnderlay.X + blendingWidth - 1 > underlay.Width - 1)
+        {
+            blendingWidth = underlay.Width - leftTopinUnderlay.X;
+        }
+        if (leftTopinUnderlay.Y + blendingHeight - 1 > underlay.Height - 1)
+        {
+            blendingHeight = underlay.Height - leftTopinUnderlay.Y;
+        }
+        CvMat underlayROI, overlayROI, underlayROI2;
+        underlayROI = underlay.GetSubRect(out underlayROI, new CvRect(leftTopinUnderlay, new CvSize(blendingWidth, blendingHeight)));
+        overlayROI = overlay.GetSubRect(out overlayROI, new CvRect(LeftTopinOverlay, new CvSize(blendingWidth, blendingHeight)));
+        Cv.AddWeighted(underlayROI, 0, overlayROI, 1, 0, underlayROI);
+        CvScalar p;
+        double aaa = -1;
+      /*  for (int i = 0; i < underlayROI.Cols * underlayROI.Rows; i++) {
+            p = underlayROI.Get1D(i);
+            if (p.Val3 > 0)
+            {
+                //  Debug.Log("alpha=" + p.Val3);
+                aaa = p.Val3;
+                p.Val3 = overlayAlpha;
+                
+                underlayROI.Set1D(i, p);
+            }
+        }*/
+        
+        //GlobalRepo.showDebugImage("underlayROI", underlayROI);
+        //GlobalRepo.showDebugImage("underlay", underlay);
+        return;
+
+
+        /* LOW performance
+
+
+
         for (int over_y = 0; over_y < overlay.Height; over_y++)
         {
             underlayPos.X = leftTopinUnderlay.X;
@@ -544,7 +634,12 @@ public class ImageBlender2D{
                 underlayPos.X++;
             }
 
-        }
+        }*/
+
+
+
+
+
     }
     private static void ConvergeToWhite(CvMat img, CvRect region)
     {

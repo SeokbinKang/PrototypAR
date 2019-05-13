@@ -51,6 +51,7 @@ public class GlobalRepo
         repoDict.Add(RepoDataType.dRawRGBA, null);
         repoDict.Add(RepoDataType.dRawRegionRGBA, null);        
         repoDict.Add(RepoDataType.dRawRegionBGR, null);
+        repoDict.Add(RepoDataType.dRawRegionBGRWS, null);
         repoDict.Add(RepoDataType.dRawRegionHSV, null);
         repoDict.Add(RepoDataType.dRawRegionH, null);
         repoDict.Add(RepoDataType.dRawRegionH2, null);
@@ -60,8 +61,8 @@ public class GlobalRepo
         repoDict.Add(RepoDataType.dRawRegionV, null);
         repoDict.Add(RepoDataType.dRawRegionLAB, null);
         repoDict.Add(RepoDataType.dRawRegionGray, null);
-        repoDict.Add(RepoDataType.dRawRegionGrayLast, null);
-        repoDict.Add(RepoDataType.dRawRegionGrayDiff, null);
+        repoDict.Add(RepoDataType.dRawRegionHLast, null);
+        repoDict.Add(RepoDataType.dRawRegionHDiff, null);
         repoDict.Add(RepoDataType.dRawRegionTemp1, null);
         repoDict.Add(RepoDataType.dRawRegionTemp2, null);
 
@@ -140,6 +141,10 @@ public class GlobalRepo
         asset2DDict.Add(ModelCategory.RearSprocket, new Asset2DTexture("Assets/2DAnimation/content_2/chainring/charing_shapebase.png"));
         asset2DDict.Add(ModelCategory.FrontChainring, new Asset2DTexture("Assets/2DAnimation/content_2/chainring/charing_shapebase.png"));
 
+        //content 4 camera
+        asset2DDict.Add(ModelCategory.C4_lens, new Asset2DTexture("Assets/2DAnimation/content_4/obj_lens/lens_shape.png"));
+        asset2DDict.Add(ModelCategory.C4_shutter, new Asset2DTexture("Assets/2DAnimation/content_4/obj_shutter/shutter_shape.png"));
+        asset2DDict.Add(ModelCategory.C4_sensor, new Asset2DTexture("Assets/2DAnimation/content_4/obj_sensor/sensor_shape.png"));
 
 
         //common asset
@@ -164,6 +169,9 @@ public class GlobalRepo
         ExtraAsset2DlDict.Add("bg_content1", new Asset2DTexture("Assets/2DAnimation/content_1/bg/bg1d.png", 80));
         ExtraAsset2DlDict["bg_content1"].AnchorPointRelative = new CvPoint(60, 27);
 
+        ExtraAsset2DlDict.Add("c4_lens_overlayModel", new Asset2DTexture("Assets/2DAnimation/content_4/obj_lens/camera_lens_overlayModel.png", 80,true));
+        ExtraAsset2DlDict.Add("c4_shutter_overlayModel", new Asset2DTexture("Assets/2DAnimation/content_4/obj_shutter/shutter_v4_overlayModel.png", 20, true));
+        ExtraAsset2DlDict.Add("c4_sensor_overlayModel", new Asset2DTexture("Assets/2DAnimation/content_4/obj_sensor/sensor_overlayModel.png",50, true));
 
         //load animation assets
         ExtraAsset2DlDict.Add("icon_scissor", new Asset2DTexture("Assets/2DAnimation/common_feedback/3_shapeSTR/scissor", 30,true, new CvPoint(53, 47)));
@@ -295,12 +303,12 @@ public class GlobalRepo
     {
         float InactiveTime = 0;
         bool userActive = true;
-        bool InActivity = CheckUserActivity(movementThreshold,3f,out InactiveTime,out userActive);
+        bool InActivity = CheckUserActivity(movementThreshold, SystemConfig.ActiveInstnace.Get(CVConfigItem._User_InactivityTimeout), out InactiveTime,out userActive);
         bool isLearning = getLearningCount() > 0;
         /*GameObject o = GameObject.FindGameObjectWithTag("DebugUI");
         if(o!=null) o.GetComponent<DebugUI>().DebugUserActivity(userActive);*/
         GameObject o = GameObject.FindGameObjectWithTag("StatusUI");
-        if (o != null) o.GetComponent<UserActiveStatus>().updateStatus(userActive, WaitingNextModel,InactiveTime,3f);
+        if (o != null) o.GetComponent<UserActiveStatus>().updateStatus(userActive, WaitingNextModel,InactiveTime, SystemConfig.ActiveInstnace.Get(CVConfigItem._User_InactivityTimeout));
         if (InActivity && GlobalRepo.UserStep.feedback == GlobalRepo.UserMode)
         {
             GameObject.FindGameObjectWithTag("SystemControl").GetComponent<ApplicationControl>().ResetDesignData();
@@ -330,25 +338,27 @@ public class GlobalRepo
         // if (isProcessingFinished()) return true;
         timeElpase = 0;
         currentActivity = true;
-        if (!repoDict.ContainsKey(RepoDataType.dRawRegionGray) || repoDict[RepoDataType.dRawRegionGray] == null) return true;
-        if (repoDict[RepoDataType.dRawRegionGrayLast] == null || repoDict[RepoDataType.dRawRegionGrayLast].Step * repoDict[RepoDataType.dRawRegionGrayLast].Height != repoDict[RepoDataType.dRawRegionGray].Step * repoDict[RepoDataType.dRawRegionGray].Height)
+        if (!repoDict.ContainsKey(RepoDataType.dRawRegionS) || repoDict[RepoDataType.dRawRegionS] == null) return true;
+        if (repoDict[RepoDataType.dRawRegionHLast] == null || repoDict[RepoDataType.dRawRegionHLast].Step * repoDict[RepoDataType.dRawRegionHLast].Height != repoDict[RepoDataType.dRawRegionH].Step * repoDict[RepoDataType.dRawRegionH].Height)
         {  //create new memory space and copy 
-            repoDict[RepoDataType.dRawRegionGrayLast] = new CvMat(repoDict[RepoDataType.dRawRegionGray].Rows, repoDict[RepoDataType.dRawRegionGray].Cols, MatrixType.U8C1);
-            repoDict[RepoDataType.dRawRegionGrayDiff] = new CvMat(repoDict[RepoDataType.dRawRegionGray].Rows, repoDict[RepoDataType.dRawRegionGray].Cols, MatrixType.U8C1);
-            repoDict[RepoDataType.dRawRegionGray].Copy(repoDict[RepoDataType.dRawRegionGrayLast]);
+            repoDict[RepoDataType.dRawRegionHLast] = new CvMat(repoDict[RepoDataType.dRawRegionS].Rows, repoDict[RepoDataType.dRawRegionS].Cols, MatrixType.U8C1);
+            repoDict[RepoDataType.dRawRegionHDiff] = new CvMat(repoDict[RepoDataType.dRawRegionS].Rows, repoDict[RepoDataType.dRawRegionS].Cols, MatrixType.U8C1);
+            repoDict[RepoDataType.dRawRegionS].Copy(repoDict[RepoDataType.dRawRegionHLast]);
             TimeInactivityBegin = -1;
             return true;
         }
         
-        repoDict[RepoDataType.dRawRegionGray].AbsDiff(repoDict[RepoDataType.dRawRegionGrayLast], repoDict[RepoDataType.dRawRegionGrayDiff]);
-        repoDict[RepoDataType.dRawRegionGrayDiff].Threshold(repoDict[RepoDataType.dRawRegionGrayDiff], 30, 255, ThresholdType.Binary);
-        int numberOfDiffPixel = Cv.CountNonZero(repoDict[RepoDataType.dRawRegionGrayDiff]);
-        float DiffPortion = ((float)numberOfDiffPixel) / ((float)repoDict[RepoDataType.dRawRegionGrayDiff].Cols * repoDict[RepoDataType.dRawRegionGrayDiff].Cols);
-    //    Debug.Log("[DEBUG][CHeck User Activity] percent: " + DiffPortion);
-        repoDict[RepoDataType.dRawRegionGray].Copy(repoDict[RepoDataType.dRawRegionGrayLast]);
+        repoDict[RepoDataType.dRawRegionS].AbsDiff(repoDict[RepoDataType.dRawRegionHLast], repoDict[RepoDataType.dRawRegionHDiff]);
+        repoDict[RepoDataType.dRawRegionHDiff].Threshold(repoDict[RepoDataType.dRawRegionHDiff], 30, 255, ThresholdType.Binary);
+        int numberOfDiffPixel = Cv.CountNonZero(repoDict[RepoDataType.dRawRegionHDiff]);
+        float DiffPortion = ((float)numberOfDiffPixel) / ((float)repoDict[RepoDataType.dRawRegionHDiff].Cols * repoDict[RepoDataType.dRawRegionHDiff].Rows);
+       // if(DiffPortion>=0.01f)   Debug.Log("[DEBUG][CHeck User Activity] percent: " + DiffPortion);
+       // GlobalRepo.showDebugImage("huemotion", repoDict[RepoDataType.dRawRegionHDiff]);
+        repoDict[RepoDataType.dRawRegionS].Copy(repoDict[RepoDataType.dRawRegionHLast]);
         if (MovementThreshold < DiffPortion)
         {
             TimeInactivityBegin = -1;
+       //     PromptUI.ActiveInstance.OnNoHands();
             return true;
 
         }
@@ -426,12 +436,23 @@ public class GlobalRepo
 
             if (!repoDict.ContainsKey(RepoDataType.dRawRegionBGR) || repoDict[RepoDataType.dRawRegionBGR] == null || repoDict[RepoDataType.dRawRegionBGR].GetSize() != RegionBoxRaw.Size)
             {
-           
-              repoDict[RepoDataType.dRawRegionBGR] = new CvMat(RegionBoxRaw.Height,RegionBoxRaw.Width, MatrixType.U8C3);
+                repoDict[RepoDataType.dRawRegionBGRWS] = new CvMat(RegionBoxRaw.Height, RegionBoxRaw.Width, MatrixType.U8C3);
+                repoDict[RepoDataType.dRawRegionBGR] = new CvMat(RegionBoxRaw.Height,RegionBoxRaw.Width, MatrixType.U8C3);
             }
             // repoDict[RepoDataType.dRawRegionRGBA].CvtColor(repoDict[RepoDataType.dRawRegionBGR], ColorConversion.RgbaToBgr);
-               repoDict[RepoDataType.dRawBGR].GetSubArr(out tmp, RegionBoxRaw);
-                 tmp.Copy(repoDict[RepoDataType.dRawRegionBGR]);
+             repoDict[RepoDataType.dRawBGR].GetSubArr(out tmp, RegionBoxRaw);
+             tmp.Copy(repoDict[RepoDataType.dRawRegionBGR]);
+            if (WorkSpaceUI.mInstance != null)
+            {
+                CvRect maskRect;
+                CvMat workspaceMAsk = WorkSpaceUI.mInstance.GetWorkSpaceMask(out maskRect);
+                if (workspaceMAsk != null)
+                {
+                    repoDict[RepoDataType.dRawRegionBGR].Set(new CvScalar(255, 255, 255), workspaceMAsk);
+                   
+                   // GlobalRepo.showDebugImage("WS region",repoDict[RepoDataType.dRawRegionBGR]);
+                }
+            }
 
             if (!repoDict.ContainsKey(RepoDataType.dRawRegionHSV) || repoDict[RepoDataType.dRawRegionHSV] == null || repoDict[RepoDataType.dRawRegionHSV].GetSize() != repoDict[RepoDataType.dRawRegionRGBA].GetSize())
             {
@@ -447,6 +468,8 @@ public class GlobalRepo
                 repoDict[RepoDataType.dRawRegionTemp2] = new CvMat(repoDict[RepoDataType.dRawRegionRGBA].Rows, repoDict[RepoDataType.dRawRegionRGBA].Cols, MatrixType.U8C1);
             }
               repoDict[RepoDataType.dRawRegionBGR].CvtColor(repoDict[RepoDataType.dRawRegionHSV], ColorConversion.BgrToHsv);
+           
+            
               repoDict[RepoDataType.dRawRegionHSV].Split(repoDict[RepoDataType.dRawRegionH], repoDict[RepoDataType.dRawRegionS], repoDict[RepoDataType.dRawRegionV], null);
               repoDict[RepoDataType.dRawRegionS].InRangeS(new CvScalar(GlobalRepo.getParamInt("CanvasSaturationValueMax")), new CvScalar(255), repoDict[RepoDataType.dRawRegionSaturated]);
 
@@ -513,7 +536,7 @@ public class GlobalRepo
         if (name == "HueClusterRange") return HueClusterRange;
         if (name == "ContentBackgroundAlpha") return 10;
         if (name == "BlackThreshold") return 130;
-        if (name == "CanvasSaturationValueMax") return 25;
+        if (name == "CanvasSaturationValueMax") return (int) SystemConfig.ActiveInstnace.Get(CVConfigItem._Image_SaturationMin);
         if (name == "minBloxPixelSize") return 50;
         Debug.Log("[ERROR] GlobalRepo.GetParam");
         return -1;
@@ -549,7 +572,7 @@ public class GlobalRepo
     }
     public static bool RealityARActivated()
     {
-        return UserMode != UserStep.design;
+        return UserMode == UserStep.design;
     }
 
 
@@ -567,6 +590,7 @@ public enum RepoDataType
     dRawRegionRGBA,
     dRawRegionBGRA,
     dRawRegionBGR,
+    dRawRegionBGRWS,
     dRawRegionHSV, 
     dRawRegionLAB, 
     dRawRegionGray,
@@ -581,8 +605,8 @@ public enum RepoDataType
     dRealityARRegionRGBAByte,
     dContentBGRGBA,
     dContentBGRGBAByte,
-    dRawRegionGrayLast,
-    dRawRegionGrayDiff,
+    dRawRegionHLast,
+    dRawRegionHDiff,
     dRawRegionTemp1,
     dRawRegionTemp2,
 
@@ -652,7 +676,35 @@ public class Asset2DTexture
 
         return ret;
     }
-    
+    public Asset2DTexture(string filename_, int scale, bool isRGBA)
+    {
+
+        CvMat newimg = new CvMat(filename_, LoadMode.Unchanged);
+        CvMat scaledImg = new CvMat(newimg.Height * scale / 100, newimg.Width * scale / 100, MatrixType.U8C4);
+        if (newimg.ElemType != MatrixType.U8C4)
+        {
+            Debug.Log("[DEBUG] failed to load [" + filename_ + "] wrong Mat format");
+            return;
+        }
+        newimg.Resize(scaledImg);
+        //newimg = RGBA in general
+        for (int i = 0; i < scaledImg.Width * scaledImg.Height; i++)
+        {
+            CvScalar pixel = scaledImg.Get1D(i);
+
+            if (pixel.Val3 == 0)
+            {
+                pixel.Val0 = 0;
+                pixel.Val1 = 0;
+                pixel.Val2 = 0;
+                scaledImg.Set1D(i, pixel);
+            }
+        }
+        if(isRGBA) scaledImg.CvtColor(scaledImg, ColorConversion.RgbaToBgra);
+        txtBGRAImg = scaledImg;
+       // CM = BlobAnalysis.ExtractBlobCenterfromBGRAImage(scaledImg);
+        filename = filename_;
+    }
     public Asset2DTexture(string filename_,int scale)
     {
 

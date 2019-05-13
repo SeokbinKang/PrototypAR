@@ -14,6 +14,20 @@ public class CVProc {
 
     private static TesseractEngine mTesseractEngine = null;
 
+    public static void MoveUIGOtoRegionPos(GameObject go,CvPoint regionPos)
+    {
+
+        if (go == null) return;
+        Vector3 screenPosition = SceneObjectManager.RegiontoScreen(regionPos);
+        Vector3 objRectPos = new Vector3();
+        //   Debug.Log("Feedback region pos: " + screenPosition);
+        objRectPos.x = screenPosition.x - Screen.width / 2;
+        objRectPos.y = screenPosition.y - Screen.height / 2;
+        objRectPos.x = objRectPos.x * (1200f / Screen.width);
+        objRectPos.y = objRectPos.y * (900f / Screen.height);
+        go.GetComponent<RectTransform>().localPosition = objRectPos;
+        
+    }
     public static double[] LowPassFilter(double[] indata, double deltaTimeinsec, double CutOff)
     {
         //Butterworth Filter
@@ -121,18 +135,21 @@ public class CVProc {
         
         CvMat reducedMarker = new CvMat(2, 2, MatrixType.U8C1);        
         marker.Resize(reducedMarker, Interpolation.Area);
-        GlobalRepo.showDebugImage("4corner", reducedMarker);
+       // GlobalRepo.showDebugImage("4corner", marker);
         int[] val = new int[4];
         for (int i = 0; i < 4; i++) {
             val[i] = (int)reducedMarker.Get1D(i).Val0;
+            Debug.Log("4 corners " + i + ": " + val[i]);
         }
         int minValue = val.Min();
         int minIndex = val.ToList().IndexOf(minValue);
         for (int i = 0; i < 4; i++)
         {
             if (i == minIndex) continue;
-            if (Math.Abs(minValue - val[i]) < 30) return -1;
+            if (Math.Abs(minValue - val[i]) < 18) return -1;
         }
+        //if(minIndex==0 || minIndex ==1 || )
+        
         return minIndex;
     }
     public static bool isPointinBox(CvPoint p, CvRect box)
@@ -413,11 +430,11 @@ public class CVProc {
             saturatedMask.Dilate(saturatedMaskExpanded);
             saturatedMaskExpanded.Dilate(saturatedMaskExpanded);
         }
-        inputImageUC8.Threshold(inputImageUC8, 160, 255, ThresholdType.BinaryInv);
+        inputImageUC8.Threshold(inputImageUC8, SystemConfig.ActiveInstnace.Get(CVConfigItem._Image_WhiteThreshold), 255, ThresholdType.BinaryInv);
         //exclude saturated region
-
+        GlobalRepo.showDebugImage("binary BV image pre", inputImageUC8);
         inputImageUC8.Sub(saturatedMask, inputImageUC8);
-        GlobalRepo.showDebugImage("binary BV image", inputImageUC8);
+        GlobalRepo.showDebugImage("binary BV image post", inputImageUC8);
         CvSeq<CvPoint> contoursRaw;
 
         int id = 0;
@@ -492,7 +509,7 @@ public class CVProc {
                                     float tilt;
                                     CvPoint markerCenter;
                                     markerCenter = measureTiltandCenter(marker.contourPoints, out tilt);
-                                    Debug.Log("[DEBUG] tilt degree = " + tilt + "CM:" + markerCenter.X + "," + markerCenter.Y);
+                                  //  Debug.Log("[DEBUG] tilt degree = " + tilt + "CM:" + markerCenter.X + "," + markerCenter.Y);
 
                                     marker.image = getTiltCorrectedRectImage(GrayImage, cApprox.ToArray<CvPoint>(), markerCenter, tilt);
                                     marker.instanceID = id++;
@@ -902,8 +919,25 @@ public class CVProc {
     {
         CvMat ret;
         CvRect bBox = Cv.BoundingRect(rect);
-        bBox.Inflate(50, 50);
-        CvMat rawImg = refImage.GetSubArr(out rawImg, bBox).Clone();
+        int pad = 60;
+       
+        
+        CvMat paddedRaw = new CvMat(bBox.Height+pad, bBox.Width+pad, MatrixType.U8C1);
+        CvMat paddedRawsub = paddedRaw.GetSubArr(out paddedRawsub, new CvRect(pad / 2, pad / 2, bBox.Width, bBox.Height));
+        CvMat rawImg = refImage.GetSubArr(out rawImg, bBox).Clone();        
+        paddedRaw.Set(255);
+        rawImg.Copy(paddedRawsub);
+        rawImg = paddedRaw;
+       
+        bBox.X -= pad / 2;
+        bBox.Y -= pad / 2;
+        bBox.Width += pad;
+        bBox.Height += pad;        
+       
+        //  GlobalRepo.showDebugImage("raw BV"+ Time.time, rawImg);
+        //  GlobalRepo.showDebugImage("raw BV padded"+Time.time ,paddedRaw);
+
+
         CvMat rotImg = rawImg.Clone();
         CvPoint translatedCenter = center - bBox.TopLeft;
         CvMat rotMat = Cv.GetRotationMatrix2D(translatedCenter, degree * 180.0f / Mathf.PI * -1.0f, 1);

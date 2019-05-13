@@ -51,7 +51,7 @@ public class Content4_UI_Components : MonoBehaviour {
 
         shutterPart = null;
     }
-    public void updateLensUI(GameObject go,  float fVal)
+    public void updateLensUI(GameObject go,  float fVal,CvPoint focusLabelPos)
     {
       //  Debug.Log("!!!Update Lens UI");
         Vector3 goCenter = new Vector3();
@@ -71,12 +71,16 @@ public class Content4_UI_Components : MonoBehaviour {
 
 
         //if fval is valid->specified ->show BV bar
-        lensBV.GetComponent<HorizontalLevelBar>().SetNumericalValue(fVal, 20, 220, fVal + " mm");
+        if (fVal > 0)
+        {
+            lensBV.GetComponent<HorizontalLevelBar>().SetNumericalValue(fVal, 20, 220, (int) fVal + " mm");
+            CVProc.MoveUIGOtoRegionPos(lensBV, focusLabelPos);
+        }
         
 
 
     }
-    public void updateShutterUI(GameObject go_partShutter, float sVal)
+    public void updateShutterUI(GameObject go_partShutter, float sVal,CvPoint shutterspeedLabelPos)
     {
         shutterPart = go_partShutter;
         Vector3 goCenter = new Vector3();
@@ -104,14 +108,19 @@ public class Content4_UI_Components : MonoBehaviour {
         go_partShutter.GetComponent<Animator>().SetFloat("speed", scaledShutterSpeed);
 
         //BV
-        shutterBV.GetComponent<HorizontalLevelBar>().SetNumericalValue(sVal, 1, 1000, sVal + " ms");
+        if (sVal > 0)
+        {
+            shutterBV.GetComponent<HorizontalLevelBar>().SetNumericalValue(sVal, 1, 1000, (int) sVal + " ms");
+            CVProc.MoveUIGOtoRegionPos(shutterBV, shutterspeedLabelPos);
+        }
 
     }
     public void CallbackShutterOpen()
     {
+        ApplicationControl.ActiveInstance.HaltRecognition5();
         if(shutterPart!=null) shutterPart.GetComponent<Animator>().Play("open");
     }
-    public void updateSensorUI(GameObject go, string sVal)
+    public void updateSensorUI(GameObject go, string sVal, CvPoint SensorLabelPos)
     {
         Vector3 goCenter = new Vector3();
         Vector3 goSize = new Vector3();
@@ -129,7 +138,11 @@ public class Content4_UI_Components : MonoBehaviour {
 
 
         //BV
-        sensorBV.GetComponent<HorizontalLevelBar>().SetCategoricalValue(sVal);
+        if (sVal != "" && sVal != "?")
+        {
+            sensorBV.GetComponent<HorizontalLevelBar>().SetCategoricalValue(sVal);
+            CVProc.MoveUIGOtoRegionPos(sensorBV, SensorLabelPos);
+        }
             
     }
 }

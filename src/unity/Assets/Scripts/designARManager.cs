@@ -151,10 +151,10 @@ public class designARManager : MonoBehaviour {
         {
             mDesignContentModel = new FBSModel(contentType);
             StructurePosVariable pos;            
-            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.265f, 0.4f), 150);
+            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, new Vector2(0.268f, 0.535f), 150);
             StructureEntity freeWheel = new StructureEntity(ModelCategory.RearSprocket, pos);
             freeWheel.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
-            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.462f, 0.38f), 150);
+            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, new Vector2(0.736f, 0.566f), 150);
             StructureEntity frontChainRing = new StructureEntity(ModelCategory.FrontChainring, pos);
             frontChainRing.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
 
@@ -166,7 +166,7 @@ public class designARManager : MonoBehaviour {
             StructureEntity Lowerchain = new StructureEntity(ModelCategory.LowerChain, pos);
             Lowerchain.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
 
-            pos = new StructurePosVariable(PosEvalType.ContourProximitytoPoint, PreLoadedObjects.Content2_BGPartial, new Vector2(0.462f, 0.38f), 100);
+            pos = new StructurePosVariable(PosEvalType.ContourProximitytoPoint, new Vector2(0.736f, 0.566f), 100);
             StructureEntity PedalCrank = new StructureEntity(ModelCategory.PedalCrank, pos);
             PedalCrank.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
 
@@ -246,15 +246,15 @@ public class designARManager : MonoBehaviour {
         {
             mDesignContentModel = new FBSModel(contentType);
             StructurePosVariable pos;
-            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content4_BGPartial, new Vector2(0.265f, 0.4f), 150);
+            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint,  new Vector2(0.345f, 0.57f), 150);
             StructureEntity lens = new StructureEntity(ModelCategory.C4_lens, pos);
             lens.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
-            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, PreLoadedObjects.Content4_BGPartial, new Vector2(0.462f, 0.38f), 150);
+            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint,  new Vector2(0.67f, 0.57f), 150);
             StructureEntity shutter = new StructureEntity(ModelCategory.C4_shutter, pos);
             shutter.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
             //TODO structure virtual positions have to be updated
 
-            pos = new StructurePosVariable(PosEvalType.None, PreLoadedObjects.Content4_BGPartial, new Vector2(0.62f, 0.38f), 150);
+            pos = new StructurePosVariable(PosEvalType.CentralProximitytoPoint, new Vector2(0.82f, 0.57f), 150);
             StructureEntity sensor = new StructureEntity(ModelCategory.C4_sensor, pos);
             sensor.v6_VirtualPositionType = VirtualPosType.AlignWithVirtualBG;
 
@@ -304,7 +304,7 @@ public class designARManager : MonoBehaviour {
 
         if (FBSModel.ContentType == DesignContent.BicycleGearSystem)
         {
-            
+            /* moved to Content2.cs
             if (lastUserPhase == GlobalRepo.UserStep.design)
             {
 
@@ -322,7 +322,7 @@ public class designARManager : MonoBehaviour {
 
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content2_BGPartial, 20);
                 SceneObjectManager.getActiveInstance().adjustAlphaSpriteRendere(PreLoadedObjects.Content2_BGFull, 200);
-            }
+            }*/
         }
         if (FBSModel.ContentType == DesignContent.CameraSystem)
         {

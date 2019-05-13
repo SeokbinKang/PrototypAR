@@ -2,6 +2,12 @@
 using System.Collections;
 
 public class SystemConfig : MonoBehaviour {
+    public float UserSensitivity;
+    public float UserInactivityTimeoutSec;
+    public float saturationThresholdMax255;
+    public float binaryWhiteThresholdMax255;
+    public int PrototypeCompleteNFeedback;
+    public int MaxNumberOfObjectsforShapeEval;
     public bool Structure_Missing_objects;
     public bool Structure_Extra_objects;
     public bool Structure_shape;
@@ -23,7 +29,21 @@ public class SystemConfig : MonoBehaviour {
 	void Update () {
 	
 	}
- 
+    public void Set(CVConfigItem item, float val)
+    {
+        if (item == CVConfigItem._User_ActionSensitivity) this.UserSensitivity = val;
+        if (item == CVConfigItem._Image_SaturationMin) this.saturationThresholdMax255 = (int) val;
+        if (item == CVConfigItem._User_InactivityTimeout) this.UserInactivityTimeoutSec = (int)val;
+        if (item == CVConfigItem._Image_WhiteThreshold) this.binaryWhiteThresholdMax255 = (int)val;
+    }
+    public float Get(CVConfigItem item)
+    {
+        if (item == CVConfigItem._User_ActionSensitivity) return this.UserSensitivity;
+        if (item == CVConfigItem._Image_SaturationMin) return this.saturationThresholdMax255;
+        if (item == CVConfigItem._Image_WhiteThreshold) return this.binaryWhiteThresholdMax255;
+        if (item == CVConfigItem._User_InactivityTimeout) return this.UserInactivityTimeoutSec;
+        return 0;
+    }
     public void Set(EvaluationConfigItem item, bool val)
     {
         if (item == EvaluationConfigItem._Structure_Missing_objects) this.Structure_Missing_objects = val;
@@ -90,4 +110,12 @@ public enum EvaluationConfigItem
     _Behavior_Extra_labels,
     _Behavior_Move_labels,
     _Behavior_Unmarked_labels
+}
+public enum CVConfigItem
+{
+    _none,
+    _User_ActionSensitivity,
+    _Image_SaturationMin,
+    _Image_WhiteThreshold,
+    _User_InactivityTimeout
 }

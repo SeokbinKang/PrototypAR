@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Custom/BlurShader3" {
     Properties {
         _MainTex ("Base (RGB)", 2D) = "white" {}
@@ -30,7 +32,7 @@ Shader "Custom/BlurShader3" {
 			v2f vert1(data i)
 			{
 			    v2f o;
-			    o.position = mul(UNITY_MATRIX_MVP, i.vertex);
+			    o.position = UnityObjectToClipPos(i.vertex);
 			    o.screenPos = o.position;
 
 			    return o;
@@ -95,7 +97,7 @@ Shader "Custom/BlurShader3" {
 			v2f vert2(data i)
 			{
 			    v2f o;
-			    o.position = mul(UNITY_MATRIX_MVP, i.vertex);
+			    o.position = UnityObjectToClipPos(i.vertex);
 			    o.screenPos = o.position;
 
 			    return o;
